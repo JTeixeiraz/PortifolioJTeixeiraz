@@ -32,7 +32,7 @@ export function Pic({
     <picture className={className}>
       <source type="image/avif" srcSet={set("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={set("webp")} sizes={sizes} />
-      {/* eslint-disable-next-line @next/next/no-img-element -- export estático; o otimizador do Next não roda aqui */}
+      {/* <img> direto: export estático, o otimizador do Next não roda aqui */}
       <img
         src={`/img/${id}-${largest}.webp`}
         width={img.width}

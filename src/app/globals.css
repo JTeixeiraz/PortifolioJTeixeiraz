@@ -65,6 +65,12 @@
   --z-grain: 50;
 }
 
+@property --ring-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 @theme inline {
   --color-void: var(--void);
   --color-void-2: var(--void-2);
@@ -256,7 +262,9 @@
   }
 
   /* ---------- o anel líquido (referência: Home Button Liquid UI) ----------
-     O arco-íris gira num pseudo-elemento: rotação pura, no compositor. */
+     Gira o ÂNGULO do gradiente, não o elemento: numa pílula, girar a caixa
+     tiraria o anel da forma. É uma repintura por quadro, mas de uma borda de
+     2px num botão — custo desprezível. */
   .ring {
     position: relative;
     isolation: isolate;
@@ -269,17 +277,26 @@
     z-index: -1;
     border-radius: inherit;
     padding: 2px;
-    background: var(--iris);
+    background: conic-gradient(
+      from var(--ring-angle),
+      #6d7bff,
+      #36e4ff,
+      #b6ff6a,
+      #ffd56a,
+      #ff6a8b,
+      #b57bff,
+      #6d7bff
+    );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
-    animation: ring-spin 5s linear infinite;
+    animation: ring-spin 4s linear infinite;
   }
   @keyframes ring-spin {
     to {
-      transform: rotate(360deg);
+      --ring-angle: 360deg;
     }
   }
 

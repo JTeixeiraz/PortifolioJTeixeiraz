@@ -1,183 +1,235 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
-import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "motion/react";
+import type { CSSProperties } from "react";
 import { HERO, PROFILE, ROLE } from "@/lib/content";
 import { useLang, useT } from "@/lib/i18n";
-import { AsciiArt } from "@/components/ui/ascii-art";
-import { PRESETS } from "@/lib/ascii";
+import { Pic } from "@/components/pic";
+import { Spark } from "@/components/spark";
 import { VyroMark } from "@/components/vyro-mark";
 
-/** A entrada é CSS: animação cancelada nunca deixa o conteúdo preso invisível. */
-const rise = (delay: number) =>
-  ({ "--rise-delay": `${delay}s` }) as CSSProperties;
+const i = (n: number) => ({ "--i": n }) as CSSProperties;
 
-/**
- * As três figuras, na ordem em que se dissolvem uma na outra durante o scroll.
- * Recortadas dos pôsteres para deixar de fora a tipografia deles.
- */
-const FIGURES = [
-  "/hero/angel-1.webp",
-  "/hero/angel-2.webp",
-  "/hero/angel-3.webp",
+const TICKER = [
+  "TypeScript",
+  "Next.js",
+  "Flutter",
+  "Supabase",
+  "PostgreSQL",
+  "Python",
+  "FastAPI",
+  "Azure Functions",
+  "Rust",
+  "Claude",
+  "Docker",
+  "Cloudflare",
 ];
 
 /**
- * Painel fixo com o dobro da altura: a figura fica presa no ecrã enquanto a
- * página rola, e as três imagens dissolvem-se dentro da própria trama. Em
- * papel claro a trama é tinta: a luz da escultura vira ponto escuro, e a
- * figura sai do fundo em vez de ser uma imagem colada nele.
+ * O primeiro quadro é um bento: o título sobre a cruz cromada, o anjo
+ * gótico como "save point" (o anjo continua sendo o fio da página, agora em
+ * tinta de tatuagem), a VYRO, um número que não foi estimado, o lugar e a
+ * ferramenta. Cada cartão entra em cascata curta, em CSS.
  */
 export function Hero() {
   const t = useT();
   const { lang } = useLang();
   const hero = t(HERO);
   const role = t(ROLE);
-  const reduced = useReducedMotion();
-
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
-
-  // 0 → 1 → 2: o índice da figura, amaciado para o dissolve não engasgar
-  const raw = useTransform(scrollYProgress, [0.08, 0.92], [0, FIGURES.length - 1]);
-  const blend = useSpring(raw, { stiffness: 80, damping: 26, mass: 0.5 });
-
-  const textFade = useTransform(scrollYProgress, [0, 0.45, 0.72], [1, 1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-14%"]);
-  const fieldScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
-  const cueFade = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
   return (
-    <section id="top" ref={ref} className="relative h-[220vh]">
-      <div className="sticky top-0 flex h-[100dvh] items-center overflow-hidden">
-        {/* A máscara elíptica faz a trama emergir do papel: sem ela a área
-            desenhada termina num retângulo de aresta viva. */}
-        {/* No celular o texto ocupa a largura toda e passa por cima da
-            figura: ela recua para marca-d'água. */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 -z-20 opacity-30 lg:opacity-100"
-          style={{
-            ...(reduced ? {} : { scale: fieldScale }),
-            WebkitMaskImage:
-              "radial-gradient(ellipse 60% 76% at 72% 50%, #000 34%, rgba(0,0,0,0.5) 62%, transparent 100%)",
-            maskImage:
-              "radial-gradient(ellipse 60% 76% at 72% 50%, #000 34%, rgba(0,0,0,0.5) 62%, transparent 100%)",
-          }}
-        >
-          <AsciiArt
-            src={FIGURES}
-            blend={reduced ? undefined : blend}
-            alt={
-              lang === "pt"
-                ? "Escultura de anjo tramada ao vivo em pontos de tinta"
-                : "Angel sculpture dithered live in ink dots"
-            }
-            config={{
-              ...PRESETS.inkGaze,
-              // fonte em retrato dentro de um painel em paisagem: "contain"
-              // mostra a figura inteira; "cover" ampliava-a até só sobrar textura
-              anchorX: 0.8,
-            }}
-            className="h-full w-full"
-          />
-        </motion.div>
+    <section id="top" className="relative mx-auto max-w-[1400px] px-3 pt-[5.25rem] sm:px-5 sm:pt-24">
+      <div id="topo-sentinela" aria-hidden="true" className="absolute left-0 top-0 h-px w-px" />
 
-        {/* Véu de papel: garante o contraste do texto sobre a trama. */}
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-6 lg:min-h-[calc(100dvh-7rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+        {/* A — o título sobre o cromo */}
         <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "linear-gradient(100deg, var(--base) 0%, color-mix(in oklch, var(--base) 88%, transparent) 38%, transparent 70%)",
-          }}
-        />
-
-        <motion.div
-          className="mx-auto w-full max-w-[1320px] px-5 pt-16 sm:px-8"
-          style={reduced ? undefined : { y: textY, opacity: textFade }}
+          className="boot tile tile-panel flex min-h-[36rem] flex-col justify-between p-6 sm:p-9 md:col-span-6 lg:col-span-7 lg:row-span-2 lg:min-h-0 lg:p-11"
+          style={i(0)}
         >
-          <div className="lg:max-w-[60%]">
-            <div
-              className="rise flex flex-wrap items-center gap-x-4 gap-y-3"
-              style={rise(0)}
-            >
-              <a
-                href={PROFILE.vyro}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-line-2 bg-base/80 py-1.5 pl-1.5 pr-3.5 text-[0.82rem] text-ink backdrop-blur-sm transition-colors duration-200 hover:border-ink"
-              >
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-base">
-                  <VyroMark size={13} strokeWidth={7} />
-                </span>
-                {hero.founder}
-                <span
-                  aria-hidden="true"
-                  className="text-ink-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                >
-                  ↗
-                </span>
-              </a>
-              <span className="type-mono text-[0.66rem] text-ink-3">
-                {hero.kicker}
-              </span>
-            </div>
+          <Pic
+            id="chrome-cross"
+            alt=""
+            priority
+            sizes="(min-width: 1024px) 34vw, 100vw"
+            className="pointer-events-none absolute inset-y-0 right-0 -z-10 block w-full opacity-40 [mask-image:linear-gradient(to_left,#000_30%,transparent_80%)] md:w-[60%] md:opacity-100"
+            imgClassName="h-full w-full object-cover object-[50%_45%]"
+          />
 
-            <p
-              className="rise type-title mt-10 text-[clamp(1.1rem,1rem+0.5vw,1.4rem)] text-ink-2"
-              style={rise(0.05)}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <a
+              href={PROFILE.vyro}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press inline-flex items-center gap-2 rounded-full border border-line-2 bg-void/60 py-1.5 pl-1.5 pr-3.5 text-[0.78rem] text-text backdrop-blur-sm hover:border-white/40"
             >
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-text text-void">
+                <VyroMark size={12} strokeWidth={7} />
+              </span>
+              {hero.founder}
+              <span aria-hidden="true" className="text-text-3">↗</span>
+            </a>
+            <span className="t-mono inline-flex items-center gap-2 rounded-full bg-void/60 px-3.5 py-2 text-[0.56rem] text-text-2 backdrop-blur-sm">
+              <span className="blink h-1.5 w-1.5 rounded-full bg-[#7cff8a]" />
+              {hero.kicker}
+            </span>
+          </div>
+
+          <div className="mt-16 max-w-[40rem] lg:mt-6">
+            <p className="t-title text-[clamp(1rem,0.9rem+0.4vw,1.25rem)] text-text-2">
               {PROFILE.name}
             </p>
-
-            <h1
-              className="rise type-display mt-3 text-[clamp(2.9rem,1.2rem+5.4vw,6rem)] text-ink"
-              style={rise(0.09)}
-            >
+            <h1 className="t-display mt-3 text-[clamp(2.5rem,1.3rem+3.4vw,4.5rem)] text-text">
               {hero.line1} {hero.line2}{" "}
-              <span className="text-signal">{hero.line3}.</span>
+              <span className="chrome-text">{hero.line3}.</span>
             </h1>
+          </div>
 
-            <p
-              className="rise measure mt-8 text-[clamp(1.02rem,0.95rem+0.35vw,1.2rem)] leading-[1.6] text-ink-2"
-              style={rise(0.16)}
-            >
-              {hero.body}
+          <div className="mt-10 max-w-[30rem] lg:mt-6">
+            <p className="t-mono text-[0.58rem] leading-[1.9] text-text-3">
+              <span className="text-text">{role.title}</span> · {role.org}
             </p>
-
-            <p
-              className="rise type-mono mt-6 text-[0.64rem] leading-[1.9] text-ink-3"
-              style={rise(0.2)}
-            >
-              <span className="text-ink">{role.title}</span> · {role.org} ·{" "}
-              {role.squad}
-            </p>
-
-            <div
-              className="rise mt-10 flex flex-wrap items-center gap-3"
-              style={rise(0.26)}
-            >
-              <a href="#oficio" className="btn btn-solid">
-                {hero.ctaWork}
-                <span aria-hidden="true">↓</span>
+            <p className="mt-3 text-[0.98rem] leading-[1.6] text-text-2">{hero.body}</p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <a
+                href="#oficio"
+                className="press t-mono inline-flex h-12 items-center gap-3 rounded-full bg-cobalt px-6 text-[0.66rem] text-white hover:bg-cobalt-2"
+              >
+                <svg viewBox="0 0 10 10" aria-hidden="true" className="blink h-2 w-2 fill-white">
+                  <path d="M1 0.5L9.5 5L1 9.5Z" />
+                </svg>
+                {lang === "pt" ? "Press start" : "Press start"}
               </a>
-              <a href={`mailto:${PROFILE.email}`} className="btn btn-line">
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="press inline-flex h-12 items-center rounded-full border border-line-2 px-6 text-[0.9rem] text-text hover:border-white/40"
+              >
                 {hero.ctaMail}
               </a>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.p
-          aria-hidden="true"
-          className="type-mono absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-[0.6rem] text-ink-3 sm:block"
-          style={reduced ? undefined : { opacity: cueFade }}
+        {/* B — o anjo, save point */}
+        <div
+          className="boot tile tile-bone flex min-h-[30rem] flex-col justify-between p-5 md:col-span-3 md:row-span-2 lg:col-span-3 lg:min-h-0"
+          style={i(1)}
         >
-          {lang === "pt" ? "Role" : "Scroll"} ↓
-        </motion.p>
+          <p className="t-mono flex items-center justify-between text-[0.56rem] text-bone-dim">
+            <span>Save point</span>
+            <span>01/01</span>
+          </p>
+          <Pic
+            id="gothic-angel"
+            alt={
+              lang === "pt"
+                ? "Anjo gótico em flash de tatuagem, com cruzes ornamentais e caligrafia"
+                : "Gothic angel in tattoo flash, with ornamental crosses and script"
+            }
+            sizes="(min-width: 1024px) 22vw, 50vw"
+            className="absolute inset-x-4 bottom-16 top-12 -z-10 block"
+            imgClassName="h-full w-full object-contain"
+          />
+          <p className="t-title max-w-[14ch] text-[1.05rem] text-bone-ink">
+            {lang === "pt"
+              ? "O anjo da guarda dos sistemas em produção."
+              : "Guardian angel of systems in production."}
+          </p>
+        </div>
+
+        {/* C — VYRO */}
+        <a
+          href="#vyro"
+          className="boot lift tile tile-cobalt flex min-h-[14rem] flex-col justify-between p-5 md:col-span-3 lg:col-span-2 lg:min-h-0"
+          style={i(2)}
+        >
+          <span className="flex items-center justify-between">
+            <VyroMark size={30} strokeWidth={5} className="text-white" />
+            <span aria-hidden="true" className="text-white/70">↘</span>
+          </span>
+          <span>
+            <span className="t-display chrome-text block text-[2rem]">VYRO</span>
+            <span className="t-mono mt-2 block text-[0.55rem] text-white/80">
+              {lang === "pt" ? "3 produtos no ar" : "3 products live"}
+            </span>
+          </span>
+        </a>
+
+        {/* D — um número apurado */}
+        <div
+          className="boot tile tile-panel flex min-h-[14rem] flex-col justify-between p-5 md:col-span-3 lg:col-span-2 lg:min-h-0"
+          style={i(3)}
+        >
+          <p className="t-mono text-[0.55rem] text-text-3">
+            {lang === "pt" ? "Birdy · 4 meses" : "Birdy · 4 months"}
+          </p>
+          <p>
+            <span className="t-display chrome-text block text-[3.2rem] leading-none">306</span>
+            <span className="t-mono mt-2 block text-[0.55rem] leading-[1.6] text-text-2">
+              {lang === "pt" ? "instalações orgânicas" : "organic installs"}
+            </span>
+          </p>
+        </div>
+
+        {/* E — o lugar */}
+        <div
+          className="boot tile tile-bone flex min-h-[12rem] flex-col justify-between p-5 pr-28 md:col-span-4 lg:col-span-4"
+          style={i(4)}
+        >
+          <Pic
+            id="tribal-cross"
+            alt=""
+            sizes="160px"
+            className="absolute -right-4 -top-8 -z-10 block w-36 rotate-[14deg]"
+            imgClassName="h-auto w-full"
+          />
+          <p className="t-mono text-[0.55rem] text-bone-dim">{PROFILE.location} · {PROFILE.utc}</p>
+          <p className="t-title text-[1.1rem] text-bone-ink">
+            {lang === "pt"
+              ? "Remoto, em português ou inglês."
+              : "Remote, in Portuguese or English."}
+          </p>
+        </div>
+
+        {/* F — o olho */}
+        <div
+          className="boot tile tile-bone grid min-h-[12rem] place-items-center p-4 md:col-span-2 lg:col-span-2"
+          style={i(5)}
+        >
+          <Pic
+            id="eye-target"
+            alt={lang === "pt" ? "Olho com mira em tinta vermelha" : "Eye with a red crosshair"}
+            sizes="160px"
+            className="block w-[78%]"
+            imgClassName="h-auto w-full"
+          />
+          <p className="t-mono absolute bottom-3 left-0 right-0 text-center text-[0.5rem] text-bone-dim">
+            {lang === "pt" ? "olho no que ninguém olha" : "eyes on what nobody watches"}
+          </p>
+        </div>
+
+        {/* G — a ferramenta, em fita */}
+        <div
+          className="boot tile tile-void flex min-h-[12rem] flex-col justify-center gap-5 md:col-span-6 lg:col-span-6"
+          style={i(6)}
+        >
+          <p className="t-mono px-5 text-[0.55rem] text-text-3">
+            {lang === "pt" ? "Na mão, todo dia" : "In hand, every day"}
+          </p>
+          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+            <div className="marquee-track flex w-max items-center" style={{ "--marquee-duration": "36s" } as CSSProperties}>
+              {[0, 1].map((copy) => (
+                <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center">
+                  {TICKER.map((name) => (
+                    <li key={name} className="flex items-center">
+                      <span className="t-title px-5 text-[1.6rem] text-text">{name}</span>
+                      <Spark size={12} className="text-cobalt-2" />
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
