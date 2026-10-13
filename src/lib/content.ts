@@ -7,6 +7,8 @@
  * do empregador.
  */
 
+import type { ImageId } from "./images";
+
 export type Lang = "pt" | "en";
 export type Dict<T> = Record<Lang, T>;
 
@@ -44,18 +46,18 @@ export const ROLE: Dict<{
 export const NAV: Dict<{ href: string; label: string }[]> = {
   pt: [
     { href: "#vyro", label: "VYRO" },
-    { href: "#oficio", label: "O ofício" },
+    { href: "#oficio", label: "Ofício" },
     { href: "#ia", label: "IA" },
     { href: "#fora", label: "Projetos" },
-    { href: "#limite", label: "O limite" },
+    { href: "#limite", label: "Limite" },
     { href: "#contato", label: "Contato" },
   ],
   en: [
     { href: "#vyro", label: "VYRO" },
-    { href: "#oficio", label: "The craft" },
+    { href: "#oficio", label: "Craft" },
     { href: "#ia", label: "AI" },
     { href: "#fora", label: "Projects" },
-    { href: "#limite", label: "The boundary" },
+    { href: "#limite", label: "Boundary" },
     { href: "#contato", label: "Contact" },
   ],
 };
@@ -93,21 +95,24 @@ export const HERO: Dict<{
 };
 
 /**
- * A VYRO é a empresa dele: os produtos são dela, e cada um carrega a própria
- * identidade. A cor de cada produto vive só no palco da tela dele, nunca pinta
- * a página — a VYRO assina embaixo, não por cima.
+ * A VYRO é a empresa dele, e os três produtos são dela. Cada cartão da seção
+ * veste a identidade do próprio produto — a VYRO assina embaixo, não por cima.
+ * Todo número aqui vem do vault (estado de 07/10/2026) ou do resto da página.
  */
 export type VyroProduct = {
   id: string;
   name: string;
   href: string;
   domain: string;
-  /** Captura real: telemóvel em retrato ou janela de desktop. */
-  shot: { src: string; width: number; height: number; kind: "phone" | "window" };
-  /** O fundo onde a tela assenta, na cor do próprio produto. */
-  plate: string;
+  /** Arte de capa: a tela real do produto (id do manifesto de imagens). */
+  cover: ImageId;
+  /** Cor da arte de capa e do disco. */
+  accent: string;
   status: Dict<string>;
-  line: Dict<string>;
+  platform: Dict<string>;
+  title: Dict<string>;
+  body: Dict<string>;
+  numbers: { value: string; label: Dict<string> }[];
   cta: Dict<string>;
 };
 
@@ -116,18 +121,24 @@ export const VYRO: Dict<{
   heading: string;
   lead: string;
   visit: string;
+  next: string;
+  nextBody: string;
 }> = {
   pt: {
     kicker: "A empresa que eu fundei",
-    heading: "Produtos feitos para continuar.",
-    lead: "A VYRO projeta, publica e mantém os próprios produtos depois do lançamento: as rejeições da App Store, a migração de terça à noite, o usuário que acha o bug. Três já estão na mão das pessoas.",
+    heading: "Três jogos no ar. Uma produtora.",
+    lead: "A VYRO projeta, publica e mantém os próprios produtos depois do lançamento: a rejeição da App Store, a migração de terça à noite, o usuário que acha o bug. Cada um tem identidade, site e loja próprios.",
     visit: "Conhecer a VYRO",
+    next: "Slot vazio",
+    nextBody: "O próximo produto ainda não tem nome. Quando tiver, entra aqui.",
   },
   en: {
     kicker: "The company I founded",
-    heading: "Products made to keep going.",
-    lead: "VYRO designs, ships and keeps maintaining its own products after launch: the App Store rejections, the Tuesday-night migration, the user who finds the bug. Three are already in people's hands.",
+    heading: "Three games live. One studio.",
+    lead: "VYRO designs, ships and keeps maintaining its own products after launch: the App Store rejection, the Tuesday-night migration, the user who finds the bug. Each has its own identity, site and store listing.",
     visit: "Visit VYRO",
+    next: "Empty slot",
+    nextBody: "The next product has no name yet. When it does, it goes here.",
   },
 };
 
@@ -137,42 +148,63 @@ export const VYRO_PRODUCTS: VyroProduct[] = [
     name: "Birdy",
     href: "https://birdy-app.pages.dev",
     domain: "birdy-app.pages.dev",
-    shot: { src: "/vyro/birdy-inicio.webp", width: 720, height: 1515, kind: "phone" },
-    plate: "#13201a",
-    status: { pt: "No ar · Google Play e App Store", en: "Live · Google Play and App Store" },
-    line: {
-      pt: "Do ovo à venda, o aviário no celular: plantel, genética, chocadeira e vendas para quem cria aves.",
-      en: "From egg to sale, the aviary on a phone: flock, genetics, incubation and sales for bird breeders.",
+    cover: "birdy-inicio",
+    accent: "#8fe03a",
+    status: { pt: "No ar", en: "Live" },
+    platform: { pt: "Android · iOS · Windows", en: "Android · iOS · Windows" },
+    title: { pt: "Do ovo à venda, o aviário no celular.", en: "From egg to sale, the aviary on a phone." },
+    body: {
+      pt: "Plantel com anilha e foto, genética por loci com simulador de cruzamento, chocadeira com a data de eclosão pela espécie, e vendas com anúncio pronto para o WhatsApp.",
+      en: "Flock with ring and photo, genetics by loci with a crossing simulator, incubation dated by species, and sales with a ready-made WhatsApp listing.",
     },
-    cta: { pt: "Site da Birdy", en: "Birdy's site" },
+    numbers: [
+      { value: "306", label: { pt: "instalações em 4 meses", en: "installs in 4 months" } },
+      { value: "141", label: { pt: "aparelhos ativos", en: "active devices" } },
+      { value: "7", label: { pt: "espécies na genética", en: "species in genetics" } },
+    ],
+    cta: { pt: "Abrir o site da Birdy", en: "Open Birdy's site" },
   },
   {
     id: "lumi",
     name: "LUMI",
     href: "https://lumi-skincare.pages.dev",
     domain: "lumi-skincare.pages.dev",
-    shot: { src: "/vyro/lumi-consulta.webp", width: 720, height: 1603, kind: "phone" },
-    plate: "#e7e6f1",
-    status: { pt: "Teste fechado · Play e TestFlight", en: "Closed testing · Play and TestFlight" },
-    line: {
-      pt: "Skincare começa com uma conversa: a LUMIA pergunta, e a rotina sai do que você respondeu.",
-      en: "Skincare starts with a conversation: LUMIA asks, and the routine comes from what you answered.",
+    cover: "lumi-consulta",
+    accent: "#8d98ff",
+    status: { pt: "Teste fechado", en: "Closed testing" },
+    platform: { pt: "Android · iOS · 9 idiomas", en: "Android · iOS · 9 languages" },
+    title: { pt: "Skincare começa com uma conversa.", en: "Skincare starts with a conversation." },
+    body: {
+      pt: "A LUMIA conduz uma consulta por conversa, e a rotina sai do que você respondeu — pele, dieta e água, com lembretes de manhã e à noite, e a loja diz o que comprar quando algo acaba.",
+      en: "LUMIA runs a consultation by conversation, and the routine comes from what you answered — skin, diet and water, with morning and evening reminders, and the store says what to buy when something runs out.",
     },
-    cta: { pt: "Site da LUMI", en: "LUMI's site" },
+    numbers: [
+      { value: "9", label: { pt: "idiomas", en: "languages" } },
+      { value: "1.480", label: { pt: "testes no app", en: "tests on the app" } },
+      { value: "~4 mil", label: { pt: "produtos na loja", en: "store products" } },
+    ],
+    cta: { pt: "Abrir o site da LUMI", en: "Open LUMI's site" },
   },
   {
     id: "postly",
     name: "Postly",
     href: "https://jteixeiraz.github.io/Postly/",
     domain: "jteixeiraz.github.io/Postly",
-    shot: { src: "/vyro/postly-campanha.webp", width: 1440, height: 900, kind: "window" },
-    plate: "#ece6da",
-    status: { pt: "Open source · MIT", en: "Open source · MIT" },
-    line: {
-      pt: "Um departamento de marketing que roda na sua máquina, com modelos locais revezando os cargos.",
-      en: "A marketing department that runs on your own machine, with local models taking turns at each role.",
+    cover: "postly-campanha",
+    accent: "#ff7a3d",
+    status: { pt: "Open source", en: "Open source" },
+    platform: { pt: "Linux · macOS · Windows", en: "Linux · macOS · Windows" },
+    title: { pt: "Um departamento de marketing na sua máquina.", en: "A marketing department on your machine." },
+    body: {
+      pt: "Cinco cargos de IA se revezam em modelos locais para pesquisar, decidir, produzir, auditar e publicar — nunca dois modelos na memória ao mesmo tempo.",
+      en: "Five AI roles take turns on local models to research, decide, produce, audit and publish — never two models in memory at once.",
     },
-    cta: { pt: "Site do Postly", en: "Postly's site" },
+    numbers: [
+      { value: "10.364", label: { pt: "linhas de Rust", en: "lines of Rust" } },
+      { value: "82", label: { pt: "testes", en: "tests" } },
+      { value: "5", label: { pt: "cargos de IA", en: "AI roles" } },
+    ],
+    cta: { pt: "Abrir o site do Postly", en: "Open Postly's site" },
   },
 ];
 

@@ -1,21 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { LangProvider } from "@/lib/i18n";
-import { Grain } from "@/components/grain";
+import { Geist, JetBrains_Mono, Unbounded, UnifrakturMaguntia } from "next/font/google";
+import { LANG_BODY_SCRIPT, LANG_HEAD_SCRIPT } from "@/lib/i18n";
 import "./globals.css";
 
-// Uma família só, em dois desenhos: a Geist faz título e corpo, a Mono faz
-// rótulo e número. É o mesmo par da VYRO, de propósito — o portfólio e a
-// empresa leem como a mesma mão.
-const geist = Geist({
+// Unbounded: larga e arredondada, o título de capa de jogo de 2004.
+const unbounded = Unbounded({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-unbounded",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
+// Blackletter só em ornamento — números de prancha e uma palavra solta.
+// Não é crítica para o primeiro quadro, então não é pré-carregada.
+const goth = UnifrakturMaguntia({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  weight: "400",
+  variable: "--font-goth",
+  display: "swap",
+  preload: false,
+});
+
+// Rótulos pequenos: troca de fonte sem custo visível, então não compete com
+// a imagem do LCP pelo pré-carregamento.
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-jb",
+  display: "swap",
+  preload: false,
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -27,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "João Pedro Teixeira — Desenvolvedor Full Stack",
     description:
-      "O que eu faço dentro de uma squad de engenharia: automatizar processo manual, ligar sistema que não conversa, e desenhar onde a automação para.",
+      "Sistemas que não podem cair: automação, integrações, agentes de IA com coleira e três produtos no ar pela VYRO.",
     type: "profile",
     locale: "pt_BR",
     alternateLocale: "en_US",
@@ -35,27 +51,34 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fcfbf8",
-  colorScheme: "light",
+  themeColor: "#07080e",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${geist.variable} ${geistMono.variable}`}>
+    <html
+      lang="pt-BR"
+      data-lang="pt"
+      // o script do <head> troca lang/data-lang antes da pintura
+      suppressHydrationWarning
+      className={`${unbounded.variable} ${goth.variable} ${mono.variable} ${geist.variable}`}
+    >
+      <head>
+        <script id="jpt-lang-head" dangerouslySetInnerHTML={{ __html: LANG_HEAD_SCRIPT }} />
+      </head>
       <body className="min-h-dvh">
-        <LangProvider>
-          <a
-            href="#conteudo"
-            className="btn btn-solid sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
-            style={{ zIndex: "var(--z-overlay)" }}
-          >
-            Pular para o conteúdo
-          </a>
-          {children}
-          <Grain />
-        </LangProvider>
+        <a
+          href="#conteudo"
+          className="t-mono sr-only rounded-full bg-cobalt px-5 py-3 text-[0.7rem] text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          style={{ zIndex: 60 }}
+        >
+          Pular para o conteúdo · Skip to content
+        </a>
+        {children}
+        <script id="jpt-lang-body" dangerouslySetInnerHTML={{ __html: LANG_BODY_SCRIPT }} />
       </body>
     </html>
   );

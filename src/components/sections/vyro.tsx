@@ -1,138 +1,107 @@
-"use client";
-
-import { PROFILE, VYRO, VYRO_PRODUCTS, type VyroProduct } from "@/lib/content";
-import { useT } from "@/lib/i18n";
-import { Reveal } from "@/components/ui/reveal";
+import { PROFILE, VYRO, VYRO_PRODUCTS } from "@/lib/content";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
+import { SectionHeading } from "@/components/section-heading";
+import { GameCase } from "@/components/game-case";
+import { Pic } from "@/components/pic";
+import { Spark } from "@/components/spark";
 import { VyroMark } from "@/components/vyro-mark";
 
 /**
- * A VYRO logo depois do hero, porque é a prova mais forte da página: três
- * produtos que existem fora dela. Cada um ganha um palco na própria cor, com
- * a captura real em moldura de aparelho ou de janela, e o endereço onde pode
- * ser aberto agora.
+ * A VYRO como estante de jogos: a empresa é a produtora, os produtos são as
+ * capas. Cada capa leva ao site do próprio produto; os números ficam embaixo,
+ * na etiqueta da prateleira. O quarto lugar é um slot vazio de cartão de
+ * memória — o próximo produto, ainda sem nome.
  */
-export function Vyro() {
-  const t = useT();
+function VyroBody({ t, lang }: { t: T; lang: Lang }) {
   const v = t(VYRO);
 
   return (
-    <section
-      id="vyro"
-      className="relative border-t border-line"
-      aria-labelledby="vyro-heading"
-    >
-      <div className="mx-auto max-w-[1320px] px-5 py-24 sm:px-8 lg:py-32">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-end lg:gap-20">
-          <Reveal>
-            <p className="type-mono flex items-center gap-3 text-[0.66rem] text-ink-3">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-ink text-base">
-                <VyroMark size={15} strokeWidth={7} />
-              </span>
-              VYRO · {v.kicker}
-            </p>
-            <h2
-              id="vyro-heading"
-              className="type-display mt-7 text-[clamp(2.6rem,1.2rem+4.6vw,5.4rem)] text-ink"
-            >
-              {v.heading}
-            </h2>
-          </Reveal>
-
-          <Reveal delay={0.06}>
-            <p className="text-[clamp(1rem,0.95rem+0.3vw,1.15rem)] leading-[1.65] text-ink-2">
-              {v.lead}
-            </p>
+    <section aria-labelledby={`vyro-heading-${lang}`} className="offscreen mx-auto mt-3 max-w-[1400px] px-3 sm:px-5">
+      <div className="tile rounded-[var(--r-frame)] border border-line bg-[radial-gradient(120%_80%_at_100%_0%,rgb(47_69_255/0.18),transparent_55%),var(--void-2)] p-5 sm:p-8 lg:p-12">
+        <SectionHeading
+          id={`vyro-heading-${lang}`}
+          slot="02"
+          label={`VYRO · ${v.kicker}`}
+          aside={
             <a
               href={PROFILE.vyro}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-solid mt-8"
+              className="ring press hidden h-12 items-center gap-2.5 pl-2 pr-5 text-[0.9rem] font-medium text-text [--ring-bg:var(--void)] [--ring-bg-hover:var(--panel)] sm:inline-flex"
             >
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-text text-void">
+                <VyroMark size={16} strokeWidth={7} />
+              </span>
               {v.visit}
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" className="text-text-3">↗</span>
             </a>
-          </Reveal>
-        </div>
+          }
+        >
+          {v.heading}
+        </SectionHeading>
 
-        <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-14 md:grid-cols-2 lg:mt-24 lg:grid-cols-3">
-          {VYRO_PRODUCTS.map((p, i) => (
-            <Reveal as="li" key={p.id} delay={i * 0.07}>
-              <ProductCard product={p} />
-            </Reveal>
+        <p className="measure mt-6 text-[1rem] leading-[1.65] text-text-2">{v.lead}</p>
+
+        <ul className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          {VYRO_PRODUCTS.map((p) => (
+            <li key={p.id} className="reveal">
+              <GameCase
+                name={p.name}
+                href={p.href}
+                shot={p.cover}
+                accent={p.accent}
+                ink="#ffffff"
+                tagline={t(p.title)}
+                rating="V"
+                stage={t(p.status)}
+                platform={t(p.platform)}
+                cta={t(p.cta)}
+              />
+              <dl className="mt-5 grid grid-cols-3 gap-2">
+                {p.numbers.map((n) => (
+                  <div key={n.value} className="rounded-2xl border border-line bg-void/50 px-3 py-2.5">
+                    <dt className="sr-only">{t(n.label)}</dt>
+                    <dd>
+                      <span className="t-title block text-[1rem] text-text">{n.value}</span>
+                      <span aria-hidden="true" className="t-mono mt-1 block text-[0.46rem] leading-[1.5] text-text-3">
+                        {t(n.label)}
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
           ))}
+
+          {/* o slot vazio do cartão de memória */}
+          <li className="reveal">
+            <div className="relative grid aspect-[0.71] place-items-center overflow-hidden rounded-[18px] border border-dashed border-line-2 bg-[repeating-linear-gradient(135deg,rgb(255_255_255/0.025)_0_10px,transparent_10px_20px)] p-6 text-center">
+              <Pic
+                id="tribal-cross"
+                alt=""
+                sizes="200px"
+                className="pointer-events-none absolute inset-[12%] -z-0 block opacity-[0.14] grayscale"
+                imgClassName="h-full w-full object-contain"
+              />
+              <div className="relative">
+                <Spark size={22} className="mx-auto text-text-3" />
+                <p className="t-display mt-4 text-[1.4rem] text-text">{v.next}</p>
+                <p className="mt-3 text-[0.85rem] leading-[1.5] text-text-3">{v.nextBody}</p>
+                <p className="t-mono mt-6 text-[0.5rem] text-text-3">Memory card (8MB) · slot 4</p>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </section>
   );
 }
 
-function ProductCard({ product: p }: { product: VyroProduct }) {
-  const t = useT();
-  const dark = p.id === "birdy";
-
+export function Vyro() {
   return (
-    <a
-      href={p.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-    >
-      <div
-        className="relative aspect-[4/5] overflow-hidden rounded-[20px]"
-        style={{
-          background: `radial-gradient(120% 70% at 50% 0%, ${
-            dark ? "rgb(255 255 255 / 0.09)" : "rgb(255 255 255 / 0.6)"
-          }, transparent 62%), ${p.plate}`,
-        }}
-      >
-        {p.shot.kind === "phone" ? (
-          <div className="phone absolute left-1/2 top-[11%] w-[54%] -translate-x-1/2 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-2">
-            {/* eslint-disable-next-line @next/next/no-img-element -- export estático, sem otimizador */}
-            <img
-              src={p.shot.src}
-              width={p.shot.width}
-              height={p.shot.height}
-              alt={`${p.name}: ${t(p.line)}`}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        ) : (
-          <div className="window absolute left-[9%] top-[18%] w-[128%] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-2">
-            <div className="window-bar" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element -- export estático, sem otimizador */}
-            <img
-              src={p.shot.src}
-              width={p.shot.width}
-              height={p.shot.height}
-              alt={`${p.name}: ${t(p.line)}`}
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="mt-6 flex items-baseline justify-between gap-4">
-        <h3 className="type-title text-[1.6rem] text-ink">{p.name}</h3>
-        <span
-          aria-hidden="true"
-          className="text-[1.1rem] text-ink-3 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink"
-        >
-          ↗
-        </span>
-      </div>
-      <p className="type-mono mt-2 text-[0.62rem] text-signal-lite">
-        {t(p.status)}
-      </p>
-      <p className="mt-4 text-[0.96rem] leading-[1.6] text-ink-2">{t(p.line)}</p>
-      <p className="mt-4 text-[0.86rem] text-ink underline decoration-line-2 underline-offset-4 transition-colors duration-200 group-hover:decoration-ink">
-        {p.domain}
-      </p>
-    </a>
+    <div id="vyro">
+      <Bi>{(t, lang) => <VyroBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

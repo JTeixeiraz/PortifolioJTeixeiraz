@@ -1,135 +1,113 @@
-"use client";
-
-import { useRef, useState } from "react";
-import { useScroll, useMotionValueEvent } from "motion/react";
 import { CRAFT, LABELS } from "@/lib/content";
-import { useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
-import { Reveal } from "@/components/ui/reveal";
-import { Parallax } from "@/components/ui/scroll";
+import { Pic } from "@/components/pic";
+
+const ROMAN = ["I", "II", "III", "IV", "V", "VI"];
 
 /**
- * O ofício. Seis coisas que ele faz dentro da squad, cada uma seguida do
- * exemplo real que a sustenta.
- *
- * O layout mudou de seis linhas em três colunas (número | texto | exemplo)
- * para um índice fixo à esquerda e uma coluna única de leitura à direita: a
- * versão antiga apertava o texto em duas colunas estreitas e deixava um
- * trilho de números a fazer sozinho o trabalho de orientação. Agora o índice
- * mostra onde o leitor está com o título por extenso, e a entrada ativa
- * acende a própria margem — a marcação e o conteúdo são a mesma coisa.
+ * Tom e largura de cada cartão. O bento só funciona se os tamanhos variarem
+ * de verdade: 7+5, 4+4+4, e o último atravessando a linha inteira.
  */
-export function Craft() {
-  const t = useT();
-  const labels = t(LABELS);
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
+const LAYOUT: { span: string; tone: "bone" | "panel" | "cobalt" | "blood" }[] = [
+  { span: "lg:col-span-7", tone: "bone" },
+  { span: "lg:col-span-5", tone: "panel" },
+  { span: "lg:col-span-4", tone: "cobalt" },
+  { span: "lg:col-span-4", tone: "bone" },
+  { span: "lg:col-span-4", tone: "panel" },
+  { span: "lg:col-span-12", tone: "blood" },
+];
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start center", "end center"],
-  });
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    setActive(
-      Math.min(CRAFT.length - 1, Math.max(0, Math.floor(p * CRAFT.length))),
-    );
-  });
+const TONE = {
+  bone: { tile: "tile-bone", title: "text-bone-ink", body: "text-bone-dim", num: "text-blood", chip: "border-bone-ink/20 text-bone-ink hover:bg-bone-ink/5" },
+  panel: { tile: "tile-panel", title: "text-text", body: "text-text-2", num: "chrome-text", chip: "border-line-2 text-text hover:bg-white/5" },
+  cobalt: { tile: "tile-cobalt", title: "text-white", body: "text-white/80", num: "text-white/90", chip: "border-white/30 text-white hover:bg-white/10" },
+  blood: { tile: "tile-blood", title: "text-white", body: "text-white/85", num: "text-white/90", chip: "border-white/30 text-white hover:bg-white/10" },
+} as const;
+
+/**
+ * O ofício: seis coisas que ele faz dentro da squad. O exemplo real de cada
+ * uma mora num <details> nativo — o leitor apressado lê o título, quem quer
+ * a prova abre, e nada disso custa JavaScript.
+ */
+function CraftBody({ t, lang }: { t: T; lang: Lang }) {
+  const labels = t(LABELS);
 
   return (
-    <section
-      id="oficio"
-      className="relative border-t border-line"
-      aria-labelledby="craft-heading"
-    >
-      <div className="mx-auto max-w-[1320px] px-5 py-24 sm:px-8 lg:py-32">
-        <SectionHeading
-          id="craft-heading"
-          index="004"
-          aside={`0${active + 1} — 0${CRAFT.length}`}
-        >
-          {labels.craft}
+    <section aria-labelledby={`craft-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+      <div className="px-2 sm:px-3">
+        <SectionHeading id={`craft-heading-${lang}`} slot="03" label={labels.craft}>
+          {lang === "pt" ? "O que eu faço dentro de uma squad." : "What I do inside a squad."}
         </SectionHeading>
+      </div>
 
-        <div
-          ref={ref}
-          className="mt-10 grid grid-cols-1 gap-10 lg:mt-16 lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)] lg:gap-20"
-        >
-          {/* Índice: acompanha o leitor pela série e diz o nome, não só o
-              número. Fixo só onde há altura para o justificar. */}
-          <div className="lg:sticky lg:top-[18vh] lg:self-start">
-            <p
-              aria-hidden="true"
-              className="type-display text-[clamp(3.5rem,2rem+6vw,6.5rem)] leading-[0.85] text-ink"
+      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-12">
+        {CRAFT.map((item, n) => {
+          const { span, tone } = LAYOUT[n] ?? LAYOUT[1];
+          const c = TONE[tone];
+          const example = t(item.example);
+          const wide = n === CRAFT.length - 1;
+          return (
+            <article
+              key={item.id}
+              className={`reveal tile ${c.tile} flex min-h-[19rem] flex-col p-6 sm:p-8 ${span} ${wide ? "md:col-span-2" : ""}`}
             >
-              {String(active + 1).padStart(2, "0")}
-            </p>
+              {/* o olho mora no cartão da instrumentação */}
+              {n === 3 ? (
+                <Pic
+                  id="eye-target"
+                  alt=""
+                  sizes="220px"
+                  className="pointer-events-none absolute right-2 top-2 -z-10 block w-36 rotate-[-8deg]"
+                  imgClassName="h-auto w-full"
+                />
+              ) : null}
+              {wide ? (
+                <Pic
+                  id="tribal-cross"
+                  alt=""
+                  sizes="260px"
+                  className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden w-72 rotate-[24deg] opacity-30 brightness-[3] saturate-0 md:block"
+                  imgClassName="h-auto w-full"
+                />
+              ) : null}
 
-            <ol className="mt-7 hidden gap-2.5 lg:flex lg:flex-col">
-              {CRAFT.map((c, i) => (
-                <li key={c.id}>
-                  <span
-                    className={`type-mono block text-[0.62rem] leading-[1.5] transition-all duration-500 ${
-                      i === active
-                        ? "translate-x-1 text-signal-lite"
-                        : "text-ink-3"
-                    }`}
-                  >
-                    {String(i + 1).padStart(2, "0")} &nbsp;{t(c.title)}
+              <div className={`grid gap-6 ${wide ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12" : ""}`}>
+                <div>
+                  <span aria-hidden="true" className={`t-goth block text-[3.6rem] ${c.num}`}>
+                    {ROMAN[n]}
                   </span>
-                </li>
-              ))}
-            </ol>
-          </div>
+                  <h3 className={`t-title mt-4 max-w-[22ch] text-[clamp(1.25rem,1rem+0.9vw,1.7rem)] ${c.title}`}>
+                    {t(item.title)}
+                  </h3>
+                  <p className={`mt-4 max-w-[52ch] text-[0.95rem] leading-[1.65] ${c.body}`}>
+                    {t(item.body)}
+                  </p>
+                </div>
 
-          <div className="min-w-0">
-            {CRAFT.map((item, i) => {
-              const example = t(item.example);
-              return (
-                <Reveal key={item.id} delay={0.03}>
-                  {/* A margem esquerda é a marcação: acende na entrada ativa. */}
-                  <article
-                    className={`border-l py-9 pl-6 transition-colors duration-500 sm:pl-9 lg:py-12 ${
-                      i === active ? "border-signal" : "border-line"
-                    }`}
+                <details className={`group self-end ${wide ? "lg:self-center" : "mt-auto"}`}>
+                  <summary
+                    className={`press t-mono inline-flex cursor-pointer list-none items-center gap-2 rounded-full border px-4 py-2.5 text-[0.56rem] [&::-webkit-details-marker]:hidden ${c.chip}`}
                   >
-                    <p
-                      className={`type-mono text-[0.62rem] transition-colors duration-500 ${
-                        i === active ? "text-signal-lite" : "text-ink-3"
-                      }`}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </p>
-
-                    <h3 className="type-title mt-4 max-w-[24ch] text-[clamp(1.5rem,1.1rem+1.6vw,2.4rem)] text-ink">
-                      {t(item.title)}
-                    </h3>
-
-                    {/* Em ecrã largo o exemplo assenta ao lado do texto, não
-                        debaixo: empilhado, deixava metade da seção vazia. */}
-                    <div className="mt-5 grid grid-cols-1 gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] xl:gap-10">
-                      <p className="measure text-[1rem] leading-[1.68] text-ink-2">
-                        {t(item.body)}
-                      </p>
-
-                      {/* O exemplo desliza a um ritmo próprio do da coluna. */}
-                      <Parallax distance={16} className="min-w-0">
-                        <div className="rounded-[16px] border border-line bg-surface p-6 sm:p-7">
-                          <p className="type-mono mb-4 text-[0.62rem] text-signal-lite">
-                            {example.label}
-                          </p>
-                          <p className="text-[0.92rem] leading-[1.7] text-ink-2">
-                            {example.text}
-                          </p>
-                        </div>
-                      </Parallax>
-                    </div>
-                  </article>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
+                    <span className="transition-transform duration-200 group-open:rotate-45">+</span>
+                    {example.label}
+                  </summary>
+                  <p className={`mt-4 text-[0.9rem] leading-[1.7] ${c.body}`}>{example.text}</p>
+                </details>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
+  );
+}
+
+export function Craft() {
+  return (
+    <div id="oficio">
+      <Bi>{(t, lang) => <CraftBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

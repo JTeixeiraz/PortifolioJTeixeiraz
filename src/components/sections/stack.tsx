@@ -1,99 +1,75 @@
-"use client";
-
-import {
-  SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiFlutter, SiDart,
-  SiNodedotjs, SiExpress, SiPython, SiFastapi, SiDjango, SiFlask,
-  SiPostgresql, SiMongodb, SiFirebase, SiSupabase, SiSqlite,
-  SiDocker, SiGithubactions, SiGit,
-  SiAnthropic, SiGooglegemini, SiNvidia, SiOpenjdk, SiSharp,
-} from "react-icons/si";
-import { VscAzure, VscAzureDevops } from "react-icons/vsc";
 import { LABELS, STACK } from "@/lib/content";
-import { useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
-import LogoLoop from "@/components/reactbits/logo-loop";
-import { Reveal } from "@/components/ui/reveal";
 
-/** Só entra aqui o que ele usou para entregar algo que está no ar. */
-const MARKS = [
-  { node: <SiTypescript />, title: "TypeScript" },
-  { node: <SiReact />, title: "React" },
-  { node: <SiNextdotjs />, title: "Next.js" },
-  { node: <SiTailwindcss />, title: "Tailwind CSS" },
-  { node: <SiNodedotjs />, title: "Node.js" },
-  { node: <SiExpress />, title: "Express" },
-  { node: <SiPython />, title: "Python" },
-  { node: <SiFastapi />, title: "FastAPI" },
-  { node: <SiDjango />, title: "Django" },
-  { node: <SiFlask />, title: "Flask" },
-  { node: <SiPostgresql />, title: "PostgreSQL" },
-  { node: <SiMongodb />, title: "MongoDB" },
-  { node: <SiSqlite />, title: "SQLite" },
-  { node: <VscAzure />, title: "Microsoft Azure" },
-  { node: <VscAzureDevops />, title: "Azure DevOps" },
-  { node: <SiDocker />, title: "Docker" },
-  { node: <SiGithubactions />, title: "GitHub Actions" },
-  { node: <SiSupabase />, title: "Supabase" },
-  { node: <SiFirebase />, title: "Firebase" },
-  { node: <SiFlutter />, title: "Flutter" },
-  { node: <SiDart />, title: "Dart" },
-  { node: <SiOpenjdk />, title: "Java" },
-  { node: <SiSharp />, title: "C#" },
-  { node: <SiAnthropic />, title: "Anthropic Claude" },
-  { node: <SiGooglegemini />, title: "Google Gemini" },
-  { node: <SiNvidia />, title: "NVIDIA NIM" },
-  { node: <SiGit />, title: "Git" },
+/** Largura e tom por grupo, na ordem de STACK. */
+const LAYOUT = [
+  { span: "lg:col-span-4", tone: "tile-panel", chip: "bg-white/[0.06] text-text-2" },
+  { span: "lg:col-span-4", tone: "tile-void", chip: "bg-white/[0.06] text-text-2" },
+  { span: "lg:col-span-4", tone: "tile-panel", chip: "bg-white/[0.06] text-text-2" },
+  { span: "lg:col-span-5", tone: "tile-void", chip: "bg-white/[0.06] text-text-2" },
+  { span: "lg:col-span-7", tone: "tile-panel", chip: "bg-white/[0.06] text-text-2" },
+  { span: "lg:col-span-6", tone: "tile-bone", chip: "bg-bone-ink/[0.07] text-bone-ink" },
+  { span: "lg:col-span-6", tone: "tile-cobalt", chip: "bg-white/15 text-white" },
+  { span: "md:col-span-2 lg:col-span-12", tone: "tile-void", chip: "bg-white/[0.06] text-text-2" },
 ];
 
-export function Stack() {
-  const t = useT();
+/**
+ * Ferramenta: só entra o que ele usou para entregar algo que está no ar,
+ * agrupado pelo problema que cada grupo resolve. Sem barra de proficiência,
+ * sem sopa de logos — chips de texto, leves.
+ */
+function StackBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
   const groups = t(STACK);
 
   return (
-    <section
-      id="stack"
-      className="border-y border-line bg-surface py-24 lg:py-32"
-      aria-labelledby="stack-heading"
-    >
-      <div className="mx-auto max-w-[1320px] px-5 sm:px-8">
-        <SectionHeading id="stack-heading" index="009">
-          {labels.stack}
+    <section aria-labelledby={`stack-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+      <div className="px-2 sm:px-3">
+        <SectionHeading id={`stack-heading-${lang}`} slot="08" label={labels.stack}>
+          {lang === "pt" ? "O que já foi para produção." : "What has shipped to production."}
         </SectionHeading>
       </div>
 
-      {/* A fita de marcas: reconhecimento imediato, sem virar sopa de logos. */}
-      <div className="mt-12 border-y border-line py-8 lg:mt-16">
-        <LogoLoop
-          logos={MARKS}
-          speed={44}
-          logoHeight={30}
-          gap={52}
-          hoverSpeed={0}
-          fadeOut
-          scaleOnHover
-          ariaLabel={t({ pt: "Ferramentas que uso", en: "Tools I use" })}
-          className="text-ink-3"
-        />
-      </div>
-
-      {/* A leitura de verdade: agrupada pelo que cada grupo resolve. */}
-      <div className="mx-auto mt-12 grid max-w-[1320px] grid-cols-1 gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-3 xl:rounded-[18px]">
-        {groups.map((group, i) => (
-          <Reveal key={group.group} delay={i * 0.04} className="bg-surface p-6 sm:p-8">
-            <p className="type-mono text-[0.6rem] text-signal-lite">
-              {group.group}
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-2">
-              {group.items.map((item) => (
-                <li key={item} className="text-[0.9rem] leading-snug text-ink-2">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        ))}
+      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-12">
+        {groups.map((g, n) => {
+          const l = LAYOUT[n] ?? LAYOUT[0];
+          const onBone = l.tone === "tile-bone";
+          const onCobalt = l.tone === "tile-cobalt";
+          return (
+            <div key={g.group} className={`reveal tile ${l.tone} p-6 ${l.span}`}>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3
+                  className={`t-title text-[1.15rem] ${onBone ? "text-bone-ink" : onCobalt ? "text-white" : "text-text"}`}
+                >
+                  {g.group}
+                </h3>
+                <span
+                  className={`t-mono text-[0.52rem] ${onBone ? "text-bone-dim" : onCobalt ? "text-white/70" : "text-text-3"}`}
+                >
+                  {String(g.items.length).padStart(2, "0")}
+                </span>
+              </div>
+              <ul className="mt-5 flex flex-wrap gap-1.5">
+                {g.items.map((item) => (
+                  <li key={item} className={`rounded-full px-3 py-1.5 text-[0.8rem] ${l.chip}`}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
       </div>
     </section>
+  );
+}
+
+export function Stack() {
+  return (
+    <div id="stack">
+      <Bi>{(t, lang) => <StackBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

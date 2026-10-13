@@ -1,88 +1,49 @@
-"use client";
-
-import {
-  useCallback,
-  useEffect,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
+import type { ReactNode } from "react";
 import type { Dict, Lang } from "./content";
 
-const STORAGE_KEY = "jpt.lang";
-
 /**
- * Language lives in a tiny external store rather than in state seeded by an
- * effect. The server always renders Portuguese; on the client the stored (or
- * browser) preference is read through `getSnapshot`, which is what
- * `useSyncExternalStore` exists for: no setState-in-effect, no hydration
- * mismatch, no flash of the provider's default.
+ * Idioma sem React no cliente.
+ *
+ * A página é estática e sai com os dois idiomas no HTML: <Bi> renderiza o
+ * conteúdo uma vez por idioma, e o CSS mostra só o ativo (`html[data-lang]`).
+ * O idioma inativo fica em `display: none` — não entra em layout nem pinta.
+ * A troca é um script inline de poucas linhas; assim o site não precisa do
+ * runtime do React no navegador, e o build tira o JavaScript do Next.
  */
 
-let current: Lang | null = null;
-const listeners = new Set<() => void>();
+export type T = <V>(value: Dict<V>) => V;
 
-function read(): Lang {
-  if (current !== null) return current;
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "pt" || stored === "en") {
-      current = stored;
-      return current;
-    }
-  } catch {
-    // localStorage can throw in private modes; fall through to the browser.
-  }
-  current = navigator.language.toLowerCase().startsWith("pt") ? "pt" : "en";
-  return current;
+const LANGS: Lang[] = ["pt", "en"];
+
+export function Bi({
+  children,
+  as: Tag = "div",
+}: {
+  children: (t: T, lang: Lang) => ReactNode;
+  /** "span" quando o pai é inline. */
+  as?: "div" | "span";
+}) {
+  return (
+    <>
+      {LANGS.map((lang) => (
+        <Tag key={lang} data-l={lang} lang={lang === "pt" ? "pt-BR" : "en"}>
+          {children(<V,>(value: Dict<V>) => value[lang], lang)}
+        </Tag>
+      ))}
+    </>
+  );
 }
 
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
-}
-
-// Portuguese is the default: he is in Belo Horizonte and most inbound is local.
-const getServerSnapshot = (): Lang => "pt";
-
-export function setLang(lang: Lang) {
-  if (current === lang) return;
-  current = lang;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, lang);
-  } catch {
-    // A failed write only costs the preference on the next visit.
-  }
-  document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
-  listeners.forEach((l) => l());
-}
-
-export function useLang() {
-  const lang = useSyncExternalStore(subscribe, read, getServerSnapshot);
-  return { lang, setLang };
-}
-
-/** Resolve a bilingual value against the active language. */
-export function useT() {
-  const { lang } = useLang();
-  return useCallback(<T,>(value: Dict<T>): T => value[lang], [lang]);
-}
-
-/** Product names stay untranslated; descriptive names carry both languages. */
-export function resolveName(name: string | Dict<string>, lang: Lang): string {
-  return typeof name === "string" ? name : name[lang];
-}
+const KEY = "jpt.lang";
 
 /**
- * Keeps `<html lang>` in step with the store for the first paint, which
- * matters for screen-reader pronunciation and for the `:lang()` selector.
+ * Roda no <head>, antes da primeira pintura: decide o idioma (escolha salva,
+ * senão o do navegador) e marca o <html>. Sem flash do idioma errado.
  */
-export function LangProvider({ children }: { children: ReactNode }) {
-  const { lang } = useLang();
+export const LANG_HEAD_SCRIPT = `(function(){try{var d=document.documentElement,s=localStorage.getItem("${KEY}"),l=s==="pt"||s==="en"?s:((navigator.language||"").toLowerCase().indexOf("pt")===0?"pt":"en");d.setAttribute("data-lang",l);d.lang=l==="pt"?"pt-BR":"en"}catch(e){}})();`;
 
-  // Syncing an external system (the document element) is what effects are for.
-  useEffect(() => {
-    document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
-  }, [lang]);
-
-  return <>{children}</>;
-}
+/**
+ * Roda no fim do <body>: liga os botões [data-set-lang] e mantém
+ * aria-pressed em dia. Um listener só, delegado no documento.
+ */
+export const LANG_BODY_SCRIPT = `(function(){var d=document.documentElement;function sync(){var l=d.getAttribute("data-lang")||"pt";document.querySelectorAll("[data-set-lang]").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-set-lang")===l))})}sync();document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-set-lang]");if(!b)return;var l=b.getAttribute("data-set-lang");d.setAttribute("data-lang",l);d.lang=l==="pt"?"pt-BR":"en";try{localStorage.setItem("${KEY}",l)}catch(_){}sync()})})();`;

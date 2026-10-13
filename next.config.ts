@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   // Every route is static and nothing uses next/image or a route handler, so
   // the site ships as plain files — no Node runtime to keep alive on the host.
   output: "export",
+  // Uma página, visitante quase sempre de primeira vez: o CSS (Tailwind,
+  // ~10 KB gzip) vai inline no <head> e some a requisição que bloqueava a
+  // primeira pintura.
+  experimental: {
+    inlineCss: true,
+  },
 };
 
 export default nextConfig;
