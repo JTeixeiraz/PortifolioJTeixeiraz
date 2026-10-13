@@ -127,15 +127,6 @@ export const IMAGES = {
     ],
     "blur": true
   },
-  "night-car-1": {
-    "width": 736,
-    "height": 1109,
-    "widths": [
-      400,
-      736
-    ],
-    "blur": false
-  },
   "night-car-2": {
     "width": 735,
     "height": 736,
@@ -198,15 +189,6 @@ export const IMAGES = {
       735
     ],
     "blur": false
-  },
-  "samurai-moon": {
-    "width": 736,
-    "height": 1308,
-    "widths": [
-      420,
-      736
-    ],
-    "blur": true
   },
   "crystal": {
     "width": 736,
@@ -276,6 +258,51 @@ export const IMAGES = {
     "widths": [
       420,
       736
+    ],
+    "blur": false
+  },
+  "bird-paint": {
+    "width": 736,
+    "height": 977,
+    "widths": [
+      420,
+      736
+    ],
+    "blur": false
+  },
+  "dubai-laptop": {
+    "width": 736,
+    "height": 981,
+    "widths": [
+      420,
+      736
+    ],
+    "blur": false
+  },
+  "me-1": {
+    "width": 484,
+    "height": 668,
+    "widths": [
+      320,
+      484
+    ],
+    "blur": false
+  },
+  "me-2": {
+    "width": 484,
+    "height": 668,
+    "widths": [
+      320,
+      484
+    ],
+    "blur": false
+  },
+  "me-avatar": {
+    "width": 170,
+    "height": 170,
+    "widths": [
+      96,
+      160
     ],
     "blur": false
   },

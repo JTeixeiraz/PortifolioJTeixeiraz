@@ -8,7 +8,7 @@ import { VyroMark } from "@/components/vyro-mark";
 /**
  * O fecho é um pôster: o Fallen Angels desfocado ao fundo, PRESS START
  * piscando, o convite em letra enorme e os caminhos de saída. À direita, o
- * samurai sob a lua numa pílula alta, com a VYRO pousada por cima.
+ * pôster do Evangelion numa pílula alta, com a VYRO pousada por cima.
  */
 function ContactBody({ t, lang }: { t: T; lang: Lang }) {
   const c = t(CONTACT);
@@ -72,11 +72,11 @@ function ContactBody({ t, lang }: { t: T; lang: Lang }) {
           <div className="in-right relative">
             <figure className="relative aspect-[0.62] overflow-hidden rounded-full shadow-[0_40px_80px_-30px_rgb(0_0_0/0.9)] ring-1 ring-white/15">
               <Pic
-                id="samurai-moon"
+                id="evangelion"
                 alt={
                   lang === "pt"
-                    ? "Ilustração de samurai de armadura sob a lua cheia, em vermelho e azul"
-                    : "Illustration of an armored samurai under the full moon, in red and blue"
+                    ? "Pôster do Evangelion: a Unidade 01 diante de Shinji, com a frase I must (not) run away"
+                    : "Evangelion poster: Unit 01 facing Shinji, with the line I must (not) run away"
                 }
                 sizes="(min-width: 1024px) 24rem, 80vw"
                 className="absolute inset-0 block"

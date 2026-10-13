@@ -212,7 +212,7 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
 /* ---------- projetos: abas em CSS puro (rádios + :has) ----------
    Só o painel do rádio marcado aparece; ao aparecer, ele entra com uma
    animação curta (a animação reinicia quando o display volta). A miniatura
-   escolhida fica em tinta escura na pílula de papel. */
+   escolhida acende no dock. */
 .proj [data-panel] {
   display: none;
 }
@@ -231,8 +231,9 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
 .proj:has(input[value="induxai"]:checked) label[data-for="induxai"],
 .proj:has(input[value="dcars"]:checked) label[data-for="dcars"],
 .proj:has(input[value="portify"]:checked) label[data-for="portify"] {
-  background: var(--bone-ink);
-  color: var(--bone);
+  background: rgb(255 255 255 / 0.14);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
 }
 .proj:has(input[value="birdy"]:focus-visible) label[data-for="birdy"],
 .proj:has(input[value="lumi"]:focus-visible) label[data-for="lumi"],
@@ -258,6 +259,41 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
 @media (min-width: 768px) {
   .stack-row > summary {
     pointer-events: none;
+  }
+}
+
+
+/* ---------- card com entalhe (referência: o painel principal do "UiX") ----------
+   No desktop o cartão do título perde o canto de baixo à direita, com cantos
+   côncavos, e o cartão do olho (da linha de baixo) sobe e ocupa o vão. A
+   largura do vão é a de 2 das 7 colunas que o título ocupa, mais um gap de
+   folga: (2·W + 2·12px) / 7. É um clip-path estático (shape()). Sem
+   suporte, ou abaixo do lg, fica o retângulo arredondado. */
+@supports (clip-path: shape(from 0 0, line to 1px 1px)) {
+  @media (min-width: 1024px) {
+    .notched {
+      --r: 28px;
+      --w2: calc((200% + 24px) / 7);
+      --h2: 11.5rem;
+      clip-path: shape(
+        from var(--r) 0,
+        hline to calc(100% - var(--r)),
+        arc to 100% var(--r) of var(--r) cw,
+        vline to calc(100% - var(--h2) - var(--r)),
+        arc to calc(100% - var(--r)) calc(100% - var(--h2)) of var(--r) cw,
+        hline to calc(100% - var(--w2) + var(--r)),
+        arc to calc(100% - var(--w2)) calc(100% - var(--h2) + var(--r)) of var(--r) ccw,
+        vline to calc(100% - var(--r)),
+        arc to calc(100% - var(--w2) - var(--r)) 100% of var(--r) cw,
+        hline to var(--r),
+        arc to 0 calc(100% - var(--r)) of var(--r) cw,
+        vline to var(--r),
+        arc to var(--r) 0 of var(--r) cw,
+        close
+      );
+      border-radius: 0;
+      border: 0;
+    }
   }
 }
 

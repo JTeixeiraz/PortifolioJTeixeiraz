@@ -22,7 +22,7 @@ const RAW = path.join(ROOT, "scripts/raw");
 const OUT = path.join(ROOT, "public/img");
 const MANIFEST = path.join(ROOT, "src/lib/images.ts");
 
-/** @type {{ id: string, file: string, mode: "photo" | "ink", widths: number[], blur?: boolean }[]} */
+/** @type {{ id: string, file: string, mode: "photo" | "ink", widths: number[], blur?: boolean, crop?: { left: number, top: number, width: number, height: number } }[]} */
 const IMAGES = [
   { id: "chrome-cross", file: "chrome-cross.jpg", mode: "photo", widths: [480, 900] },
   { id: "loading-cat", file: "loading-cat.jpg", mode: "photo", widths: [420, 800] },
@@ -40,7 +40,6 @@ const IMAGES = [
   { id: "fallen-angels", file: "fallen-angels.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "face-illust", file: "face-illust.jpg", mode: "photo", widths: [400, 674] },
   { id: "goldfish", file: "goldfish.jpg", mode: "photo", widths: [420, 736], blur: true },
-  { id: "night-car-1", file: "night-car-1.jpg", mode: "photo", widths: [400, 736] },
   { id: "night-car-2", file: "night-car-2.jpg", mode: "photo", widths: [400, 735] },
   { id: "night-tokyo", file: "night-tokyo.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "tokyo-street", file: "tokyo-street.jpg", mode: "photo", widths: [420, 736], blur: true },
@@ -48,7 +47,6 @@ const IMAGES = [
   { id: "supersonic", file: "supersonic.jpg", mode: "photo", widths: [420, 736] },
   { id: "evangelion", file: "evangelion.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "eva-poster", file: "eva-poster.jpg", mode: "photo", widths: [420, 735] },
-  { id: "samurai-moon", file: "samurai-moon.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "crystal", file: "crystal.jpg", mode: "photo", widths: [736], blur: true },
   { id: "koi", file: "koi.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "chrome-white", file: "chrome-white.jpg", mode: "photo", widths: [420, 736] },
@@ -57,6 +55,14 @@ const IMAGES = [
   { id: "jp-poster", file: "jp-poster.jpg", mode: "photo", widths: [400, 710] },
   { id: "cat-poster", file: "cat-poster.jpg", mode: "photo", widths: [420, 736] },
   { id: "daikichi", file: "daikichi.jpg", mode: "photo", widths: [420, 736] },
+
+  { id: "bird-paint", file: "bird-paint.jpg", mode: "photo", widths: [420, 736] },
+  { id: "dubai-laptop", file: "dubai-laptop.jpg", mode: "photo", widths: [420, 736] },
+
+  // fotos dele
+  { id: "me-1", file: "me-1.png", mode: "photo", widths: [320, 484] },
+  { id: "me-2", file: "me-2.png", mode: "photo", widths: [320, 484] },
+  { id: "me-avatar", file: "me-2.png", mode: "photo", widths: [96, 160], crop: { left: 120, top: 150, width: 170, height: 170 } },
 
   // tatuagens: traço preto em papel branco → tinta com alpha
   { id: "tat-sword", file: "tat-34.jpg", mode: "ink", widths: [360, 640] },
@@ -103,7 +109,12 @@ async function main() {
 
   for (const img of IMAGES) {
     const src = path.join(RAW, img.file);
-    const base = img.mode === "ink" ? await inkify(src) : sharp(src);
+    const base =
+      img.mode === "ink"
+        ? await inkify(src)
+        : img.crop
+          ? sharp(src).extract(img.crop)
+          : sharp(src);
     // materializa uma vez (o trim muda as dimensões) e lê o tamanho final
     const buf = await base.png().toBuffer();
     const meta = await sharp(buf).metadata();
@@ -138,6 +149,17 @@ async function main() {
     manifest[img.id] = { width: meta.width, height: meta.height, widths, blur: Boolean(img.blur) };
     console.log(`${img.id}: ${meta.width}×${meta.height} → ${widths.join(", ")}`);
   }
+
+  // Ícone da aba: o avatar num círculo, 64 px. O Next serve src/app/icon.png
+  // e escreve o <link rel="icon"> sozinho.
+  const circle = Buffer.from('<svg width="64" height="64"><circle cx="32" cy="32" r="32"/></svg>');
+  await sharp(path.join(RAW, "me-2.png"))
+    .extract({ left: 120, top: 150, width: 170, height: 170 })
+    .resize(64, 64)
+    .modulate({ brightness: 1.35 })
+    .composite([{ input: circle, blend: "dest-in" }])
+    .png()
+    .toFile(path.join(ROOT, "src/app/icon.png"));
 
   const ts = `// Gerado por scripts/images.mjs — não editar à mão.\n\nexport const IMAGES = ${JSON.stringify(
     manifest,

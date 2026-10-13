@@ -3,14 +3,11 @@ import { EVIDENCE } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { Pic } from "@/components/pic";
-import { Spark } from "@/components/spark";
 import { Wave } from "@/components/wave";
-
-const HUES = [0, 52, 104, 156, 208, 260, 312];
 
 /**
  * As evidências no vermelho que escorre do papel do limite: cada história é
- * um "save" do memory card, e os saves correm em duas faixas em sentidos
+ * um cartão numerado, e os cartões correm em duas faixas em sentidos
  * opostos (pausam no hover). Sete histórias deixam de ser sete caixas
  * empilhadas. A seção devolve a página ao escuro por outra onda.
  */
@@ -73,18 +70,12 @@ function EvidenceBody({ t, lang }: { t: T; lang: Lang }) {
                         >
                           <span
                             aria-hidden="true"
-                            className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.4)]"
-                            style={{
-                              background: `conic-gradient(from ${HUES[n % HUES.length]}deg, #6d7bff, #36e4ff, #b6ff6a, #ffd56a, #ff6a8b, #b57bff, #6d7bff)`,
-                            }}
+                            className="t-display shrink-0 text-[2.4rem] leading-none text-blood"
                           >
-                            <Spark size={16} />
+                            {String(n + 1).padStart(2, "0")}
                           </span>
                           <span className="min-w-0">
-                            <span className="t-mono block text-[0.48rem] text-bone-dim">
-                              Save {String(n + 1).padStart(2, "0")}
-                            </span>
-                            <span className="t-title mt-1 block text-[0.98rem]">{row.claim}</span>
+                            <span className="t-title block text-[0.98rem]">{row.claim}</span>
                             <span className="mt-1.5 block text-[0.82rem] leading-[1.5] text-bone-dim">{row.how}</span>
                           </span>
                         </li>
