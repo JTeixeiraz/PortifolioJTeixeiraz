@@ -1,7 +1,6 @@
-"use client";
-
 import { CRAFT, LABELS } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 import { Pic } from "@/components/pic";
 
@@ -32,15 +31,13 @@ const TONE = {
  * uma mora num <details> nativo — o leitor apressado lê o título, quem quer
  * a prova abre, e nada disso custa JavaScript.
  */
-export function Craft() {
-  const t = useT();
-  const { lang } = useLang();
+function CraftBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
 
   return (
-    <section id="oficio" aria-labelledby="craft-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`craft-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id="craft-heading" slot="03" label={labels.craft}>
+        <SectionHeading id={`craft-heading-${lang}`} slot="03" label={labels.craft}>
           {lang === "pt" ? "O que eu faço dentro de uma squad." : "What I do inside a squad."}
         </SectionHeading>
       </div>
@@ -104,5 +101,13 @@ export function Craft() {
         })}
       </div>
     </section>
+  );
+}
+
+export function Craft() {
+  return (
+    <div id="oficio">
+      <Bi>{(t, lang) => <CraftBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
-"use client";
-
 import { LABELS, STACK } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 
 /** Largura e tom por grupo, na ordem de STACK. */
@@ -21,16 +20,14 @@ const LAYOUT = [
  * agrupado pelo problema que cada grupo resolve. Sem barra de proficiência,
  * sem sopa de logos — chips de texto, leves.
  */
-export function Stack() {
-  const t = useT();
-  const { lang } = useLang();
+function StackBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
   const groups = t(STACK);
 
   return (
-    <section id="stack" aria-labelledby="stack-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`stack-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id="stack-heading" slot="08" label={labels.stack}>
+        <SectionHeading id={`stack-heading-${lang}`} slot="08" label={labels.stack}>
           {lang === "pt" ? "O que já foi para produção." : "What has shipped to production."}
         </SectionHeading>
       </div>
@@ -66,5 +63,13 @@ export function Stack() {
         })}
       </div>
     </section>
+  );
+}
+
+export function Stack() {
+  return (
+    <div id="stack">
+      <Bi>{(t, lang) => <StackBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

@@ -157,6 +157,45 @@
   }
 }
 
+/* ---------- idioma: os dois estão no HTML, o CSS mostra um ---------- */
+[data-l] {
+  display: contents;
+}
+html[data-lang="en"] [data-l="pt"],
+html:not([data-lang="en"]) [data-l="en"] {
+  display: none;
+}
+html[data-lang="pt"] .lang-btn[data-set-lang="pt"],
+html[data-lang="en"] .lang-btn[data-set-lang="en"] {
+  background: var(--text);
+  color: var(--void);
+}
+
+/* ---------- a pílula da barra ganha fundo com o scroll, em CSS ---------- */
+.nav-pill {
+  border-color: transparent;
+  background-color: transparent;
+}
+@supports (animation-timeline: scroll()) {
+  .nav-pill {
+    animation: nav-fill linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 120px;
+  }
+  @keyframes nav-fill {
+    to {
+      border-color: var(--line-2);
+      background-color: rgb(11 14 24 / 0.88);
+    }
+  }
+}
+@supports not (animation-timeline: scroll()) {
+  .nav-pill {
+    border-color: var(--line-2);
+    background-color: rgb(11 14 24 / 0.88);
+  }
+}
+
 @layer utilities {
   /* ---------- tipografia ---------- */
 

@@ -1,7 +1,6 @@
-"use client";
-
 import { AI_PRACTICES, LABELS } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 import { Pic } from "@/components/pic";
 import { Spark } from "@/components/spark";
@@ -13,15 +12,13 @@ const TONES = ["tile-panel", "tile-void", "tile-void", "tile-panel"] as const;
  * verdade dela: a parte difícil de trabalhar com agente é o contexto que ele
  * carrega. Ao lado, as quatro práticas, cada uma com o artefato que a prova.
  */
-export function Ai() {
-  const t = useT();
-  const { lang } = useLang();
+function AiBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
 
   return (
-    <section id="ia" aria-labelledby="ai-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`ai-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id="ai-heading" slot="04" label={labels.ai}>
+        <SectionHeading id={`ai-heading-${lang}`} slot="04" label={labels.ai}>
           {lang === "pt" ? "Agente com contexto, não com sorte." : "Agents with context, not luck."}
         </SectionHeading>
       </div>
@@ -75,5 +72,13 @@ export function Ai() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function Ai() {
+  return (
+    <div id="ia">
+      <Bi>{(t, lang) => <AiBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

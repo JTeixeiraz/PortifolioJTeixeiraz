@@ -1,7 +1,6 @@
-"use client";
-
 import { CONTACT, PROFILE } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { Pic } from "@/components/pic";
 import { Spark } from "@/components/spark";
 import { VyroMark } from "@/components/vyro-mark";
@@ -10,13 +9,11 @@ import { VyroMark } from "@/components/vyro-mark";
  * O fecho é a tela de título: PRESS START piscando, o convite em letra
  * grande e os caminhos de saída. O rodapé termina na VYRO.
  */
-export function Contact() {
-  const t = useT();
-  const { lang } = useLang();
+function ContactBody({ t, lang }: { t: T; lang: Lang }) {
   const c = t(CONTACT);
 
   return (
-    <section id="contato" aria-labelledby="contact-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`contact-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         <div className="tile tile-cobalt rounded-[var(--r-frame)] p-7 sm:p-10 lg:col-span-8 lg:p-14">
           <p className="t-mono flex items-center gap-3 text-[0.62rem] text-white/90">
@@ -26,7 +23,7 @@ export function Contact() {
             Press start
           </p>
           <h2
-            id="contact-heading"
+            id={`contact-heading-${lang}`}
             className="t-display mt-8 text-[clamp(2.8rem,1.4rem+5vw,6.2rem)] text-white"
           >
             {c.heading}.
@@ -110,5 +107,13 @@ export function Contact() {
         </a>
       </footer>
     </section>
+  );
+}
+
+export function Contact() {
+  return (
+    <div id="contato">
+      <Bi>{(t, lang) => <ContactBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

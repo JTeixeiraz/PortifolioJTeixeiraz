@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, JetBrains_Mono, Unbounded, UnifrakturMaguntia } from "next/font/google";
-import { LangProvider } from "@/lib/i18n";
+import { LANG_BODY_SCRIPT, LANG_HEAD_SCRIPT } from "@/lib/i18n";
 import "./globals.css";
 
 // Unbounded: larga e arredondada, o título de capa de jogo de 2004.
@@ -58,19 +58,24 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      data-lang="pt"
+      // o script do <head> troca lang/data-lang antes da pintura
+      suppressHydrationWarning
       className={`${unbounded.variable} ${goth.variable} ${mono.variable} ${geist.variable}`}
     >
+      <head>
+        <script id="jpt-lang-head" dangerouslySetInnerHTML={{ __html: LANG_HEAD_SCRIPT }} />
+      </head>
       <body className="min-h-dvh">
-        <LangProvider>
-          <a
-            href="#conteudo"
-            className="t-mono sr-only rounded-full bg-cobalt px-5 py-3 text-[0.7rem] text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
-            style={{ zIndex: 60 }}
-          >
-            Pular para o conteúdo
-          </a>
-          {children}
-        </LangProvider>
+        <a
+          href="#conteudo"
+          className="t-mono sr-only rounded-full bg-cobalt px-5 py-3 text-[0.7rem] text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          style={{ zIndex: 60 }}
+        >
+          Pular para o conteúdo · Skip to content
+        </a>
+        {children}
+        <script id="jpt-lang-body" dangerouslySetInnerHTML={{ __html: LANG_BODY_SCRIPT }} />
       </body>
     </html>
   );

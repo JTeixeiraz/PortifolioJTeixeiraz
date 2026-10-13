@@ -1,8 +1,7 @@
-"use client";
-
 import type { CSSProperties } from "react";
 import { HERO, PROFILE, ROLE } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { Pic } from "@/components/pic";
 import { Spark } from "@/components/spark";
 import { VyroMark } from "@/components/vyro-mark";
@@ -30,15 +29,12 @@ const TICKER = [
  * tinta de tatuagem), a VYRO, um número que não foi estimado, o lugar e a
  * ferramenta. Cada cartão entra em cascata curta, em CSS.
  */
-export function Hero() {
-  const t = useT();
-  const { lang } = useLang();
+function HeroBody({ t, lang }: { t: T; lang: Lang }) {
   const hero = t(HERO);
   const role = t(ROLE);
 
   return (
-    <section id="top" className="relative mx-auto max-w-[1400px] px-3 pt-[5.25rem] sm:px-5 sm:pt-24">
-      <div id="topo-sentinela" aria-hidden="true" className="absolute left-0 top-0 h-px w-px" />
+    <section className="relative mx-auto max-w-[1400px] px-3 pt-[5.25rem] sm:px-5 sm:pt-24">
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-6 lg:min-h-[calc(100dvh-7rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)_auto]">
         {/* A — o título sobre o cromo */}
@@ -232,5 +228,13 @@ export function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function Hero() {
+  return (
+    <div id="top">
+      <Bi>{(t, lang) => <HeroBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

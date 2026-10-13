@@ -1,7 +1,6 @@
-"use client";
-
 import { BOUNDARY } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { Pic } from "@/components/pic";
 import { Spark } from "@/components/spark";
 
@@ -12,13 +11,11 @@ const ROMAN = ["I", "II", "III", "IV"];
  * de tatuagem. Papel osso, tinta vermelha, a cruz tribal ocupando a margem —
  * e as quatro regras de onde a automação para.
  */
-export function Boundary() {
-  const t = useT();
-  const { lang } = useLang();
+function BoundaryBody({ t, lang }: { t: T; lang: Lang }) {
   const b = t(BOUNDARY);
 
   return (
-    <section id="limite" aria-labelledby="boundary-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`boundary-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="tile tile-bone rounded-[var(--r-frame)] p-6 sm:p-10 lg:p-14">
         <Pic
           id="tribal-cross"
@@ -36,7 +33,7 @@ export function Boundary() {
             {lang === "pt" ? "O limite" : "The boundary"}
           </p>
           <h2
-            id="boundary-heading"
+            id={`boundary-heading-${lang}`}
             className="t-display mt-5 text-[clamp(2.1rem,1.1rem+3.4vw,4.3rem)] text-bone-ink"
           >
             {b.heading}.
@@ -64,5 +61,13 @@ export function Boundary() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function Boundary() {
+  return (
+    <div id="limite">
+      <Bi>{(t, lang) => <BoundaryBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
-"use client";
-
 import { LABELS, SIDE } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 
 const LAYOUT: Record<string, { span: string; tone: "bone" | "panel" | "cobalt" | "void" }> = {
@@ -25,15 +24,13 @@ const TONE = {
  * capas; aqui está a engenharia por trás deles e do trabalho de freela. Os
  * pontos técnicos ficam num <details>: a ficha fecha curta e abre inteira.
  */
-export function Side() {
-  const t = useT();
-  const { lang } = useLang();
+function SideBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
 
   return (
-    <section id="fora" aria-labelledby="side-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`side-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id="side-heading" slot="05" label={labels.side}>
+        <SectionHeading id={`side-heading-${lang}`} slot="05" label={labels.side}>
           {lang === "pt" ? "A ficha técnica de cada um." : "The spec sheet of each one."}
         </SectionHeading>
       </div>
@@ -105,5 +102,13 @@ export function Side() {
         })}
       </div>
     </section>
+  );
+}
+
+export function Side() {
+  return (
+    <div id="fora">
+      <Bi>{(t, lang) => <SideBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

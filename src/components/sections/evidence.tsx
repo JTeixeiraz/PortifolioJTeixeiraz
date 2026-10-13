@@ -1,8 +1,7 @@
-"use client";
-
 import type { CSSProperties } from "react";
 import { EVIDENCE, LABELS } from "@/lib/content";
-import { useLang, useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 import { Spark } from "@/components/spark";
 
@@ -14,17 +13,15 @@ const HUES = [0, 52, 104, 156, 208, 260, 312];
  * é um save, com o ícone iridescente. Nada de tamanho em KB inventado — a
  * seção é justamente sobre não estimar. Colunas CSS fazem a alvenaria.
  */
-export function Evidence() {
-  const t = useT();
-  const { lang } = useLang();
+function EvidenceBody({ t, lang }: { t: T; lang: Lang }) {
   const labels = t(LABELS);
   const rows = t(EVIDENCE);
 
   return (
-    <section id="evidencia" aria-labelledby="evidence-heading" className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`evidence-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
       <div className="tile tile-panel rounded-[var(--r-frame)] p-5 sm:p-8 lg:p-12">
         <SectionHeading
-          id="evidence-heading"
+          id={`evidence-heading-${lang}`}
           slot="07"
           label={labels.evidence}
           aside={
@@ -82,5 +79,13 @@ export function Evidence() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function Evidence() {
+  return (
+    <div id="evidencia">
+      <Bi>{(t, lang) => <EvidenceBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }

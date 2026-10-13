@@ -1,7 +1,6 @@
-"use client";
-
 import { PROFILE, VYRO, VYRO_PRODUCTS } from "@/lib/content";
-import { useT } from "@/lib/i18n";
+import { Bi, type T } from "@/lib/i18n";
+import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
 import { GameCase } from "@/components/game-case";
 import { Pic } from "@/components/pic";
@@ -14,15 +13,14 @@ import { VyroMark } from "@/components/vyro-mark";
  * na etiqueta da prateleira. O quarto lugar é um slot vazio de cartão de
  * memória — o próximo produto, ainda sem nome.
  */
-export function Vyro() {
-  const t = useT();
+function VyroBody({ t, lang }: { t: T; lang: Lang }) {
   const v = t(VYRO);
 
   return (
-    <section id="vyro" aria-labelledby="vyro-heading" className="offscreen mx-auto mt-3 max-w-[1400px] px-3 sm:px-5">
+    <section aria-labelledby={`vyro-heading-${lang}`} className="offscreen mx-auto mt-3 max-w-[1400px] px-3 sm:px-5">
       <div className="tile rounded-[var(--r-frame)] border border-line bg-[radial-gradient(120%_80%_at_100%_0%,rgb(47_69_255/0.18),transparent_55%),var(--void-2)] p-5 sm:p-8 lg:p-12">
         <SectionHeading
-          id="vyro-heading"
+          id={`vyro-heading-${lang}`}
           slot="02"
           label={`VYRO · ${v.kicker}`}
           aside={
@@ -97,5 +95,13 @@ export function Vyro() {
         </ul>
       </div>
     </section>
+  );
+}
+
+export function Vyro() {
+  return (
+    <div id="vyro">
+      <Bi>{(t, lang) => <VyroBody t={t} lang={lang} />}</Bi>
+    </div>
   );
 }
