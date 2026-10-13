@@ -43,14 +43,18 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
                 data-panel={item.id}
                 className="bite-tr absolute inset-0 overflow-hidden rounded-[30px] [--b:52px]"
               >
+                {/* fundo: a própria arte, desfocada no build; a arte nítida entra
+                    à direita no tamanho natural — esticá-la ao painel inteiro
+                    passava de 2x a resolução e borrava */}
+                <Blur id={ART[item.id].id} className="absolute inset-0 -z-20 h-full w-full scale-110" />
                 <Pic
                   id={ART[item.id].id}
                   alt=""
-                  sizes="100vw"
-                  className="absolute inset-0 -z-10 block"
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="absolute inset-y-0 right-0 -z-10 block w-full md:w-[60%] md:[mask-image:linear-gradient(to_right,transparent,#000_30%)]"
                   imgClassName={`h-full w-full object-cover ${ART[item.id].pos}`}
                 />
-                <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(7_8_14/0.25),rgb(7_8_14/0.1)_40%,rgb(7_8_14/0.92))]" />
+                <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(7_8_14/0.3),rgb(7_8_14/0.1)_40%,rgb(7_8_14/0.9))]" />
 
                 {/* nota de vidro: o resumo */}
                 <div className="glass absolute left-4 right-4 top-4 rounded-[22px] p-5 sm:left-6 sm:right-auto sm:top-6 sm:max-w-[26rem]">
