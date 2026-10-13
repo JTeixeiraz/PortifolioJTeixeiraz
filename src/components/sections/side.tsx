@@ -11,7 +11,7 @@ const ART: Record<string, { id: ImageId; pos: string }> = {
   lumi: { id: "nana", pos: "object-[62%_18%]" },
   postly: { id: "crystal", pos: "object-[50%_50%]" },
   induxai: { id: "bronze-liquid", pos: "object-[50%_40%]" },
-  dcars: { id: "tokyo-street", pos: "object-[50%_60%]" },
+  dcars: { id: "tokyo-girl", pos: "object-[50%_45%]" },
   portify: { id: "chrome-white", pos: "object-[50%_30%]" },
 };
 
