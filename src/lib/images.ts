@@ -152,7 +152,7 @@ export const IMAGES = {
       420,
       720
     ],
-    "blur": false
+    "blur": true
   },
   "supersonic": {
     "width": 736,
@@ -205,7 +205,7 @@ export const IMAGES = {
       420,
       736
     ],
-    "blur": false
+    "blur": true
   },
   "bronze-liquid": {
     "width": 736,
@@ -214,7 +214,7 @@ export const IMAGES = {
       420,
       736
     ],
-    "blur": false
+    "blur": true
   },
   "floral-spider": {
     "width": 736,
