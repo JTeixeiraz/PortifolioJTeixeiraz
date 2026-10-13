@@ -1,0 +1,45 @@
+# Publica o portfólio no Cloudflare Pages (projeto `joao-teixeira-eng`) a cada
+# push na main. Mesmo esquema dos sites da VYRO, da Birdy e da LUMI: projeto
+# de upload direto e o wrangler a partir da Action.
+#
+# O Next exporta o site estático em out/ (`output: "export"`), então não há
+# runtime para manter no Cloudflare.
+#
+# Segredos do repositório: CLOUDFLARE_API_TOKEN (token só com Cloudflare
+# Pages: Edit) e CLOUDFLARE_ACCOUNT_ID.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+      - name: Publicar no Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        # o wrangler lê hash e mensagem do commit no próprio checkout
+        run: >
+          npx --yes wrangler@4 pages deploy out
+          --project-name joao-teixeira-eng --branch main

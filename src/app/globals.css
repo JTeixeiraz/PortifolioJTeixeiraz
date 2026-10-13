@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   PAPEL · sistema visual
+   Página clara: papel quase branco com um fio de calor, tinta escura
+   quente e UM sinal vermelho, usado com parcimônia. Uma única laje
+   escura (o limite) inverte os mesmos tokens em escopo, em vez de ter
+   uma segunda paleta.
+
+   Contraste verificado sobre --base: ink 17.6 · ink-2 9.1 · ink-3 5.2 ·
+   signal-lite 5.6. --signal fica para preenchimentos e texto grande;
+   em corpo de texto usa-se --signal-lite.
+   ===================================================================== */
+
+:root {
+  --base: oklch(0.988 0.004 85);
+  --surface: oklch(0.966 0.006 85);
+  --surface-2: oklch(0.935 0.008 85);
+  /* a moldura onde as telas dos produtos assentam */
+  --well: oklch(0.948 0.007 85);
+
+  --ink: oklch(0.2 0.012 85);
+  --ink-2: oklch(0.42 0.012 85);
+  --ink-3: oklch(0.53 0.012 85);
+
+  --signal: oklch(0.6 0.205 31);
+  --signal-deep: oklch(0.53 0.2 30);
+  /* em papel claro, o "lite" é o tom que aguenta texto: mais escuro */
+  --signal-lite: oklch(0.54 0.19 30);
+
+  --line: oklch(0.2 0.012 85 / 0.11);
+  --line-2: oklch(0.2 0.012 85 / 0.22);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --z-nav: 30;
+  --z-overlay: 40;
+  --z-grain: 50;
+}
+
+/* A laje escura: os mesmos nomes, os valores invertidos. Tudo dentro dela
+   (texto, linhas, o sinal) continua a ler os tokens de sempre. */
+.ink-slab {
+  --base: oklch(0.19 0.012 85);
+  --surface: oklch(0.235 0.012 85);
+  --surface-2: oklch(0.28 0.012 85);
+  --ink: oklch(0.975 0.004 85);
+  --ink-2: oklch(0.8 0.008 85);
+  --ink-3: oklch(0.66 0.01 85);
+  --signal-lite: oklch(0.72 0.17 32);
+  --line: oklch(0.975 0.004 85 / 0.13);
+  --line-2: oklch(0.975 0.004 85 / 0.26);
+  background: var(--base);
+  color: var(--ink-2);
+}
+
+@theme inline {
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-well: var(--well);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-signal: var(--signal);
+  --color-signal-deep: var(--signal-deep);
+  --color-signal-lite: var(--signal-lite);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* a barra é fixa: sem isto o título de cada âncora cai por baixo dela */
+    scroll-padding-top: 4rem;
+    -webkit-text-size-adjust: 100%;
+    background: var(--base);
+  }
+
+  body {
+    background: var(--base);
+    color: var(--ink-2);
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--base);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@layer utilities {
+  /* Grotesca em caixa baixa, apertada: o título que se lê como produto
+     acabado, não como pôster. */
+  .type-display {
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.048em;
+    line-height: 0.95;
+  }
+
+  .type-title {
+    font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.026em;
+    line-height: 1.12;
+  }
+
+  .type-mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-feature-settings: "tnum" 1;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+  }
+
+  .measure {
+    max-width: 64ch;
+  }
+
+  /* Botões: o sólido escuro é o caminho principal, o contorno é o
+     secundário. Raio pequeno — macio, mas ainda ferramenta. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0 1.35rem;
+    border-radius: 8px;
+    font-size: 0.94rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      transform 160ms ease;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-solid {
+    background: var(--ink);
+    color: var(--base);
+  }
+  .btn-solid:hover {
+    background: color-mix(in oklch, var(--ink) 86%, var(--base));
+  }
+  .btn-line {
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+  }
+  .btn-line:hover {
+    border-color: var(--ink);
+  }
+
+  /* Moldura de aparelho: as capturas são reais, e a proporção vem do
+     arquivo, então nada é cortado. */
+  .phone {
+    padding: 6px;
+    border-radius: 30px;
+    background:
+      linear-gradient(160deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0) 34%),
+      #17171b;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.45),
+      0 40px 70px -30px rgb(20 18 10 / 0.5),
+      0 10px 24px -14px rgb(20 18 10 / 0.35);
+  }
+  .phone > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+  }
+
+  .window {
+    overflow: hidden;
+    border-radius: 12px;
+    background: #0d0e10;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.12),
+      0 40px 70px -32px rgb(20 18 10 / 0.45),
+      0 10px 24px -14px rgb(20 18 10 / 0.3);
+  }
+  .window-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    background: #1b1c20;
+  }
+  .window-bar > span {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.18);
+  }
+  .window > img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .rise {
+    animation: rise 0.9s var(--ease-out-expo) both;
+    animation-delay: var(--rise-delay, 0s);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .marquee-track {
+    animation: marquee var(--marquee-duration, 38s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+    will-change: transform;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Removidas de vez, não corridas: o elemento renderiza no estado final
+     para onde cada uma estava indo. */
+  .rise,
+  .marquee-track,
+  [data-spin] {
+    animation: none !important;
+  }
+}
