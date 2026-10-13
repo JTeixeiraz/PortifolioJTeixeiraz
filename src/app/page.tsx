@@ -4,6 +4,8 @@ import { Vyro } from "@/components/sections/vyro";
 import { Craft } from "@/components/sections/craft";
 import { Ai } from "@/components/sections/ai";
 import { Side } from "@/components/sections/side";
+import { Boundary } from "@/components/sections/boundary";
+import { Evidence } from "@/components/sections/evidence";
 
 /**
  * SLOT 1. A página é um bento de cartões arredondados: o hero, a VYRO como
@@ -19,6 +21,8 @@ export default function Home() {
         <Craft />
         <Ai />
         <Side />
+        <Boundary />
+        <Evidence />
       </main>
     </>
   );
