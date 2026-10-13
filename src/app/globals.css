@@ -480,6 +480,12 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   /* ---------- fita contínua ---------- */
   .marquee-track {
     animation: marquee var(--marquee-duration, 40s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
   }
   @keyframes marquee {
     to {
