@@ -65,12 +65,6 @@
   --z-grain: 50;
 }
 
-@property --ring-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
 @theme inline {
   --color-void: var(--void);
   --color-void-2: var(--void-2);
@@ -171,28 +165,39 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   color: var(--void);
 }
 
-/* ---------- a pílula da barra ganha fundo com o scroll, em CSS ---------- */
+/* ---------- a pílula da barra ganha fundo com o scroll, em CSS ----------
+   O fundo mora num ::before e só a opacidade dele anima: fica no
+   compositor, sem repintar a barra a cada quadro de scroll. */
 .nav-pill {
+  position: relative;
+  isolation: isolate;
   border-color: transparent;
-  background-color: transparent;
+}
+.nav-pill::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid var(--line-2);
+  background: rgb(11 14 24 / 0.9);
+  opacity: 0;
 }
 @supports (animation-timeline: scroll()) {
-  .nav-pill {
+  .nav-pill::before {
     animation: nav-fill linear both;
     animation-timeline: scroll(root);
     animation-range: 0 120px;
   }
   @keyframes nav-fill {
     to {
-      border-color: var(--line-2);
-      background-color: rgb(11 14 24 / 0.88);
+      opacity: 1;
     }
   }
 }
 @supports not (animation-timeline: scroll()) {
-  .nav-pill {
-    border-color: var(--line-2);
-    background-color: rgb(11 14 24 / 0.88);
+  .nav-pill::before {
+    opacity: 1;
   }
 }
 
@@ -301,41 +306,47 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   }
 
   /* ---------- o anel líquido (referência: Home Button Liquid UI) ----------
-     Gira o ÂNGULO do gradiente, não o elemento: numa pílula, girar a caixa
-     tiraria o anel da forma. É uma repintura por quadro, mas de uma borda de
-     2px num botão — custo desprezível. */
+     Um quadrado com o arco-íris cônico gira por transform (compositor) atrás
+     do botão; a pílula recorta, e o ::after pinta o miolo deixando 2px de
+     anel. O fundo do botão vem de --ring-bg. */
   .ring {
     position: relative;
     isolation: isolate;
+    overflow: hidden;
     border-radius: 999px;
+    background: transparent;
   }
   .ring::before {
     content: "";
     position: absolute;
-    inset: -2px;
-    z-index: -1;
-    border-radius: inherit;
-    padding: 2px;
-    background: conic-gradient(
-      from var(--ring-angle),
-      #6d7bff,
-      #36e4ff,
-      #b6ff6a,
-      #ffd56a,
-      #ff6a8b,
-      #b57bff,
-      #6d7bff
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
+    left: 50%;
+    top: 50%;
+    z-index: -2;
+    width: max(260%, 220px);
+    aspect-ratio: 1;
+    background: var(--iris);
     animation: ring-spin 4s linear infinite;
   }
+  .ring::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--ring-bg, var(--void-2));
+    transition: background-color 200ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ring:hover::after {
+      background: var(--ring-bg-hover, var(--panel-2));
+    }
+  }
   @keyframes ring-spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
     to {
-      --ring-angle: 360deg;
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 

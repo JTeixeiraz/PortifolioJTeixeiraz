@@ -39,14 +39,15 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
       <div className="grid grid-cols-1 gap-3 md:grid-cols-6 lg:min-h-[calc(100dvh-7rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)_auto]">
         {/* A — o título sobre o cromo */}
         <div
-          className="boot tile tile-panel flex min-h-[36rem] flex-col justify-between p-6 sm:p-9 md:col-span-6 lg:col-span-7 lg:row-span-2 lg:min-h-0 lg:p-11"
-          style={i(0)}
+          // sem a cascata de entrada: é o cartão do título, e elemento que
+          // nasce transparente não conta como pintado para o LCP
+          className="tile tile-panel flex min-h-[36rem] flex-col justify-between p-6 sm:p-9 md:col-span-6 lg:col-span-7 lg:row-span-2 lg:min-h-0 lg:p-11"
         >
           <Pic
             id="chrome-cross"
             alt=""
             priority
-            sizes="(min-width: 1024px) 34vw, 100vw"
+            sizes="(min-width: 1024px) 34vw, 60vw"
             className="pointer-events-none absolute inset-y-0 right-0 -z-10 block w-full opacity-40 [mask-image:linear-gradient(to_left,#000_30%,transparent_80%)] md:w-[60%] md:opacity-100"
             imgClassName="h-full w-full object-cover object-[50%_45%]"
           />
@@ -121,7 +122,7 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
                 ? "Anjo gótico em flash de tatuagem, com cruzes ornamentais e caligrafia"
                 : "Gothic angel in tattoo flash, with ornamental crosses and script"
             }
-            sizes="(min-width: 1024px) 22vw, 50vw"
+            sizes="(min-width: 1024px) 22vw, 45vw"
             className="absolute inset-x-4 bottom-16 top-12 -z-10 block"
             imgClassName="h-full w-full object-contain"
           />

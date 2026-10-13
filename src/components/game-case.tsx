@@ -44,7 +44,6 @@ export function GameCase({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${name}: ${tagline}. ${cta}`}
       className="group relative block outline-none [perspective:1100px]"
       style={{ "--accent": accent } as CSSProperties}
     >

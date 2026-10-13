@@ -28,7 +28,7 @@ function VyroBody({ t, lang }: { t: T; lang: Lang }) {
               href={PROFILE.vyro}
               target="_blank"
               rel="noopener noreferrer"
-              className="ring press hidden h-12 items-center gap-2.5 bg-void pl-2 pr-5 text-[0.9rem] font-medium text-text hover:bg-panel sm:inline-flex"
+              className="ring press hidden h-12 items-center gap-2.5 pl-2 pr-5 text-[0.9rem] font-medium text-text [--ring-bg:var(--void)] [--ring-bg-hover:var(--panel)] sm:inline-flex"
             >
               <span className="grid h-8 w-8 place-items-center rounded-full bg-text text-void">
                 <VyroMark size={16} strokeWidth={7} />

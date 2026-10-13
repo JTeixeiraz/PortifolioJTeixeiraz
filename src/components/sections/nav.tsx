@@ -16,7 +16,11 @@ export function Nav() {
         aria-label="Navegação principal · Main navigation"
         className="nav-pill mx-auto flex h-14 max-w-[1400px] items-center justify-between gap-4 rounded-full border px-2"
       >
-        <a href="#top" className="press flex min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3">
+        <a
+          href="#top"
+          aria-label={`${PROFILE.name} — início · home`}
+          className="press flex min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3"
+        >
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-bone text-bone-ink">
             <Spark size={16} />
           </span>
@@ -64,7 +68,7 @@ export function Nav() {
             href={PROFILE.vyro}
             target="_blank"
             rel="noopener noreferrer"
-            className="ring press flex h-10 items-center gap-2 bg-void-2 pl-2 pr-4 text-[0.8rem] font-medium text-text hover:bg-panel-2"
+            className="ring press flex h-10 items-center gap-2 pl-2 pr-4 text-[0.8rem] font-medium text-text"
           >
             <span className="grid h-7 w-7 place-items-center rounded-full bg-text text-void">
               <VyroMark size={14} strokeWidth={7} />

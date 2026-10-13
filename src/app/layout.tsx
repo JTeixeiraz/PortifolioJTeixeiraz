@@ -20,10 +20,13 @@ const goth = UnifrakturMaguntia({
   preload: false,
 });
 
+// Rótulos pequenos: troca de fonte sem custo visível, então não compete com
+// a imagem do LCP pelo pré-carregamento.
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono-jb",
   display: "swap",
+  preload: false,
 });
 
 const geist = Geist({
