@@ -6,6 +6,9 @@ import { Ai } from "@/components/sections/ai";
 import { Side } from "@/components/sections/side";
 import { Boundary } from "@/components/sections/boundary";
 import { Evidence } from "@/components/sections/evidence";
+import { Stack } from "@/components/sections/stack";
+import { Journey } from "@/components/sections/journey";
+import { Contact } from "@/components/sections/contact";
 
 /**
  * SLOT 1. A página é um bento de cartões arredondados: o hero, a VYRO como
@@ -23,6 +26,9 @@ export default function Home() {
         <Side />
         <Boundary />
         <Evidence />
+        <Stack />
+        <Journey />
+        <Contact />
       </main>
     </>
   );
