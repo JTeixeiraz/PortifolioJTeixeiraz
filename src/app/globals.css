@@ -203,6 +203,48 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   }
 }
 
+
+/* ---------- projetos: abas em CSS puro (rádios + :has) ----------
+   Só o painel do rádio marcado aparece; ao aparecer, ele entra com uma
+   animação curta (a animação reinicia quando o display volta). A miniatura
+   escolhida fica em tinta escura na pílula de papel. */
+.proj [data-panel] {
+  display: none;
+}
+.proj:has(input[value="birdy"]:checked) [data-panel="birdy"],
+.proj:has(input[value="lumi"]:checked) [data-panel="lumi"],
+.proj:has(input[value="postly"]:checked) [data-panel="postly"],
+.proj:has(input[value="induxai"]:checked) [data-panel="induxai"],
+.proj:has(input[value="dcars"]:checked) [data-panel="dcars"],
+.proj:has(input[value="portify"]:checked) [data-panel="portify"] {
+  display: block;
+  animation: panel-in 520ms var(--ease-out) both;
+}
+.proj:has(input[value="birdy"]:checked) label[data-for="birdy"],
+.proj:has(input[value="lumi"]:checked) label[data-for="lumi"],
+.proj:has(input[value="postly"]:checked) label[data-for="postly"],
+.proj:has(input[value="induxai"]:checked) label[data-for="induxai"],
+.proj:has(input[value="dcars"]:checked) label[data-for="dcars"],
+.proj:has(input[value="portify"]:checked) label[data-for="portify"] {
+  background: var(--bone-ink);
+  color: var(--bone);
+}
+.proj:has(input[value="birdy"]:focus-visible) label[data-for="birdy"],
+.proj:has(input[value="lumi"]:focus-visible) label[data-for="lumi"],
+.proj:has(input[value="postly"]:focus-visible) label[data-for="postly"],
+.proj:has(input[value="induxai"]:focus-visible) label[data-for="induxai"],
+.proj:has(input[value="dcars"]:focus-visible) label[data-for="dcars"],
+.proj:has(input[value="portify"]:focus-visible) label[data-for="portify"] {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 2px;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+}
+
 @layer utilities {
 
   /* ---------- largura total ---------- */

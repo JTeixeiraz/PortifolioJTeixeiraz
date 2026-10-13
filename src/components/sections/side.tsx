@@ -1,104 +1,146 @@
 import { SIDE } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
+import type { ImageId } from "@/lib/images";
 import { SectionHeading } from "@/components/section-heading";
+import { Blur, Pic } from "@/components/pic";
 
-const LAYOUT: Record<string, { span: string; tone: "bone" | "panel" | "cobalt" | "void" }> = {
-  birdy: { span: "lg:col-span-7", tone: "panel" },
-  lumi: { span: "lg:col-span-5", tone: "bone" },
-  postly: { span: "lg:col-span-4", tone: "cobalt" },
-  induxai: { span: "lg:col-span-4", tone: "panel" },
-  dcars: { span: "lg:col-span-4", tone: "bone" },
-  portify: { span: "md:col-span-2 lg:col-span-12", tone: "void" },
+/** A arte de cada projeto no painel grande. */
+const ART: Record<string, ImageId> = {
+  birdy: "koi",
+  lumi: "nana",
+  postly: "night-tokyo",
+  induxai: "bronze-liquid",
+  dcars: "night-car-1",
+  portify: "chrome-white",
 };
 
-const TONE = {
-  bone: { tile: "tile-bone", name: "text-bone-ink", body: "text-bone-dim", tag: "border-bone-ink/20 text-bone-ink", chip: "bg-bone-ink/[0.06] text-bone-ink", rule: "bg-blood", btn: "bg-bone-ink text-bone hover:bg-bone-ink/85" },
-  panel: { tile: "tile-panel", name: "text-text", body: "text-text-2", tag: "border-line-2 text-text-2", chip: "bg-white/[0.06] text-text-2", rule: "bg-cobalt-2", btn: "bg-text text-void hover:bg-white" },
-  cobalt: { tile: "tile-cobalt", name: "text-white", body: "text-white/80", tag: "border-white/30 text-white/90", chip: "bg-white/15 text-white", rule: "bg-white", btn: "bg-white text-cobalt-deep hover:bg-white/90" },
-  void: { tile: "tile-void", name: "text-text", body: "text-text-2", tag: "border-line-2 text-text-2", chip: "bg-white/[0.06] text-text-2", rule: "bg-blood-2", btn: "bg-text text-void hover:bg-white" },
-} as const;
-
 /**
- * Projetos como ficha técnica. A seção da VYRO mostra os produtos como
- * capas; aqui está a engenharia por trás deles e do trabalho de freela. Os
- * pontos técnicos ficam num <details>: a ficha fecha curta e abre inteira.
+ * Projetos na cena do "Oni": o pôster do Evangelion desfocado ao fundo, um
+ * painel grande com o projeto escolhido e a coluna em pílula "mais projetos"
+ * com as miniaturas. A troca é CSS puro — rádios + :has() (ver .proj no
+ * globals.css) —, então só um projeto aparece por vez e a página não vira
+ * uma parede de texto. No celular as miniaturas viram uma fileira de deslize.
  */
 function SideBody({ t, lang }: { t: T; lang: Lang }) {
+  const group = `proj-${lang}`;
 
   return (
-    <section aria-labelledby={`side-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
-      <div className="px-2 sm:px-3">
-        <SectionHeading id={`side-heading-${lang}`} slot="05">
-          {lang === "pt" ? "A ficha técnica de cada um." : "The spec sheet of each one."}
-        </SectionHeading>
-      </div>
+    <section aria-labelledby={`side-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
+      <SectionHeading id={`side-heading-${lang}`} slot="05" className="px-2 sm:px-3">
+        {lang === "pt" ? "A ficha técnica de cada um." : "The spec sheet of each one."}
+      </SectionHeading>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-12">
-        {SIDE.map((item) => {
-          const { span, tone } = LAYOUT[item.id] ?? { span: "lg:col-span-4", tone: "panel" as const };
-          const c = TONE[tone];
-          const wide = item.id === "portify";
-          return (
-            <article key={item.id} className={`reveal tile ${c.tile} flex flex-col p-6 sm:p-8 ${span}`}>
-              <div className={wide ? "grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14" : "flex flex-1 flex-col"}>
-                <div>
-                  <p className={`t-mono inline-flex rounded-full border px-3 py-1.5 text-[0.5rem] leading-[1.5] ${c.tag}`}>
-                    {t(item.tag)}
-                  </p>
-                  <h3 className={`t-display mt-5 text-[clamp(2rem,1.4rem+1.8vw,2.9rem)] ${c.name}`}>
-                    {item.name}
-                  </h3>
-                  <span aria-hidden="true" className={`mt-5 block h-1 w-10 rounded-full ${c.rule}`} />
-                  <p className={`mt-5 max-w-[60ch] text-[0.95rem] leading-[1.65] ${c.body}`}>
-                    {t(item.summary)}
-                  </p>
+      <div className="proj in-scene tile relative mt-10 overflow-hidden rounded-[var(--r-frame)] border border-line p-3 sm:p-5 lg:p-6">
+        <Blur id="evangelion" className="absolute inset-0 -z-20 h-full w-full scale-110" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgb(7_8_14/0.55)]" />
+
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-4">
+          {/* o painel grande */}
+          <div className="relative min-h-[36rem] lg:min-h-[40rem]">
+            {SIDE.map((item) => (
+              <article
+                key={item.id}
+                data-panel={item.id}
+                className="bite-tr absolute inset-0 overflow-hidden rounded-[30px] [--b:52px]"
+              >
+                <Pic
+                  id={ART[item.id]}
+                  alt=""
+                  sizes="(min-width: 1024px) 70vw, 100vw"
+                  className="absolute inset-0 -z-10 block"
+                  imgClassName="h-full w-full object-cover"
+                />
+                <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(7_8_14/0.25),rgb(7_8_14/0.1)_40%,rgb(7_8_14/0.92))]" />
+
+                {/* nota de vidro: o resumo */}
+                <div className="glass absolute left-4 right-4 top-4 rounded-[22px] p-5 sm:left-6 sm:right-auto sm:top-6 sm:max-w-[26rem]">
+                  <p className="t-mono text-[0.5rem] leading-[1.6] text-text-3">{t(item.tag)}</p>
+                  <p className="mt-2 text-[0.9rem] leading-[1.6] text-text">{t(item.summary)}</p>
                 </div>
 
-                <div className={wide ? "lg:pt-2" : "mt-6 flex flex-1 flex-col"}>
+                {/* nota de vidro: a stack */}
+                <div className="glass absolute right-6 top-[46%] hidden max-w-[16rem] rounded-[22px] p-4 md:block">
                   <ul className="flex flex-wrap gap-1.5">
                     {item.stack.map((s) => (
-                      <li key={s} className={`rounded-full px-3 py-1 text-[0.74rem] ${c.chip}`}>
+                      <li key={s} className="rounded-full bg-white/10 px-2.5 py-1 text-[0.72rem] text-text">
                         {s}
                       </li>
                     ))}
                   </ul>
+                </div>
 
-                  <details className="group mt-6">
-                    <summary
-                      className={`press t-mono inline-flex cursor-pointer list-none items-center gap-2 rounded-full border px-4 py-2.5 text-[0.55rem] [&::-webkit-details-marker]:hidden ${c.tag}`}
-                    >
-                      <span className="transition-transform duration-200 group-open:rotate-45">+</span>
-                      {lang === "pt" ? "Ficha técnica" : "Spec sheet"} · {t(item.points).length}
-                    </summary>
-                    <ul className="mt-5 space-y-3">
-                      {t(item.points).map((p, k) => (
-                        <li key={k} className={`flex gap-3 text-[0.88rem] leading-[1.65] ${c.body}`}>
-                          <span aria-hidden="true" className={`mt-[0.6rem] h-1 w-3 shrink-0 rounded-full ${c.rule}`} />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-
-                  {item.link ? (
-                    <div className="mt-auto pt-6">
+                {/* o nome grande, como "THE GREAT ONI" */}
+                <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
+                  <h3 className="t-display text-[clamp(2.6rem,1.4rem+4.4vw,5.6rem)] leading-[0.88] text-white">
+                    {item.name}
+                  </h3>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <details className="group">
+                      <summary className="press inline-flex h-11 cursor-pointer list-none items-center gap-2 rounded-full bg-white px-5 text-[0.85rem] font-medium text-void [&::-webkit-details-marker]:hidden">
+                        <span className="transition-transform duration-200 group-open:rotate-45">+</span>
+                        {lang === "pt" ? "Ficha técnica" : "Spec sheet"}
+                      </summary>
+                      <ul className="glass absolute bottom-16 left-0 right-0 max-h-[55vh] space-y-3 overflow-y-auto rounded-[22px] p-5 sm:right-auto sm:max-w-[34rem]">
+                        {t(item.points).map((p, k) => (
+                          <li key={k} className="flex gap-3 text-[0.86rem] leading-[1.6] text-text-2">
+                            <span aria-hidden="true" className="mt-[0.55rem] h-1 w-3 shrink-0 rounded-full bg-cobalt-2" />
+                            <span>{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                    {item.link ? (
                       <a
                         href={item.link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`press inline-flex h-11 items-center gap-2 rounded-full px-5 text-[0.86rem] font-medium ${c.btn}`}
+                        className="press inline-flex h-11 items-center gap-2 rounded-full border border-white/40 px-5 text-[0.85rem] text-white hover:bg-white/10"
                       >
-                        {t(item.link.label)}
-                        <span aria-hidden="true">↗</span>
+                        {t(item.link.label)} <span aria-hidden="true">↗</span>
                       </a>
-                    </div>
-                  ) : null}
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            </article>
-          );
-        })}
+              </article>
+            ))}
+          </div>
+
+          {/* a coluna em pílula: mais projetos */}
+          {/* os rádios moram dentro das miniaturas: o estado da cena sem
+              JavaScript, e o foco fica onde o clique aconteceu */}
+          <fieldset className="glass-bone order-first flex min-w-0 gap-2 overflow-x-auto rounded-[30px] p-2.5 [scrollbar-width:none] lg:order-none lg:flex-col lg:items-center lg:overflow-visible lg:rounded-full lg:px-3 lg:py-8">
+            <legend className="sr-only">{lang === "pt" ? "Escolha um projeto" : "Pick a project"}</legend>
+            <p aria-hidden="true" className="t-title hidden text-center text-[1.05rem] leading-tight text-bone-ink lg:block">
+              {lang === "pt" ? "Mais projetos" : "More projects"}
+            </p>
+            {SIDE.map((item, n) => (
+              <label
+                key={item.id}
+                data-for={item.id}
+                className="press relative flex shrink-0 cursor-pointer items-center gap-3 rounded-[20px] p-1.5 pr-4 text-bone-ink lg:w-full lg:flex-col lg:gap-2 lg:pr-1.5"
+              >
+                <input
+                  type="radio"
+                  name={group}
+                  value={item.id}
+                  defaultChecked={n === 0}
+                  className="sr-only"
+                />
+                <span className="relative block h-14 w-14 overflow-hidden rounded-[16px] lg:h-[4.4rem] lg:w-[4.4rem]">
+                  <Pic
+                    id={ART[item.id]}
+                    alt=""
+                    sizes="80px"
+                    className="block h-full w-full"
+                    imgClassName="h-full w-full object-cover"
+                  />
+                </span>
+                <span className="t-mono text-[0.55rem] lg:text-center">{item.name}</span>
+              </label>
+            ))}
+          </fieldset>
+        </div>
       </div>
     </section>
   );
