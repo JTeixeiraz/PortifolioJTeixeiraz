@@ -10,13 +10,13 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI"];
  * Tom e largura de cada cartão. O bento só funciona se os tamanhos variarem
  * de verdade: 7+5, 4+4+4, e o último atravessando a linha inteira.
  */
-const LAYOUT: { span: string; tone: "bone" | "panel" | "cobalt" | "blood" }[] = [
-  { span: "lg:col-span-7", tone: "bone" },
-  { span: "lg:col-span-5", tone: "panel" },
-  { span: "lg:col-span-4", tone: "cobalt" },
-  { span: "lg:col-span-4", tone: "bone" },
-  { span: "lg:col-span-4", tone: "panel" },
-  { span: "lg:col-span-12", tone: "blood" },
+const LAYOUT: { span: string; tone: "bone" | "panel" | "cobalt" | "blood"; shape: string; enter: string }[] = [
+  { span: "lg:col-span-7", tone: "bone", shape: "rounded-[28px_28px_28px_96px]", enter: "in-tilt" },
+  { span: "lg:col-span-5", tone: "panel", shape: "bite-tr [--b:56px]", enter: "in-right" },
+  { span: "lg:col-span-4", tone: "cobalt", shape: "rounded-[96px_28px_28px_28px]", enter: "in-left" },
+  { span: "lg:col-span-4", tone: "bone", shape: "", enter: "in-tilt" },
+  { span: "lg:col-span-4", tone: "panel", shape: "bite-bl [--b:48px]", enter: "in-right" },
+  { span: "lg:col-span-12", tone: "blood", shape: "rounded-[28px_120px_28px_28px]", enter: "in-zoom" },
 ];
 
 const TONE = {
@@ -34,41 +34,41 @@ const TONE = {
 function CraftBody({ t, lang }: { t: T; lang: Lang }) {
 
   return (
-    <section aria-labelledby={`craft-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
+    <section aria-labelledby={`craft-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
         <SectionHeading id={`craft-heading-${lang}`} slot="03">
           {lang === "pt" ? "O que eu faço dentro de uma squad." : "What I do inside a squad."}
         </SectionHeading>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-12">
+      <div className="offscreen swipe -mx-[clamp(10px,1.4vw,28px)] mt-10 md:mx-0 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-12">
         {CRAFT.map((item, n) => {
-          const { span, tone } = LAYOUT[n] ?? LAYOUT[1];
+          const { span, tone, shape, enter } = LAYOUT[n] ?? LAYOUT[1];
           const c = TONE[tone];
           const example = t(item.example);
           const wide = n === CRAFT.length - 1;
           return (
             <article
               key={item.id}
-              className={`reveal tile ${c.tile} flex min-h-[19rem] flex-col p-6 sm:p-8 ${span} ${wide ? "md:col-span-2" : ""}`}
+              className={`${enter} tile ${c.tile} ${shape} flex min-h-[19rem] flex-col p-6 sm:p-8 ${span} ${wide ? "md:col-span-2" : ""}`}
             >
               {/* o olho mora no cartão da instrumentação */}
               {n === 3 ? (
                 <Pic
-                  id="eye-target"
+                  id="tat-eye-column"
                   alt=""
-                  sizes="220px"
-                  className="pointer-events-none absolute right-2 top-2 -z-10 block w-36 rotate-[-8deg]"
+                  sizes="120px"
+                  className="pointer-events-none absolute -right-3 -top-6 -z-10 block w-20 rotate-[6deg] opacity-60"
                   imgClassName="h-auto w-full"
                 />
               ) : null}
               {wide ? (
                 <Pic
-                  id="tribal-cross"
+                  id="tat-tiger"
                   alt=""
-                  sizes="260px"
-                  className="pointer-events-none absolute -right-10 -top-24 -z-10 hidden w-72 rotate-[24deg] opacity-30 brightness-[3] saturate-0 md:block"
-                  imgClassName="h-auto w-full"
+                  sizes="300px"
+                  className="pointer-events-none absolute -top-16 right-[6%] -z-10 hidden w-64 rotate-[-8deg] opacity-40 md:block"
+                  imgClassName="ink-white h-auto w-full"
                 />
               ) : null}
 
@@ -99,6 +99,13 @@ function CraftBody({ t, lang }: { t: T; lang: Lang }) {
           );
         })}
       </div>
+      <Pic
+        id="tat-sword"
+        alt=""
+        sizes="(min-width: 768px) 11vw, 28vw"
+        className="drift pointer-events-none absolute -top-40 left-[1%] z-[5] block w-[28vw] max-w-[9rem] [--r0:-10deg] [--r1:4deg] md:w-[10vw] md:max-w-none"
+        imgClassName="ink-white h-auto w-full opacity-80"
+      />
     </section>
   );
 }

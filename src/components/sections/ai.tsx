@@ -15,16 +15,16 @@ const TONES = ["tile-panel", "tile-void", "tile-void", "tile-panel"] as const;
 function AiBody({ t, lang }: { t: T; lang: Lang }) {
 
   return (
-    <section aria-labelledby={`ai-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
+    <section aria-labelledby={`ai-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
         <SectionHeading id={`ai-heading-${lang}`} slot="04">
           {lang === "pt" ? "Agente com contexto, não com sorte." : "Agents with context, not luck."}
         </SectionHeading>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 lg:grid-cols-12">
+      <div className="offscreen mt-10 grid grid-cols-1 gap-3 lg:grid-cols-12">
         {/* o gato */}
-        <figure className="reveal tile relative min-h-[28rem] lg:col-span-5 lg:row-span-2 lg:min-h-0">
+        <figure className="in-zoom tile bite-tl relative min-h-[28rem] [--b:64px] lg:col-span-5 lg:row-span-2 lg:min-h-0">
           <Pic
             id="loading-cat"
             alt={
@@ -54,9 +54,12 @@ function AiBody({ t, lang }: { t: T; lang: Lang }) {
         </figure>
 
         {/* as quatro práticas */}
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:col-span-7">
+        <div className="swipe -mx-[clamp(10px,1.4vw,28px)] md:mx-0 md:grid md:grid-cols-2 md:gap-3 lg:col-span-7">
           {AI_PRACTICES.map((p, n) => (
-            <article key={p.id} className={`reveal tile ${TONES[n]} flex flex-col p-6 sm:p-7`}>
+            <article
+              key={p.id}
+              className={`in-right tile ${TONES[n]} flex flex-col p-6 sm:p-7 ${n === 1 ? "rounded-[28px_80px_28px_28px]" : n === 2 ? "rounded-[28px_28px_28px_80px]" : ""}`}
+            >
               <p className="t-mono flex items-center gap-2 text-[0.55rem] text-text-3">
                 <Spark size={9} className="text-cobalt-2" />
                 {String(n + 1).padStart(2, "0")} · {t(p.label)}
@@ -70,6 +73,13 @@ function AiBody({ t, lang }: { t: T; lang: Lang }) {
           ))}
         </div>
       </div>
+      <Pic
+        id="tat-moon-angel"
+        alt=""
+        sizes="(min-width: 768px) 10vw, 26vw"
+        className="drift pointer-events-none absolute -top-24 right-[2%] z-[5] block w-[26vw] max-w-[8rem] [--r0:6deg] [--r1:-6deg] md:w-[9vw] md:max-w-none"
+        imgClassName="ink-white h-auto w-full opacity-80"
+      />
     </section>
   );
 }
