@@ -7,7 +7,7 @@ import { Pic } from "@/components/pic";
 /**
  * Ferramenta: só entra o que ele usou para entregar algo no ar. Em vez de
  * oito caixas, um painel só com os grupos em linhas — cada linha desliza ao
- * entrar —, ao lado da caligrafia 大吉 ("boa sorte") numa pílula alta: o
+ * entrar —, ao lado da caligrafia 大吉 ("boa sorte") inteira, sem corte: o
  * voto de todo deploy de sexta.
  */
 function StackBody({ t, lang }: { t: T; lang: Lang }) {
@@ -20,7 +20,7 @@ function StackBody({ t, lang }: { t: T; lang: Lang }) {
       </SectionHeading>
 
       <div className="mt-10 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-        <figure className="in-zoom relative hidden overflow-hidden rounded-full lg:block">
+        <figure className="in-zoom relative hidden aspect-[1/2] self-start overflow-hidden rounded-[40px] lg:block">
           <Pic
             id="daikichi"
             alt={
@@ -71,13 +71,6 @@ function StackBody({ t, lang }: { t: T; lang: Lang }) {
         </div>
       </div>
 
-      <Pic
-        id="tat-eye-column"
-        alt=""
-        sizes="(min-width: 768px) 6vw, 18vw"
-        className="drift pointer-events-none absolute -top-10 right-[3%] z-[5] block w-[18vw] max-w-[5rem] [--r0:4deg] [--r1:-6deg] md:w-[6vw] md:max-w-none"
-        imgClassName="ink-white h-auto w-full opacity-80"
-      />
     </section>
   );
 }

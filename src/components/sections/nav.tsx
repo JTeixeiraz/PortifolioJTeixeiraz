@@ -1,7 +1,7 @@
 import { NAV, PROFILE } from "@/lib/content";
 import { Bi } from "@/lib/i18n";
 import { VyroMark } from "@/components/vyro-mark";
-import { Spark } from "@/components/spark";
+import { Pic } from "@/components/pic";
 
 /**
  * A barra é uma pílula flutuante (referências: Verdant, Opticore). O fundo
@@ -21,13 +21,18 @@ export function Nav() {
           aria-label={`${PROFILE.name} — início · home`}
           className="press flex min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3"
         >
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-bone text-bone-ink">
-            <Spark size={16} />
-          </span>
+          <Pic
+            id="me-avatar"
+            alt=""
+            priority
+            sizes="40px"
+            className="block h-10 w-10 shrink-0 overflow-hidden rounded-full ring-1 ring-white/20"
+            imgClassName="h-full w-full object-cover brightness-125"
+          />
           <span className="hidden min-w-0 flex-col leading-tight sm:flex">
-            <span className="t-title truncate text-[0.82rem] text-text">{PROFILE.name}</span>
-            <span className="t-mono truncate text-[0.52rem] text-text-3">
-              <Bi as="span">{(_, lang) => (lang === "pt" ? "full stack · fundador da vyro" : "full stack · founder of vyro")}</Bi>
+            <span className="t-title truncate text-[0.85rem] text-text">{PROFILE.name}</span>
+            <span className="truncate text-[0.72rem] text-text-3">
+              <Bi as="span">{(_, lang) => (lang === "pt" ? "Full stack · fundador da VYRO" : "Full stack · founder of VYRO")}</Bi>
             </span>
           </span>
         </a>

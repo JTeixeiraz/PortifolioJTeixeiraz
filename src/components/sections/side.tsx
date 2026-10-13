@@ -5,20 +5,19 @@ import type { ImageId } from "@/lib/images";
 import { SectionHeading } from "@/components/section-heading";
 import { Blur, Pic } from "@/components/pic";
 
-/** A arte de cada projeto no painel grande. */
-const ART: Record<string, ImageId> = {
-  birdy: "koi",
-  lumi: "nana",
-  postly: "night-tokyo",
-  induxai: "bronze-liquid",
-  dcars: "night-car-1",
-  portify: "chrome-white",
+/** A arte de cada projeto no painel grande, e onde ela ancora no recorte. */
+const ART: Record<string, { id: ImageId; pos: string }> = {
+  birdy: { id: "koi", pos: "object-[50%_50%]" },
+  lumi: { id: "nana", pos: "object-[62%_18%]" },
+  postly: { id: "crystal", pos: "object-[50%_50%]" },
+  induxai: { id: "bronze-liquid", pos: "object-[50%_40%]" },
+  dcars: { id: "tokyo-street", pos: "object-[50%_60%]" },
+  portify: { id: "chrome-white", pos: "object-[50%_30%]" },
 };
 
 /**
- * Projetos na cena do "Oni": o pôster do Evangelion desfocado ao fundo, um
- * painel grande com o projeto escolhido e a coluna em pílula "mais projetos"
- * com as miniaturas. A troca é CSS puro — rádios + :has() (ver .proj no
+ * Projetos na cena do "Oni": um fundo desfocado, um painel grande com o
+ * projeto escolhido e um dock de vidro com as miniaturas no canto. A troca é CSS puro — rádios + :has() (ver .proj no
  * globals.css) —, então só um projeto aparece por vez e a página não vira
  * uma parede de texto. No celular as miniaturas viram uma fileira de deslize.
  */
@@ -32,10 +31,10 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
       </SectionHeading>
 
       <div className="proj in-scene tile relative mt-10 overflow-hidden rounded-[var(--r-frame)] border border-line p-3 sm:p-5 lg:p-6">
-        <Blur id="evangelion" className="absolute inset-0 -z-20 h-full w-full scale-110" />
+        <Blur id="goldfish" className="absolute inset-0 -z-20 h-full w-full scale-110" />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgb(7_8_14/0.55)]" />
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-4">
+        <div className="relative flex flex-col gap-3">
           {/* o painel grande */}
           <div className="relative min-h-[36rem] lg:min-h-[40rem]">
             {SIDE.map((item) => (
@@ -45,11 +44,11 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
                 className="bite-tr absolute inset-0 overflow-hidden rounded-[30px] [--b:52px]"
               >
                 <Pic
-                  id={ART[item.id]}
+                  id={ART[item.id].id}
                   alt=""
-                  sizes="(min-width: 1024px) 70vw, 100vw"
+                  sizes="100vw"
                   className="absolute inset-0 -z-10 block"
-                  imgClassName="h-full w-full object-cover"
+                  imgClassName={`h-full w-full object-cover ${ART[item.id].pos}`}
                 />
                 <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(7_8_14/0.25),rgb(7_8_14/0.1)_40%,rgb(7_8_14/0.92))]" />
 
@@ -60,7 +59,7 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
                 </div>
 
                 {/* nota de vidro: a stack */}
-                <div className="glass absolute right-6 top-[46%] hidden max-w-[16rem] rounded-[22px] p-4 md:block">
+                <div className="glass absolute right-6 top-6 hidden max-w-[19rem] rounded-[22px] p-4 md:block">
                   <ul className="flex flex-wrap gap-1.5">
                     {item.stack.map((s) => (
                       <li key={s} className="rounded-full bg-white/10 px-2.5 py-1 text-[0.72rem] text-text">
@@ -106,19 +105,15 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
             ))}
           </div>
 
-          {/* a coluna em pílula: mais projetos */}
-          {/* os rádios moram dentro das miniaturas: o estado da cena sem
-              JavaScript, e o foco fica onde o clique aconteceu */}
-          <fieldset className="glass-bone order-first flex min-w-0 gap-2 overflow-x-auto rounded-[30px] p-2.5 [scrollbar-width:none] lg:order-none lg:flex-col lg:items-center lg:overflow-visible lg:rounded-full lg:px-3 lg:py-8">
+          {/* o dock: miniaturas em vidro no canto do painel; no celular, uma
+              fileira de deslize acima dele. Os rádios moram nas miniaturas. */}
+          <fieldset className="glass order-first flex min-w-0 gap-1.5 overflow-x-auto rounded-[26px] p-2 [scrollbar-width:none] lg:absolute lg:bottom-6 lg:right-6 lg:z-[2] lg:order-none lg:overflow-visible">
             <legend className="sr-only">{lang === "pt" ? "Escolha um projeto" : "Pick a project"}</legend>
-            <p aria-hidden="true" className="t-title hidden text-center text-[1.05rem] leading-tight text-bone-ink lg:block">
-              {lang === "pt" ? "Mais projetos" : "More projects"}
-            </p>
             {SIDE.map((item, n) => (
               <label
                 key={item.id}
                 data-for={item.id}
-                className="press relative flex shrink-0 cursor-pointer items-center gap-3 rounded-[20px] p-1.5 pr-4 text-bone-ink lg:w-full lg:flex-col lg:gap-2 lg:pr-1.5"
+                className="press relative flex w-[4.75rem] shrink-0 cursor-pointer flex-col items-center gap-1.5 rounded-[18px] p-1.5 text-text-2 hover:text-text"
               >
                 <input
                   type="radio"
@@ -127,16 +122,16 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
                   defaultChecked={n === 0}
                   className="sr-only"
                 />
-                <span className="relative block h-14 w-14 overflow-hidden rounded-[16px] lg:h-[4.4rem] lg:w-[4.4rem]">
+                <span className="relative block h-12 w-12 overflow-hidden rounded-[14px]">
                   <Pic
-                    id={ART[item.id]}
+                    id={ART[item.id].id}
                     alt=""
-                    sizes="80px"
+                    sizes="48px"
                     className="block h-full w-full"
-                    imgClassName="h-full w-full object-cover"
+                    imgClassName={`h-full w-full object-cover ${ART[item.id].pos}`}
                   />
                 </span>
-                <span className="t-mono text-[0.55rem] lg:text-center">{item.name}</span>
+                <span className="t-mono w-full truncate text-center text-[0.48rem]">{item.name}</span>
               </label>
             ))}
           </fieldset>

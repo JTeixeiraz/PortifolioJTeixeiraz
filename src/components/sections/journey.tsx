@@ -7,7 +7,7 @@ import { Pic } from "@/components/pic";
 
 /** Foto e pose de cada polaroide: largadas na mesa, não alinhadas. */
 const POLAROID: { photo: ImageId; pose: string; range: string }[] = [
-  { photo: "jp-poster", pose: "lg:-rotate-[4deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
+  { photo: "me-2", pose: "lg:-rotate-[4deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
   { photo: "cat-poster", pose: "lg:rotate-[3deg] lg:-translate-y-4 lg:-ml-4", range: "[animation-range:entry_10%_entry_65%]" },
   { photo: "night-car-2", pose: "lg:-rotate-[2deg] lg:translate-y-10 lg:-ml-4", range: "[animation-range:entry_20%_entry_75%]" },
 ];
@@ -40,10 +40,16 @@ function JourneyBody({ t, lang }: { t: T; lang: Lang }) {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-[4px]">
                   <Pic
                     id={p.photo}
-                    alt=""
+                    alt={
+                      p.photo === "me-2"
+                        ? lang === "pt"
+                          ? "João Pedro Teixeira sorrindo, num bar à noite"
+                          : "João Pedro Teixeira smiling, at a bar at night"
+                        : ""
+                    }
                     sizes="(min-width: 1024px) 30vw, 80vw"
                     className="absolute inset-0 block"
-                    imgClassName="h-full w-full object-cover"
+                    imgClassName={`h-full w-full object-cover ${p.photo === "me-2" ? "object-[40%_35%] brightness-125" : ""}`}
                   />
                 </div>
                 <div className="px-2 pt-5">

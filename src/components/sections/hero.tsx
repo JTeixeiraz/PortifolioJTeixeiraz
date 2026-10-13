@@ -37,11 +37,13 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
     <section className="wrap relative pt-[5.25rem] sm:pt-24">
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-6 lg:min-h-[calc(100dvh-7rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)_auto]">
-        {/* A — o título sobre o cromo */}
+        {/* A — o título sobre o cromo. No desktop o canto de baixo à direita
+            é entalhado (.notched) e o cartão do olho sobe e encaixa ali. */}
+        <div className="relative md:col-span-6 lg:col-span-7 lg:row-span-2">
         <div
           // sem a cascata de entrada: é o cartão do título, e elemento que
           // nasce transparente não conta como pintado para o LCP
-          className="tile tile-panel flex min-h-[36rem] flex-col justify-between p-6 sm:p-9 md:col-span-6 lg:col-span-7 lg:row-span-2 lg:min-h-0 lg:p-11"
+          className="notched tile tile-panel flex h-full min-h-[36rem] flex-col justify-between p-6 sm:p-9 lg:min-h-0 lg:p-11"
         >
           <Pic
             id="chrome-cross"
@@ -106,6 +108,8 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           </div>
         </div>
 
+        </div>
+
         {/* B–G: no celular, um carrossel de deslize; do md em diante, o bento */}
         <div className="swipe -mx-[clamp(10px,1.4vw,28px)] py-1 md:contents">
         {/* B — o anjo, save point */}
@@ -158,6 +162,14 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           className="boot tile tile-panel flex min-h-[14rem] flex-col justify-between p-5 md:col-span-3 lg:col-span-2 lg:min-h-0"
           style={i(3)}
         >
+          <Pic
+            id="goldfish"
+            alt=""
+            sizes="(min-width: 1024px) 16vw, 80vw"
+            className="absolute inset-0 -z-10 block"
+            imgClassName="h-full w-full object-cover object-[60%_50%]"
+          />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_8_14/0.9),rgb(7_8_14/0.25))]" />
           <p className="t-mono text-[0.55rem] text-text-3">
             {lang === "pt" ? "Birdy · 4 meses" : "Birdy · 4 months"}
           </p>
@@ -171,15 +183,15 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
 
         {/* E — o lugar */}
         <div
-          className="boot tile bite-tr flex min-h-[14rem] flex-col justify-end p-5 [--b:38px] md:col-span-4 lg:col-span-4"
+          className="boot tile bite-tr flex min-h-[14rem] flex-col justify-end p-5 [--b:38px] md:col-span-4 lg:col-span-5"
           style={i(4)}
         >
           <Pic
-            id="tokyo-street"
+            id="tokyo-girl"
             alt=""
             sizes="(min-width: 1024px) 30vw, 80vw"
             className="absolute inset-0 -z-10 block"
-            imgClassName="h-full w-full object-cover object-[50%_35%]"
+            imgClassName="h-full w-full object-cover object-[50%_42%]"
           />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_8_14/0.92),rgb(7_8_14/0.15)_70%)]" />
           <p className="t-mono text-[0.55rem] text-white/75">{PROFILE.location} · {PROFILE.utc}</p>
@@ -192,7 +204,7 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
 
         {/* F — o olho */}
         <div
-          className="boot tile tile-bone grid min-h-[12rem] place-items-center p-4 md:col-span-2 lg:col-span-2"
+          className="boot tile tile-bone grid min-h-[12rem] place-items-center p-4 md:col-span-2 lg:col-span-2 lg:-mt-[11.5rem]"
           style={i(5)}
         >
           <Pic
@@ -211,7 +223,7 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
 
         {/* G — a ferramenta, em fita */}
         <div
-          className="boot tile tile-void flex min-h-[12rem] flex-col justify-center gap-5 md:col-span-6 lg:col-span-6"
+          className="boot tile tile-void flex min-h-[12rem] flex-col justify-center gap-5 md:col-span-6 lg:col-span-5"
           style={i(6)}
         >
           <p className="t-mono px-5 text-[0.55rem] text-text-3">
