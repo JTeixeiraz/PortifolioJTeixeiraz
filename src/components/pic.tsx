@@ -46,3 +46,21 @@ export function Pic({
     </picture>
   );
 }
+
+/**
+ * Fundo desfocado de uma cena: o arquivo de 48 px borrado no build, esticado
+ * pelo CSS. Decorativo — fica fora da árvore de acessibilidade.
+ */
+export function Blur({ id, className }: { id: ImageId; className?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- export estático
+    <img
+      src={`/img/${id}-blur.webp`}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+      className={`pointer-events-none select-none object-cover ${className ?? ""}`}
+    />
+  );
+}

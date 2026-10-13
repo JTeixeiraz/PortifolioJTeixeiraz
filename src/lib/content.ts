@@ -104,8 +104,10 @@ export type VyroProduct = {
   name: string;
   href: string;
   domain: string;
-  /** Arte de capa: a tela real do produto (id do manifesto de imagens). */
+  /** A tela real do produto, que entra na capa como adesivo. */
   cover: ImageId;
+  /** A foto da arte de capa, no estilo das capas de DS. */
+  art: ImageId;
   /** Cor da arte de capa e do disco. */
   accent: string;
   status: Dict<string>;
@@ -121,24 +123,18 @@ export const VYRO: Dict<{
   heading: string;
   lead: string;
   visit: string;
-  next: string;
-  nextBody: string;
 }> = {
   pt: {
     kicker: "A empresa que eu fundei",
-    heading: "Três jogos no ar. Uma produtora.",
+    heading: "Três projetos no ar. Uma empresa.",
     lead: "A VYRO projeta, publica e mantém os próprios produtos depois do lançamento: a rejeição da App Store, a migração de terça à noite, o usuário que acha o bug. Cada um tem identidade, site e loja próprios.",
     visit: "Conhecer a VYRO",
-    next: "Slot vazio",
-    nextBody: "O próximo produto ainda não tem nome. Quando tiver, entra aqui.",
   },
   en: {
     kicker: "The company I founded",
-    heading: "Three games live. One studio.",
+    heading: "Three projects live. One company.",
     lead: "VYRO designs, ships and keeps maintaining its own products after launch: the App Store rejection, the Tuesday-night migration, the user who finds the bug. Each has its own identity, site and store listing.",
     visit: "Visit VYRO",
-    next: "Empty slot",
-    nextBody: "The next product has no name yet. When it does, it goes here.",
   },
 };
 
@@ -149,6 +145,7 @@ export const VYRO_PRODUCTS: VyroProduct[] = [
     href: "https://birdy-app.pages.dev",
     domain: "birdy-app.pages.dev",
     cover: "birdy-inicio",
+    art: "goldfish",
     accent: "#8fe03a",
     status: { pt: "No ar", en: "Live" },
     platform: { pt: "Android · iOS · Windows", en: "Android · iOS · Windows" },
@@ -170,6 +167,7 @@ export const VYRO_PRODUCTS: VyroProduct[] = [
     href: "https://lumi-skincare.pages.dev",
     domain: "lumi-skincare.pages.dev",
     cover: "lumi-consulta",
+    art: "face-illust",
     accent: "#8d98ff",
     status: { pt: "Teste fechado", en: "Closed testing" },
     platform: { pt: "Android · iOS · 9 idiomas", en: "Android · iOS · 9 languages" },
@@ -191,6 +189,7 @@ export const VYRO_PRODUCTS: VyroProduct[] = [
     href: "https://jteixeiraz.github.io/Postly/",
     domain: "jteixeiraz.github.io/Postly",
     cover: "postly-campanha",
+    art: "tokyo-girl",
     accent: "#ff7a3d",
     status: { pt: "Open source", en: "Open source" },
     platform: { pt: "Linux · macOS · Windows", en: "Linux · macOS · Windows" },

@@ -2,62 +2,67 @@ import { BOUNDARY } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { Pic } from "@/components/pic";
-import { Spark } from "@/components/spark";
+import { Wave } from "@/components/wave";
 
 const ROMAN = ["I", "II", "III", "IV"];
 
+/** Cada regra numa forma: a folha de flash não é uma grade de caixas. */
+const SHAPE = [
+  "rounded-[40px_40px_40px_120px] lg:-rotate-[1.2deg]",
+  "bite-tr rounded-[40px] [--b:60px] lg:translate-y-10 lg:rotate-[1deg]",
+  "rounded-[120px_40px_40px_40px] lg:-translate-y-2",
+  "rounded-[40px_40px_120px_40px] lg:translate-y-8 lg:-rotate-[0.8deg]",
+];
+
 /**
- * O limite: o argumento que ele mais quer que seja lido, numa folha de flash
- * de tatuagem. Papel osso, tinta vermelha, a cruz tribal ocupando a margem —
- * e as quatro regras de onde a automação para.
+ * O limite numa folha de flash de tatuagem em largura total: o papel osso
+ * entra por uma onda (vindo do escuro) e escorre para o vermelho das
+ * evidências por outra. As quatro regras ficam em formas diferentes, e as
+ * tatuagens atravessam as ondas.
  */
 function BoundaryBody({ t, lang }: { t: T; lang: Lang }) {
   const b = t(BOUNDARY);
 
   return (
-    <section aria-labelledby={`boundary-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
-      <div className="tile tile-bone rounded-[var(--r-frame)] p-6 sm:p-10 lg:p-14">
+    <section aria-labelledby={`boundary-heading-${lang}`} className="relative mt-24 lg:mt-32">
+      <Wave fill="var(--bone)" under="transparent" variant="a" />
+
+      <div className="relative bg-bone pb-20 pt-6 lg:pb-28">
         <Pic
           id="tribal-cross"
           alt=""
-          sizes="(min-width: 1024px) 30vw, 60vw"
-          className="pointer-events-none absolute -right-10 -top-10 -z-10 block w-[60%] max-w-[30rem] opacity-25 md:opacity-60 lg:right-6 lg:top-8 lg:w-[30%] lg:opacity-100"
+          sizes="(min-width: 1024px) 26vw, 50vw"
+          className="drift pointer-events-none absolute -top-[9vw] right-[4%] z-[2] block w-[44vw] max-w-[26rem] [--r0:6deg] [--r1:14deg] lg:w-[24vw]"
           imgClassName="h-auto w-full"
         />
 
-        <div className="lg:max-w-[64%]">
-          <p className="t-mono inline-flex items-center gap-2.5 rounded-full border border-bone-ink/20 px-4 py-2 text-[0.6rem] text-bone-ink">
-            <Spark size={9} className="text-blood" />
-            Slot 06
-            <span className="text-bone-dim">·</span>
-            {lang === "pt" ? "O limite" : "The boundary"}
-          </p>
-          <h2
-            id={`boundary-heading-${lang}`}
-            className="t-display mt-5 text-[clamp(2.1rem,1.1rem+3.4vw,4.3rem)] text-bone-ink"
-          >
-            {b.heading}.
-          </h2>
-          <p className="t-title mt-7 max-w-[34ch] text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] leading-[1.35] text-bone-ink">
-            {b.lead}
-          </p>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-3 md:grid-cols-2 lg:mt-16">
-          {b.columns.map((c, i) => (
-            <article
-              key={c.title}
-              className="reveal rounded-[22px] border border-bone-ink/10 bg-bone-2/70 p-6 sm:p-7"
+        <div className="wrap relative z-[1]">
+          <div className="in-left max-w-[62rem] px-2 sm:px-6 lg:px-10">
+            <h2
+              id={`boundary-heading-${lang}`}
+              className="t-display text-[clamp(2.4rem,1.2rem+4vw,5.2rem)] text-bone-ink"
             >
-              <div className="flex items-baseline gap-4">
-                <span aria-hidden="true" className="t-goth text-[2.6rem] text-blood">
+              {b.heading}.
+            </h2>
+            <p className="t-title mt-7 max-w-[34ch] text-[clamp(1.1rem,0.95rem+0.6vw,1.5rem)] leading-[1.35] text-bone-ink">
+              {b.lead}
+            </p>
+          </div>
+
+          <div className="swipe -mx-[clamp(10px,1.4vw,28px)] mt-14 md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:px-6 lg:mt-20 lg:grid-cols-4 lg:px-10">
+            {b.columns.map((c, i) => (
+              <article
+                key={c.title}
+                className={`in-tilt relative overflow-hidden bg-bone-2 p-6 shadow-[0_24px_40px_-28px_rgb(22_19_26/0.5)] sm:p-7 ${SHAPE[i]}`}
+              >
+                <span aria-hidden="true" className="t-goth block text-[3.4rem] leading-none text-blood">
                   {ROMAN[i]}
                 </span>
-                <h3 className="t-title text-[1.15rem] text-bone-ink">{c.title}</h3>
-              </div>
-              <p className="mt-4 text-[0.92rem] leading-[1.7] text-bone-dim">{c.body}</p>
-            </article>
-          ))}
+                <h3 className="t-title mt-5 text-[1.15rem] text-bone-ink">{c.title}</h3>
+                <p className="mt-3 text-[0.9rem] leading-[1.65] text-bone-dim">{c.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

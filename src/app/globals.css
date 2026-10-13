@@ -28,9 +28,11 @@
   --bone-ink: #16131a;
   --bone-dim: #5e574c;
 
-  --cobalt: #2f45ff;
-  --cobalt-2: #5568ff;
-  --cobalt-deep: #121c8f;
+  /* ultramarino com fundo violeta (o cristal, o pôster do EVA), não o azul
+     elétrico de interface */
+  --cobalt: #3d4be0;
+  --cobalt-2: #8b96ff;
+  --cobalt-deep: #161b6e;
   --blood: #c8102e;
   --blood-2: #e0283f;
 
@@ -107,15 +109,20 @@
      fixo nem animado — o navegador pinta uma vez. */
   body {
     background:
-      radial-gradient(70rem 40rem at 85% -10%, rgb(47 69 255 / 0.22), transparent 60%),
-      radial-gradient(50rem 36rem at -10% 30%, rgb(18 28 143 / 0.28), transparent 65%),
+      radial-gradient(70rem 40rem at 85% -10%, rgb(61 75 224 / 0.2), transparent 60%),
+      radial-gradient(50rem 36rem at -10% 30%, rgb(22 27 110 / 0.3), transparent 65%),
       var(--void);
     color: var(--text-2);
     font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    /* clip, não hidden: as tatuagens que vazam pela borda são cortadas sem
+       criar um contêiner de rolagem (que quebraria position: sticky) */
+    overflow-x: clip;
+  }
+  html {
+    overflow-x: clip;
   }
 
   /* Grão numa camada fixa só de opacidade: composta uma vez, sem blend. */
@@ -201,7 +208,129 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   }
 }
 
+
+/* ---------- projetos: abas em CSS puro (rádios + :has) ----------
+   Só o painel do rádio marcado aparece; ao aparecer, ele entra com uma
+   animação curta (a animação reinicia quando o display volta). A miniatura
+   escolhida fica em tinta escura na pílula de papel. */
+.proj [data-panel] {
+  display: none;
+}
+.proj:has(input[value="birdy"]:checked) [data-panel="birdy"],
+.proj:has(input[value="lumi"]:checked) [data-panel="lumi"],
+.proj:has(input[value="postly"]:checked) [data-panel="postly"],
+.proj:has(input[value="induxai"]:checked) [data-panel="induxai"],
+.proj:has(input[value="dcars"]:checked) [data-panel="dcars"],
+.proj:has(input[value="portify"]:checked) [data-panel="portify"] {
+  display: block;
+  animation: panel-in 520ms var(--ease-out) both;
+}
+.proj:has(input[value="birdy"]:checked) label[data-for="birdy"],
+.proj:has(input[value="lumi"]:checked) label[data-for="lumi"],
+.proj:has(input[value="postly"]:checked) label[data-for="postly"],
+.proj:has(input[value="induxai"]:checked) label[data-for="induxai"],
+.proj:has(input[value="dcars"]:checked) label[data-for="dcars"],
+.proj:has(input[value="portify"]:checked) label[data-for="portify"] {
+  background: var(--bone-ink);
+  color: var(--bone);
+}
+.proj:has(input[value="birdy"]:focus-visible) label[data-for="birdy"],
+.proj:has(input[value="lumi"]:focus-visible) label[data-for="lumi"],
+.proj:has(input[value="postly"]:focus-visible) label[data-for="postly"],
+.proj:has(input[value="induxai"]:focus-visible) label[data-for="induxai"],
+.proj:has(input[value="dcars"]:focus-visible) label[data-for="dcars"],
+.proj:has(input[value="portify"]:focus-visible) label[data-for="portify"] {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 2px;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+}
+
+
+/* ---------- ferramenta: acordeão só no celular ----------
+   O <details> sai aberto no HTML; no celular o script do corpo fecha todos
+   na primeira pintura (sem JS, tudo fica aberto — nunca some conteúdo). Do
+   md em diante o <summary> não responde a clique: a lista é fixa. */
+@media (min-width: 768px) {
+  .stack-row > summary {
+    pointer-events: none;
+  }
+}
+
 @layer utilities {
+
+  /* ---------- largura total ---------- */
+  .wrap {
+    width: 100%;
+    padding-inline: clamp(10px, 1.4vw, 28px);
+  }
+
+  /* ---------- formas: mordidas circulares nos cantos ----------
+     Referência: os pôsteres holográficos e o painel "Oni". A máscara é
+     estática — o navegador recorta uma vez. --b é o raio da mordida. */
+  .bite-tr {
+    -webkit-mask: radial-gradient(circle at 100% 0, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+    mask: radial-gradient(circle at 100% 0, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+  }
+  .bite-bl {
+    -webkit-mask: radial-gradient(circle at 0 100%, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+    mask: radial-gradient(circle at 0 100%, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+  }
+  .bite-tl {
+    -webkit-mask: radial-gradient(circle at 0 0, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+    mask: radial-gradient(circle at 0 0, transparent var(--b, 44px), #000 calc(var(--b, 44px) + 0.5px));
+  }
+
+  /* Vidro sem backdrop-filter: o fundo da cena já vem borrado do build, então
+     um véu translúcido com borda interna basta para ler como vidro. */
+  .glass {
+    background: rgb(12 14 26 / 0.62);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 30px 60px -30px rgb(0 0 0 / 0.7);
+  }
+  .glass-bone {
+    background: rgb(236 230 218 / 0.9);
+    border: 1px solid rgb(255 255 255 / 0.5);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.7),
+      0 30px 60px -30px rgb(0 0 0 / 0.6);
+  }
+
+  /* Tatuagem em tinta branca sobre o escuro: inversão estática. */
+  .ink-white {
+    filter: invert(1);
+  }
+
+  /* ---------- carrossel de deslize no celular (scroll-snap, sem JS) ----------
+     Só abaixo do md: do md em diante o mesmo elemento vira `md:contents` e os
+     filhos voltam a ser células do bento. */
+  @media (max-width: 767.98px) {
+    .swipe {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 82%;
+      gap: 10px;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: clamp(10px, 1.4vw, 28px);
+      padding-inline: clamp(10px, 1.4vw, 28px);
+      scrollbar-width: none;
+    }
+    .swipe::-webkit-scrollbar {
+      display: none;
+    }
+    .swipe > * {
+      scroll-snap-align: start;
+    }
+  }
+
   /* ---------- tipografia ---------- */
 
   /* Unbounded: larga e arredondada, o título de capa de jogo. */
@@ -253,8 +382,11 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border-radius: var(--r-card);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+  /* raio padrão com especificidade zero: qualquer rounded-* do cartão vence */
+  :where(.tile) {
+    border-radius: var(--r-card);
   }
   .tile-panel {
     background: linear-gradient(180deg, var(--panel-2), var(--panel));
@@ -268,9 +400,10 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   }
   .tile-cobalt {
     background:
-      radial-gradient(120% 90% at 100% 0%, var(--cobalt-2), transparent 60%),
+      radial-gradient(110% 80% at 100% 0%, rgb(139 150 255 / 0.55), transparent 60%),
+      radial-gradient(90% 70% at 0% 100%, rgb(22 27 110 / 0.9), transparent 70%),
       linear-gradient(160deg, var(--cobalt), var(--cobalt-deep));
-    color: rgb(255 255 255 / 0.78);
+    color: rgb(255 255 255 / 0.8);
   }
   .tile-blood {
     background:
@@ -363,6 +496,12 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   /* ---------- fita contínua ---------- */
   .marquee-track {
     animation: marquee var(--marquee-duration, 40s) linear infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
   }
   @keyframes marquee {
     to {
@@ -405,6 +544,93 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   }
 }
 
+
+/* Cada seção entra de um jeito: subir, vir da esquerda, da direita, abrir de
+   perto, tombar e "dar as cartas". Todas ligadas ao scroll pelo navegador,
+   só transform e opacity. Sem suporte, o conteúdo já está no lugar. */
+@supports (animation-timeline: view()) {
+  .in-left,
+  .in-right,
+  .in-zoom,
+  .in-tilt,
+  .in-deal,
+  .in-scene {
+    animation: linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  .in-left {
+    animation-name: in-left;
+  }
+  .in-right {
+    animation-name: in-right;
+  }
+  .in-zoom {
+    animation-name: in-zoom;
+  }
+  .in-tilt {
+    animation-name: in-tilt;
+  }
+  .in-deal {
+    animation-name: in-deal;
+  }
+  .in-scene {
+    animation-name: in-scene;
+    animation-range: entry 0% cover 30%;
+  }
+  @keyframes in-left {
+    from {
+      opacity: 0;
+      transform: translate3d(-64px, 0, 0);
+    }
+  }
+  @keyframes in-right {
+    from {
+      opacity: 0;
+      transform: translate3d(64px, 0, 0);
+    }
+  }
+  @keyframes in-zoom {
+    from {
+      opacity: 0;
+      transform: scale(1.08);
+    }
+  }
+  @keyframes in-tilt {
+    from {
+      opacity: 0;
+      transform: perspective(900px) rotateX(18deg) translate3d(0, 40px, 0);
+    }
+  }
+  @keyframes in-deal {
+    from {
+      opacity: 0;
+      transform: translate3d(40px, 90px, 0) rotate(9deg);
+    }
+  }
+  @keyframes in-scene {
+    from {
+      opacity: 0.2;
+      transform: scale(0.93);
+    }
+  }
+
+  /* tatuagens que deslizam com o scroll num ritmo próprio */
+  .drift {
+    animation: drift linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+  @keyframes drift {
+    from {
+      transform: translate3d(0, 60px, 0) rotate(var(--r0, -6deg));
+    }
+    to {
+      transform: translate3d(0, -60px, 0) rotate(var(--r1, 6deg));
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -413,7 +639,14 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   .blink,
   .marquee-track,
   .boot,
-  .reveal {
+  .reveal,
+  .in-left,
+  .in-right,
+  .in-zoom,
+  .in-tilt,
+  .in-deal,
+  .in-scene,
+  .drift {
     animation: none !important;
   }
   .lift,

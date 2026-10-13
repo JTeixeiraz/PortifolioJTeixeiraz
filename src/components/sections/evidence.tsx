@@ -1,83 +1,104 @@
 import type { CSSProperties } from "react";
-import { EVIDENCE, LABELS } from "@/lib/content";
+import { EVIDENCE } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
-import { SectionHeading } from "@/components/section-heading";
+import { Pic } from "@/components/pic";
 import { Spark } from "@/components/spark";
+import { Wave } from "@/components/wave";
 
-/** Matiz do ícone de cada save: o mesmo arco-íris, girado. */
 const HUES = [0, 52, 104, 156, 208, 260, 312];
 
 /**
- * As evidências como o navegador do cartão de memória do PS2: cada história
- * é um save, com o ícone iridescente. Nada de tamanho em KB inventado — a
- * seção é justamente sobre não estimar. Colunas CSS fazem a alvenaria.
+ * As evidências no vermelho que escorre do papel do limite: cada história é
+ * um "save" do memory card, e os saves correm em duas faixas em sentidos
+ * opostos (pausam no hover). Sete histórias deixam de ser sete caixas
+ * empilhadas. A seção devolve a página ao escuro por outra onda.
  */
 function EvidenceBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
   const rows = t(EVIDENCE);
+  const half = Math.ceil(rows.length / 2);
+  const lanes = [rows.slice(0, half), rows.slice(half)];
 
   return (
-    <section aria-labelledby={`evidence-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
-      <div className="tile tile-panel rounded-[var(--r-frame)] p-5 sm:p-8 lg:p-12">
-        <SectionHeading
-          id={`evidence-heading-${lang}`}
-          slot="07"
-          label={labels.evidence}
-          aside={
-            <div className="hidden rounded-2xl border border-line-2 bg-void/60 p-4 sm:block">
-              <p className="t-mono text-[0.52rem] text-text-3">Memory card (8MB)</p>
-              <p className="t-title mt-2 text-[0.95rem] text-text">
-                {rows.length} saves · 0 {lang === "pt" ? "estimados" : "estimated"}
-              </p>
-              <div className="mt-3 flex h-1.5 w-40 overflow-hidden rounded-full bg-white/10">
-                <span className="h-full w-full rounded-full bg-[linear-gradient(90deg,var(--cobalt),#36e4ff)]" />
-              </div>
-              <p className="t-mono mt-2 text-[0.48rem] text-text-3">
-                {lang === "pt" ? "cada um com a fonte" : "each one with its source"}
-              </p>
-            </div>
-          }
-        >
-          {lang === "pt" ? "Nenhum número aqui foi estimado." : "No number here was estimated."}
-        </SectionHeading>
+    <section aria-labelledby={`evidence-heading-${lang}`} className="relative">
+      <Wave fill="var(--blood)" under="var(--bone)" variant="b" />
 
-        <p className="measure mt-6 text-[0.98rem] leading-[1.65] text-text-2">
-          {lang === "pt"
-            ? "Cada um veio de uma consulta, de um log ou de uma contagem — e estas são as histórias que eu levo para entrevista, porque falam de julgamento e não de execução."
-            : "Each came from a query, a log or a count — and these are the stories I take into interviews, because they are about judgment rather than execution."}
-        </p>
+      <div className="relative overflow-hidden bg-[radial-gradient(90%_60%_at_80%_0%,var(--blood-2),transparent_60%),linear-gradient(180deg,var(--blood),#7a0818)] pb-16 pt-4 lg:pb-24">
+        <Pic
+          id="tat-thorn-face"
+          alt=""
+          sizes="(min-width: 1024px) 16vw, 36vw"
+          className="drift pointer-events-none absolute -top-6 left-[3%] z-0 block w-[34vw] max-w-[15rem] [--r0:-8deg] [--r1:2deg] lg:w-[14vw]"
+          imgClassName="ink-white h-auto w-full opacity-85"
+        />
 
-        <div className="mt-10 gap-3 sm:columns-2 lg:columns-3">
-          {rows.map((row, n) => (
-            <article
-              key={row.claim}
-              className="reveal mb-3 break-inside-avoid rounded-[22px] border border-line bg-void/60 p-5 sm:p-6"
+        <div className="wrap relative z-[1]">
+          <div className="in-right flex flex-wrap items-end justify-between gap-6 px-2 sm:px-6 lg:pl-[18vw] lg:pr-10">
+            <h2
+              id={`evidence-heading-${lang}`}
+              className="t-display max-w-[16ch] text-[clamp(2.2rem,1.2rem+3.6vw,4.6rem)] text-white"
             >
-              <div className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.4)]"
-                  style={
-                    {
-                      background: `conic-gradient(from ${HUES[n % HUES.length]}deg, #6d7bff, #36e4ff, #b6ff6a, #ffd56a, #ff6a8b, #b57bff, #6d7bff)`,
-                    } as CSSProperties
-                  }
-                >
-                  <Spark size={16} className="drop-shadow-[0_1px_2px_rgb(0_0_0/0.5)]" />
-                </span>
-                <p className="t-mono text-[0.52rem] leading-[1.6] text-text-3">
-                  Save {String(n + 1).padStart(2, "0")}
-                  <br />
-                  <span className="text-text-2">{lang === "pt" ? "verificado" : "verified"}</span>
-                </p>
+              {lang === "pt" ? "Nenhum número aqui foi estimado." : "No number here was estimated."}
+            </h2>
+            <p className="max-w-[36ch] text-[0.98rem] leading-[1.6] text-white/85">
+              {lang === "pt"
+                ? "Cada um veio de uma consulta, de um log ou de uma contagem. São as histórias que eu levo para entrevista."
+                : "Each came from a query, a log or a count. These are the stories I take into interviews."}
+            </p>
+          </div>
+        </div>
+
+        <div className="relative z-[1] mt-12 space-y-4 lg:mt-16">
+          {lanes.map((lane, l) => (
+            <div key={l} className="marquee overflow-hidden">
+              <div
+                className="marquee-track flex w-max gap-4"
+                style={
+                  {
+                    "--marquee-duration": `${70 + l * 12}s`,
+                    "--marquee-direction": l === 1 ? "reverse" : "normal",
+                  } as CSSProperties
+                }
+              >
+                {[0, 1].map((copy) => (
+                  <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 gap-4">
+                    {lane.map((row, k) => {
+                      const n = l * half + k;
+                      return (
+                        <li
+                          key={row.claim}
+                          className={`flex w-[min(82vw,26rem)] shrink-0 gap-4 bg-bone p-5 text-bone-ink ${
+                            n % 2 ? "rounded-[999px_40px_40px_999px] pl-7" : "rounded-[40px_999px_999px_40px] pr-9"
+                          }`}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.4)]"
+                            style={{
+                              background: `conic-gradient(from ${HUES[n % HUES.length]}deg, #6d7bff, #36e4ff, #b6ff6a, #ffd56a, #ff6a8b, #b57bff, #6d7bff)`,
+                            }}
+                          >
+                            <Spark size={16} />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="t-mono block text-[0.48rem] text-bone-dim">
+                              Save {String(n + 1).padStart(2, "0")}
+                            </span>
+                            <span className="t-title mt-1 block text-[0.98rem]">{row.claim}</span>
+                            <span className="mt-1.5 block text-[0.82rem] leading-[1.5] text-bone-dim">{row.how}</span>
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ))}
               </div>
-              <h3 className="t-title mt-5 text-[1.05rem] text-text">{row.claim}</h3>
-              <p className="mt-3 text-[0.88rem] leading-[1.65] text-text-2">{row.how}</p>
-            </article>
+            </div>
           ))}
         </div>
       </div>
+
+      <Wave fill="var(--void)" under="#7a0818" variant="a" />
     </section>
   );
 }

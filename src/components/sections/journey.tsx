@@ -1,75 +1,78 @@
-import { BACKGROUND, JOURNEY, LABELS } from "@/lib/content";
+import { BACKGROUND, JOURNEY } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
+import type { ImageId } from "@/lib/images";
 import { SectionHeading } from "@/components/section-heading";
-import { VyroMark } from "@/components/vyro-mark";
+import { Pic } from "@/components/pic";
 
-const TONES = ["tile-panel", "tile-cobalt", "tile-void"] as const;
-const SPANS = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5"] as const;
+/** Foto e pose de cada polaroide: largadas na mesa, não alinhadas. */
+const POLAROID: { photo: ImageId; pose: string; range: string }[] = [
+  { photo: "jp-poster", pose: "lg:-rotate-[4deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
+  { photo: "cat-poster", pose: "lg:rotate-[3deg] lg:-translate-y-4 lg:-ml-4", range: "[animation-range:entry_10%_entry_65%]" },
+  { photo: "night-car-2", pose: "lg:-rotate-[2deg] lg:translate-y-10 lg:-ml-4", range: "[animation-range:entry_20%_entry_75%]" },
+];
 
 /**
- * A jornada: três frentes ao mesmo tempo, não uma escada. Os cartões
- * alternam largura (7+5, depois 5+7 com a formação) para o olho não ler
- * sucessão onde há paralelo. A nota do vínculo de estágio fica visível.
+ * A jornada como três polaroides largadas na mesa — squad, VYRO e freela
+ * correm ao mesmo tempo, e se sobrepõem em vez de formar uma escada. A
+ * formação vira uma faixa em pílula, e a nota do vínculo de estágio fica
+ * visível por baixo.
  */
 function JourneyBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
   const j = t(JOURNEY);
   const bg = t(BACKGROUND);
 
   return (
-    <section aria-labelledby={`journey-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
-      <div className="px-2 sm:px-3">
-        <SectionHeading id={`journey-heading-${lang}`} slot="09" label={labels.journey}>
-          {lang === "pt" ? "Squad, produto e contrato." : "Squad, product and contract."}
-        </SectionHeading>
-        <p className="measure mt-6 text-[0.98rem] leading-[1.65] text-text-2">{j.lead}</p>
-      </div>
+    <section aria-labelledby={`journey-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
+      <SectionHeading id={`journey-heading-${lang}`} slot="09" className="px-2 sm:px-3">
+        {lang === "pt" ? "Squad, produto e contrato." : "Squad, product and contract."}
+      </SectionHeading>
+      <p className="measure mt-6 px-2 text-[0.98rem] leading-[1.65] text-text-2 sm:px-3">{j.lead}</p>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-12">
+      <ol className="swipe -mx-[clamp(10px,1.4vw,28px)] mt-12 md:mx-0 md:grid md:grid-cols-3 md:gap-4 lg:mt-16 lg:flex lg:justify-center lg:gap-0">
         {j.rows.map((row, n) => {
-          const onCobalt = TONES[n] === "tile-cobalt";
+          const p = POLAROID[n];
           return (
-            <article
-              key={row.org}
-              className={`reveal tile ${TONES[n]} flex min-h-[18rem] flex-col p-6 sm:p-8 ${SPANS[n]} ${n === 0 ? "md:col-span-2" : ""}`}
-            >
-              <div className="flex items-start justify-between gap-4">
-                <p className={`t-mono text-[0.55rem] ${onCobalt ? "text-white/75" : "text-text-3"}`}>
-                  {row.period}
-                </p>
-                {row.org.toLowerCase().startsWith("vyro") ? (
-                  <VyroMark size={26} strokeWidth={5} className="text-white" />
-                ) : null}
-              </div>
-              <h3 className={`t-title mt-auto pt-10 text-[clamp(1.25rem,1rem+0.8vw,1.7rem)] ${onCobalt ? "text-white" : "text-text"}`}>
-                {row.role}
-              </h3>
-              <p className={`t-mono mt-2 text-[0.55rem] ${onCobalt ? "text-white/80" : "text-text-2"}`}>
-                {row.org}
-              </p>
-              <p className={`mt-5 text-[0.92rem] leading-[1.65] ${onCobalt ? "text-white/85" : "text-text-2"}`}>
-                {row.note}
-              </p>
-            </article>
+            <li key={row.org} className={`in-deal ${p.range} relative lg:w-[32%]`}>
+              <article
+                className={`bg-bone p-3 pb-6 shadow-[0_40px_60px_-30px_rgb(0_0_0/0.9)] transition-transform duration-500 ease-[var(--ease-out)] hover:-translate-y-2 hover:rotate-0 ${p.pose} rounded-[10px]`}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[4px]">
+                  <Pic
+                    id={p.photo}
+                    alt=""
+                    sizes="(min-width: 1024px) 30vw, 80vw"
+                    className="absolute inset-0 block"
+                    imgClassName="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="px-2 pt-5">
+                  <p className="t-mono text-[0.5rem] text-bone-dim">{row.period}</p>
+                  <h3 className="t-title mt-2 text-[1.15rem] text-bone-ink">{row.role}</h3>
+                  <p className="t-mono mt-1 text-[0.5rem] text-blood">{row.org}</p>
+                  <p className="mt-3 text-[0.85rem] leading-[1.6] text-bone-dim">{row.note}</p>
+                </div>
+              </article>
+            </li>
           );
         })}
+      </ol>
 
-        <article className="reveal tile tile-bone p-6 sm:p-8 lg:col-span-7">
-          <p className="t-mono text-[0.55rem] text-bone-dim">{bg.heading}</p>
-          <ul className="mt-6 divide-y divide-bone-ink/10">
-            {bg.rows.map((row) => (
-              <li key={row.title} className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4 py-4">
-                <span>
-                  <span className="t-title block text-[1.05rem] text-bone-ink">{row.title}</span>
-                  <span className="mt-1 block text-[0.85rem] text-bone-dim">{row.note}</span>
-                </span>
-                <span className="t-mono text-[0.52rem] text-bone-dim">{row.period}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-[0.82rem] leading-[1.6] text-bone-dim">{j.footnote}</p>
-        </article>
+      <div className="in-right mx-auto mt-16 max-w-[68rem] lg:mt-24">
+        <p className="t-mono px-3 text-[0.55rem] text-text-3">{bg.heading}</p>
+        <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-0 sm:overflow-hidden sm:rounded-full sm:border sm:border-line-2">
+          {bg.rows.map((row, n) => (
+            <li
+              key={row.title}
+              className={`rounded-[22px] border border-line-2 px-6 py-4 sm:rounded-none sm:border-0 ${n > 0 ? "sm:border-l sm:border-line-2" : ""}`}
+            >
+              <span className="t-mono block text-[0.48rem] text-text-3">{row.period}</span>
+              <span className="t-title mt-1.5 block text-[0.95rem] text-text">{row.title}</span>
+              <span className="block text-[0.8rem] text-text-2">{row.note}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 px-3 text-[0.8rem] text-text-3">{j.footnote}</p>
       </div>
     </section>
   );

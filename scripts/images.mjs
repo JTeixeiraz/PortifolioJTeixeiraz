@@ -1,6 +1,7 @@
 // Gera as imagens do site a partir de scripts/raw/.
 //
-// - "photo": AVIF + WebP em até três larguras, para <picture srcset>.
+// - "photo": AVIF + WebP em até três larguras, para <picture srcset>; com
+//   `blur`, também um fundo desfocado de 48 px.
 // - "ink": flash de tatuagem em fundo branco vira tinta com alpha real. O
 //   branco do papel some, a cor do traço é recuperada (des-multiplicada do
 //   branco), e a imagem pousa em qualquer card sem mix-blend-mode — blend em
@@ -21,7 +22,7 @@ const RAW = path.join(ROOT, "scripts/raw");
 const OUT = path.join(ROOT, "public/img");
 const MANIFEST = path.join(ROOT, "src/lib/images.ts");
 
-/** @type {{ id: string, file: string, mode: "photo" | "ink", widths: number[] }[]} */
+/** @type {{ id: string, file: string, mode: "photo" | "ink", widths: number[], blur?: boolean }[]} */
 const IMAGES = [
   { id: "chrome-cross", file: "chrome-cross.jpg", mode: "photo", widths: [480, 900] },
   { id: "loading-cat", file: "loading-cat.jpg", mode: "photo", widths: [420, 800] },
@@ -33,6 +34,38 @@ const IMAGES = [
   { id: "lumi-consulta", file: "lumi-consulta.webp", mode: "photo", widths: [320, 560] },
   { id: "lumi-rotina", file: "lumi-rotina.webp", mode: "photo", widths: [320, 560] },
   { id: "postly-campanha", file: "postly-campanha.webp", mode: "photo", widths: [640, 1200] },
+
+  // estética: fotos e pôsteres (blur: gera também o fundo desfocado minúsculo)
+  { id: "nana", file: "nana.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "fallen-angels", file: "fallen-angels.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "face-illust", file: "face-illust.jpg", mode: "photo", widths: [400, 674] },
+  { id: "goldfish", file: "goldfish.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "night-car-1", file: "night-car-1.jpg", mode: "photo", widths: [400, 736] },
+  { id: "night-car-2", file: "night-car-2.jpg", mode: "photo", widths: [400, 735] },
+  { id: "night-tokyo", file: "night-tokyo.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "tokyo-street", file: "tokyo-street.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "tokyo-girl", file: "tokyo-girl.jpg", mode: "photo", widths: [420, 720] },
+  { id: "supersonic", file: "supersonic.jpg", mode: "photo", widths: [420, 736] },
+  { id: "evangelion", file: "evangelion.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "eva-poster", file: "eva-poster.jpg", mode: "photo", widths: [420, 735] },
+  { id: "samurai-moon", file: "samurai-moon.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "crystal", file: "crystal.jpg", mode: "photo", widths: [736], blur: true },
+  { id: "koi", file: "koi.jpg", mode: "photo", widths: [420, 736], blur: true },
+  { id: "chrome-white", file: "chrome-white.jpg", mode: "photo", widths: [420, 736] },
+  { id: "bronze-liquid", file: "bronze-liquid.jpg", mode: "photo", widths: [420, 736] },
+  { id: "floral-spider", file: "floral-spider.jpg", mode: "photo", widths: [420, 736] },
+  { id: "jp-poster", file: "jp-poster.jpg", mode: "photo", widths: [400, 710] },
+  { id: "cat-poster", file: "cat-poster.jpg", mode: "photo", widths: [420, 736] },
+  { id: "daikichi", file: "daikichi.jpg", mode: "photo", widths: [420, 736] },
+
+  // tatuagens: traço preto em papel branco → tinta com alpha
+  { id: "tat-sword", file: "tat-34.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-wing", file: "tat-35.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-thorn-face", file: "tat-36.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-moon-angel", file: "tat-37.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-eye-column", file: "tat-38.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-tiger", file: "tat-39.jpg", mode: "ink", widths: [360, 640] },
+  { id: "tat-halo", file: "tat-40.jpg", mode: "ink", widths: [360, 640] },
 ];
 
 /** Tinta sobre papel branco → RGBA com o papel transparente. */
@@ -90,7 +123,19 @@ async function main() {
         .toFile(path.join(OUT, `${img.id}-${w}.webp`));
     }
 
-    manifest[img.id] = { width: meta.width, height: meta.height, widths };
+    // Fundo desfocado: 48 px de largura, borrado no build. Esticado pelo CSS
+    // ele vira o painel de vidro atrás dos cartões — sem filter: blur() no
+    // navegador, que custaria composição a cada quadro.
+    if (img.blur) {
+      await sharp(buf)
+        .resize({ width: 48 })
+        .blur(1.2)
+        .modulate({ saturation: 1.15 })
+        .webp({ quality: 60 })
+        .toFile(path.join(OUT, `${img.id}-blur.webp`));
+    }
+
+    manifest[img.id] = { width: meta.width, height: meta.height, widths, blur: Boolean(img.blur) };
     console.log(`${img.id}: ${meta.width}×${meta.height} → ${widths.join(", ")}`);
   }
 

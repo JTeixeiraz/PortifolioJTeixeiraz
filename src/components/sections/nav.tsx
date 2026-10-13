@@ -11,10 +11,10 @@ import { Spark } from "@/components/spark";
  */
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-3 px-3 sm:top-4 sm:px-5" style={{ zIndex: "var(--z-nav)" }}>
+    <header className="wrap fixed inset-x-0 top-3 sm:top-4" style={{ zIndex: "var(--z-nav)" }}>
       <nav
         aria-label="Navegação principal · Main navigation"
-        className="nav-pill mx-auto flex h-14 max-w-[1400px] items-center justify-between gap-4 rounded-full border px-2"
+        className="nav-pill flex h-14 w-full items-center justify-between gap-4 rounded-full border px-2"
       >
         <a
           href="#top"
