@@ -3,8 +3,7 @@ import { Spark } from "@/components/spark";
 
 /**
  * Cabeçalho de seção: o slot do cartão de memória numa pílula, o título
- * largo por baixo e, à direita, o número em blackletter cromado — o único
- * ornamento gótico que se repete na página.
+ * largo por baixo e, à direita, o número do slot em cromado.
  */
 export function SectionHeading({
   children,
@@ -21,7 +20,7 @@ export function SectionHeading({
   aside?: ReactNode;
 }) {
   return (
-    <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+    <header className="grid grid-cols-1 items-end gap-x-10 gap-y-6 md:grid-cols-[minmax(0,1fr)_auto]">
       <div className="min-w-0">
         <p className="t-mono inline-flex items-center gap-2.5 rounded-full border border-line-2 bg-void-2/70 px-4 py-2 text-[0.6rem] text-text-2">
           <Spark size={9} className="text-cobalt-2" />
@@ -40,7 +39,7 @@ export function SectionHeading({
         {aside}
         <span
           aria-hidden="true"
-          className="t-goth chrome-text hidden text-[clamp(4rem,2rem+6vw,7.5rem)] leading-[0.7] md:block"
+          className="t-display chrome-text hidden text-[clamp(3.5rem,2rem+4vw,6rem)] leading-[0.78] md:block"
         >
           {slot}
         </span>

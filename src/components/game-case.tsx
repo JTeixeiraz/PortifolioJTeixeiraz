@@ -84,11 +84,11 @@ export function GameCase({
             alt=""
             sizes="(min-width: 1024px) 18vw, 45vw"
             priority={priority}
-            className="absolute -right-[6%] top-[14%] block w-[62%] rotate-[8deg]"
+            className="absolute -right-[10%] top-[40%] block w-[68%] rotate-[8deg]"
             imgClassName="h-auto w-full rounded-[14px] shadow-[0_24px_40px_-16px_rgb(0_0_0/0.8)] ring-1 ring-white/15"
           />
 
-          <span className="absolute left-[7%] right-[40%] top-[8%] block">
+          <span className="absolute left-[7%] right-[7%] top-[7%] block">
             <span
               className="t-display block text-[clamp(1.5rem,0.9rem+2.4vw,2.6rem)] leading-[0.9]"
               style={{ color: ink }}
@@ -102,6 +102,12 @@ export function GameCase({
               {tagline}
             </span>
           </span>
+
+          {/* sombra na base: o selo e a plataforma leem sobre qualquer arte */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(to_top,#07080e_25%,transparent)]"
+          />
 
           {/* selo e plataforma */}
           <span className="absolute bottom-[5%] left-[7%] flex items-end gap-2.5">
