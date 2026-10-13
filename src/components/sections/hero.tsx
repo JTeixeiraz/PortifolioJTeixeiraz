@@ -187,11 +187,11 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           style={i(4)}
         >
           <Pic
-            id="tokyo-girl"
+            id="get-to-work"
             alt=""
             sizes="(min-width: 1024px) 30vw, 80vw"
             className="absolute inset-0 -z-10 block"
-            imgClassName="h-full w-full object-cover object-[50%_42%]"
+            imgClassName="h-full w-full object-cover object-[50%_40%]"
           />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_8_14/0.92),rgb(7_8_14/0.15)_70%)]" />
           <p className="t-mono text-[0.55rem] text-white/75">{PROFILE.location} · {PROFILE.utc}</p>

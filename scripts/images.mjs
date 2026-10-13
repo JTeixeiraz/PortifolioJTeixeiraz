@@ -40,7 +40,6 @@ const IMAGES = [
   { id: "fallen-angels", file: "fallen-angels.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "face-illust", file: "face-illust.jpg", mode: "photo", widths: [400, 674] },
   { id: "goldfish", file: "goldfish.jpg", mode: "photo", widths: [420, 736], blur: true },
-  { id: "night-car-2", file: "night-car-2.jpg", mode: "photo", widths: [400, 735] },
   { id: "night-tokyo", file: "night-tokyo.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "tokyo-street", file: "tokyo-street.jpg", mode: "photo", widths: [420, 736], blur: true },
   { id: "tokyo-girl", file: "tokyo-girl.jpg", mode: "photo", widths: [420, 720] },
@@ -58,6 +57,9 @@ const IMAGES = [
 
   { id: "bird-paint", file: "bird-paint.jpg", mode: "photo", widths: [420, 736] },
   { id: "dubai-laptop", file: "dubai-laptop.jpg", mode: "photo", widths: [420, 736] },
+
+  { id: "code-balcony", file: "code-balcony.jpg", mode: "photo", widths: [420, 736] },
+  { id: "get-to-work", file: "get-to-work.jpg", mode: "photo", widths: [420, 736] },
 
   // fotos dele
   { id: "me-1", file: "me-1.png", mode: "photo", widths: [320, 484] },

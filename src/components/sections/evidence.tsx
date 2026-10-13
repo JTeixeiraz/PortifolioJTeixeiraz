@@ -64,9 +64,7 @@ function EvidenceBody({ t, lang }: { t: T; lang: Lang }) {
                       return (
                         <li
                           key={row.claim}
-                          className={`flex w-[min(82vw,26rem)] shrink-0 gap-4 bg-bone p-5 text-bone-ink ${
-                            n % 2 ? "rounded-[999px_40px_40px_999px] pl-7" : "rounded-[40px_999px_999px_40px] pr-9"
-                          }`}
+                          className="flex w-[min(82vw,26rem)] shrink-0 items-start gap-4 rounded-[32px] bg-bone px-6 py-5 text-bone-ink"
                         >
                           <span
                             aria-hidden="true"

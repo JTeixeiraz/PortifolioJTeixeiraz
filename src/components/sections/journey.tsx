@@ -9,7 +9,7 @@ import { Pic } from "@/components/pic";
 const POLAROID: { photo: ImageId; pose: string; range: string }[] = [
   { photo: "me-2", pose: "lg:-rotate-[4deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
   { photo: "cat-poster", pose: "lg:rotate-[3deg] lg:-translate-y-4 lg:-ml-4", range: "[animation-range:entry_10%_entry_65%]" },
-  { photo: "night-car-2", pose: "lg:-rotate-[2deg] lg:translate-y-10 lg:-ml-4", range: "[animation-range:entry_20%_entry_75%]" },
+  { photo: "code-balcony", pose: "lg:-rotate-[2deg] lg:translate-y-10 lg:-ml-4", range: "[animation-range:entry_20%_entry_75%]" },
 ];
 
 /**

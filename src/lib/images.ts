@@ -127,15 +127,6 @@ export const IMAGES = {
     ],
     "blur": true
   },
-  "night-car-2": {
-    "width": 735,
-    "height": 736,
-    "widths": [
-      400,
-      735
-    ],
-    "blur": false
-  },
   "night-tokyo": {
     "width": 736,
     "height": 1308,
@@ -271,6 +262,24 @@ export const IMAGES = {
     "blur": false
   },
   "dubai-laptop": {
+    "width": 736,
+    "height": 981,
+    "widths": [
+      420,
+      736
+    ],
+    "blur": false
+  },
+  "code-balcony": {
+    "width": 736,
+    "height": 981,
+    "widths": [
+      420,
+      736
+    ],
+    "blur": false
+  },
+  "get-to-work": {
     "width": 736,
     "height": 981,
     "widths": [
