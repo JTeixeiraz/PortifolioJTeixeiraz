@@ -13,7 +13,7 @@ function ContactBody({ t, lang }: { t: T; lang: Lang }) {
   const c = t(CONTACT);
 
   return (
-    <section aria-labelledby={`contact-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`contact-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-12">
         <div className="tile tile-cobalt rounded-[var(--r-frame)] p-7 sm:p-10 lg:col-span-8 lg:p-14">
           <p className="t-mono flex items-center gap-3 text-[0.62rem] text-white/90">

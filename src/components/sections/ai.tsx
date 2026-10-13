@@ -1,4 +1,4 @@
-import { AI_PRACTICES, LABELS } from "@/lib/content";
+import { AI_PRACTICES } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
@@ -13,12 +13,11 @@ const TONES = ["tile-panel", "tile-void", "tile-void", "tile-panel"] as const;
  * carrega. Ao lado, as quatro práticas, cada uma com o artefato que a prova.
  */
 function AiBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
 
   return (
-    <section aria-labelledby={`ai-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`ai-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id={`ai-heading-${lang}`} slot="04" label={labels.ai}>
+        <SectionHeading id={`ai-heading-${lang}`} slot="04">
           {lang === "pt" ? "Agente com contexto, não com sorte." : "Agents with context, not luck."}
         </SectionHeading>
       </div>

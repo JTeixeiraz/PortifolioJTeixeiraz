@@ -1,4 +1,4 @@
-import { LABELS, STACK } from "@/lib/content";
+import { STACK } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
@@ -21,13 +21,12 @@ const LAYOUT = [
  * sem sopa de logos — chips de texto, leves.
  */
 function StackBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
   const groups = t(STACK);
 
   return (
-    <section aria-labelledby={`stack-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`stack-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id={`stack-heading-${lang}`} slot="08" label={labels.stack}>
+        <SectionHeading id={`stack-heading-${lang}`} slot="08">
           {lang === "pt" ? "O que já foi para produção." : "What has shipped to production."}
         </SectionHeading>
       </div>

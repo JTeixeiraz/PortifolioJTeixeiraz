@@ -34,7 +34,7 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
   const role = t(ROLE);
 
   return (
-    <section className="relative mx-auto max-w-[1400px] px-3 pt-[5.25rem] sm:px-5 sm:pt-24">
+    <section className="wrap relative pt-[5.25rem] sm:pt-24">
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-6 lg:min-h-[calc(100dvh-7rem)] lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)_auto]">
         {/* A — o título sobre o cromo */}
@@ -52,21 +52,21 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
             imgClassName="h-full w-full object-cover object-[50%_45%]"
           />
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[0.9rem]">
             <a
               href={PROFILE.vyro}
               target="_blank"
               rel="noopener noreferrer"
-              className="press inline-flex items-center gap-2 rounded-full border border-line-2 bg-void/60 py-1.5 pl-1.5 pr-3.5 text-[0.78rem] text-text backdrop-blur-sm hover:border-white/40"
+              className="group inline-flex items-center gap-2 text-text"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-text text-void">
-                <VyroMark size={12} strokeWidth={7} />
+              <VyroMark size={16} strokeWidth={6} />
+              <span className="underline decoration-white/25 underline-offset-[6px] transition-colors duration-200 group-hover:decoration-white">
+                {hero.founder}
               </span>
-              {hero.founder}
               <span aria-hidden="true" className="text-text-3">↗</span>
             </a>
-            <span className="t-mono inline-flex items-center gap-2 rounded-full bg-void/60 px-3.5 py-2 text-[0.56rem] text-text-2 backdrop-blur-sm">
-              <span className="blink h-1.5 w-1.5 rounded-full bg-[#7cff8a]" />
+            <span className="inline-flex items-center gap-2 text-text-2">
+              <span aria-hidden="true" className="blink h-1.5 w-1.5 rounded-full bg-[#7cff8a]" />
               {hero.kicker}
             </span>
           </div>
@@ -106,9 +106,11 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           </div>
         </div>
 
+        {/* B–G: no celular, um carrossel de deslize; do md em diante, o bento */}
+        <div className="swipe -mx-[clamp(10px,1.4vw,28px)] py-1 md:contents">
         {/* B — o anjo, save point */}
         <div
-          className="boot tile tile-bone flex min-h-[30rem] flex-col justify-between p-5 md:col-span-3 md:row-span-2 lg:col-span-3 lg:min-h-0"
+          className="boot tile tile-bone flex min-h-[26rem] flex-col justify-between p-5 md:col-span-3 md:row-span-2 md:min-h-[30rem] lg:col-span-3 lg:min-h-0"
           style={i(1)}
         >
           <p className="t-mono flex items-center justify-between text-[0.56rem] text-bone-dim">
@@ -169,18 +171,19 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
 
         {/* E — o lugar */}
         <div
-          className="boot tile tile-bone flex min-h-[12rem] flex-col justify-between p-5 pr-28 md:col-span-4 lg:col-span-4"
+          className="boot tile bite-tr flex min-h-[14rem] flex-col justify-end p-5 [--b:38px] md:col-span-4 lg:col-span-4"
           style={i(4)}
         >
           <Pic
-            id="tribal-cross"
+            id="tokyo-street"
             alt=""
-            sizes="160px"
-            className="absolute -right-4 -top-8 -z-10 block w-36 rotate-[14deg]"
-            imgClassName="h-auto w-full"
+            sizes="(min-width: 1024px) 30vw, 80vw"
+            className="absolute inset-0 -z-10 block"
+            imgClassName="h-full w-full object-cover object-[50%_35%]"
           />
-          <p className="t-mono text-[0.55rem] text-bone-dim">{PROFILE.location} · {PROFILE.utc}</p>
-          <p className="t-title text-[1.1rem] text-bone-ink">
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_8_14/0.92),rgb(7_8_14/0.15)_70%)]" />
+          <p className="t-mono text-[0.55rem] text-white/75">{PROFILE.location} · {PROFILE.utc}</p>
+          <p className="t-title mt-2 text-[1.15rem] text-white">
             {lang === "pt"
               ? "Remoto, em português ou inglês."
               : "Remote, in Portuguese or English."}
@@ -202,6 +205,8 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           <p className="t-mono absolute bottom-3 left-0 right-0 text-center text-[0.5rem] text-bone-dim">
             {lang === "pt" ? "olho no que ninguém olha" : "eyes on what nobody watches"}
           </p>
+        </div>
+
         </div>
 
         {/* G — a ferramenta, em fita */}
@@ -228,6 +233,16 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           </div>
         </div>
       </div>
+
+      {/* A asa de tatuagem atravessa a emenda entre o título e o anjo: o
+          bento deixa de ser uma grade de caixas e vira uma página só. */}
+      <Pic
+        id="tat-wing"
+        alt=""
+        sizes="(min-width: 768px) 14vw, 36vw"
+        className="drift pointer-events-none absolute right-[3%] top-[4.75rem] z-[5] block w-[36vw] max-w-[13rem] [--r0:-18deg] [--r1:-6deg] md:left-[55%] md:right-auto md:top-[5.5rem] md:w-[12vw] md:max-w-none"
+        imgClassName="ink-white h-auto w-full opacity-90"
+      />
     </section>
   );
 }

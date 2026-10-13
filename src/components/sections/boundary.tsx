@@ -15,7 +15,7 @@ function BoundaryBody({ t, lang }: { t: T; lang: Lang }) {
   const b = t(BOUNDARY);
 
   return (
-    <section aria-labelledby={`boundary-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`boundary-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="tile tile-bone rounded-[var(--r-frame)] p-6 sm:p-10 lg:p-14">
         <Pic
           id="tribal-cross"

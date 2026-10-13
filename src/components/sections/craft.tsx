@@ -1,4 +1,4 @@
-import { CRAFT, LABELS } from "@/lib/content";
+import { CRAFT } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
@@ -32,12 +32,11 @@ const TONE = {
  * a prova abre, e nada disso custa JavaScript.
  */
 function CraftBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
 
   return (
-    <section aria-labelledby={`craft-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`craft-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id={`craft-heading-${lang}`} slot="03" label={labels.craft}>
+        <SectionHeading id={`craft-heading-${lang}`} slot="03">
           {lang === "pt" ? "O que eu faço dentro de uma squad." : "What I do inside a squad."}
         </SectionHeading>
       </div>

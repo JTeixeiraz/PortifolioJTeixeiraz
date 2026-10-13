@@ -17,12 +17,11 @@ function VyroBody({ t, lang }: { t: T; lang: Lang }) {
   const v = t(VYRO);
 
   return (
-    <section aria-labelledby={`vyro-heading-${lang}`} className="offscreen mx-auto mt-3 max-w-[1400px] px-3 sm:px-5">
+    <section aria-labelledby={`vyro-heading-${lang}`} className="offscreen wrap mt-3">
       <div className="tile rounded-[var(--r-frame)] border border-line bg-[radial-gradient(120%_80%_at_100%_0%,rgb(47_69_255/0.18),transparent_55%),var(--void-2)] p-5 sm:p-8 lg:p-12">
         <SectionHeading
           id={`vyro-heading-${lang}`}
           slot="02"
-          label={`VYRO · ${v.kicker}`}
           aside={
             <a
               href={PROFILE.vyro}

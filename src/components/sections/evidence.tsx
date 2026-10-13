@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { EVIDENCE, LABELS } from "@/lib/content";
+import { EVIDENCE } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
@@ -14,16 +14,14 @@ const HUES = [0, 52, 104, 156, 208, 260, 312];
  * seção é justamente sobre não estimar. Colunas CSS fazem a alvenaria.
  */
 function EvidenceBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
   const rows = t(EVIDENCE);
 
   return (
-    <section aria-labelledby={`evidence-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`evidence-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="tile tile-panel rounded-[var(--r-frame)] p-5 sm:p-8 lg:p-12">
         <SectionHeading
           id={`evidence-heading-${lang}`}
           slot="07"
-          label={labels.evidence}
           aside={
             <div className="hidden rounded-2xl border border-line-2 bg-void/60 p-4 sm:block">
               <p className="t-mono text-[0.52rem] text-text-3">Memory card (8MB)</p>

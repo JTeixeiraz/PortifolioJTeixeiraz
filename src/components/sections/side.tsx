@@ -1,4 +1,4 @@
-import { LABELS, SIDE } from "@/lib/content";
+import { SIDE } from "@/lib/content";
 import { Bi, type T } from "@/lib/i18n";
 import type { Lang } from "@/lib/content";
 import { SectionHeading } from "@/components/section-heading";
@@ -25,12 +25,11 @@ const TONE = {
  * pontos técnicos ficam num <details>: a ficha fecha curta e abre inteira.
  */
 function SideBody({ t, lang }: { t: T; lang: Lang }) {
-  const labels = t(LABELS);
 
   return (
-    <section aria-labelledby={`side-heading-${lang}`} className="offscreen mx-auto mt-24 max-w-[1400px] px-3 sm:px-5 lg:mt-32">
+    <section aria-labelledby={`side-heading-${lang}`} className="offscreen wrap mt-24 lg:mt-32">
       <div className="px-2 sm:px-3">
-        <SectionHeading id={`side-heading-${lang}`} slot="05" label={labels.side}>
+        <SectionHeading id={`side-heading-${lang}`} slot="05">
           {lang === "pt" ? "A ficha técnica de cada um." : "The spec sheet of each one."}
         </SectionHeading>
       </div>
