@@ -43,7 +43,8 @@ const KEY = "jpt.lang";
 export const LANG_HEAD_SCRIPT = `(function(){try{var d=document.documentElement,s=localStorage.getItem("${KEY}"),l=s==="pt"||s==="en"?s:((navigator.language||"").toLowerCase().indexOf("pt")===0?"pt":"en");d.setAttribute("data-lang",l);d.lang=l==="pt"?"pt-BR":"en"}catch(e){}})();`;
 
 /**
- * Roda no fim do <body>: liga os botões [data-set-lang] e mantém
+ * Roda no fim do <body>: no celular fecha os acordeões da Ferramenta (que
+ * saem abertos no HTML), liga os botões [data-set-lang] e mantém
  * aria-pressed em dia. Um listener só, delegado no documento.
  */
-export const LANG_BODY_SCRIPT = `(function(){var d=document.documentElement;function sync(){var l=d.getAttribute("data-lang")||"pt";document.querySelectorAll("[data-set-lang]").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-set-lang")===l))})}sync();document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-set-lang]");if(!b)return;var l=b.getAttribute("data-set-lang");d.setAttribute("data-lang",l);d.lang=l==="pt"?"pt-BR":"en";try{localStorage.setItem("${KEY}",l)}catch(_){}sync()})})();`;
+export const LANG_BODY_SCRIPT = `(function(){var d=document.documentElement;if(matchMedia("(max-width: 767.98px)").matches){document.querySelectorAll("details.stack-row[open]").forEach(function(x){x.removeAttribute("open")})}function sync(){var l=d.getAttribute("data-lang")||"pt";document.querySelectorAll("[data-set-lang]").forEach(function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-set-lang")===l))})}sync();document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-set-lang]");if(!b)return;var l=b.getAttribute("data-set-lang");d.setAttribute("data-lang",l);d.lang=l==="pt"?"pt-BR":"en";try{localStorage.setItem("${KEY}",l)}catch(_){}sync()})})();`;

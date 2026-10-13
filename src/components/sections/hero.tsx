@@ -240,7 +240,7 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
         id="tat-wing"
         alt=""
         sizes="(min-width: 768px) 14vw, 36vw"
-        className="drift pointer-events-none absolute right-[3%] top-[4.75rem] z-[5] block w-[36vw] max-w-[13rem] [--r0:-18deg] [--r1:-6deg] md:left-[55%] md:right-auto md:top-[5.5rem] md:w-[12vw] md:max-w-none"
+        className="drift pointer-events-none absolute right-[2%] top-[4.5rem] z-[5] block w-[24vw] max-w-[13rem] opacity-60 md:opacity-100 [--r0:-18deg] [--r1:-6deg] md:left-[55%] md:right-auto md:top-[5.5rem] md:w-[12vw] md:max-w-none"
         imgClassName="ink-white h-auto w-full opacity-90"
       />
     </section>

@@ -37,14 +37,23 @@ function StackBody({ t, lang }: { t: T; lang: Lang }) {
         <div className="tile tile-panel rounded-[40px_40px_40px_140px] px-6 py-4 sm:px-10 sm:py-6">
           <ul className="divide-y divide-line">
             {groups.map((g, n) => (
-              <li
-                key={g.group}
-                className={`${n % 2 ? "in-right" : "in-left"} grid grid-cols-1 gap-3 py-5 sm:grid-cols-[11rem_minmax(0,1fr)] sm:items-baseline sm:gap-6`}
-              >
-                <h3 className="t-title flex items-baseline gap-3 text-[1.15rem] text-text">
+              <li key={g.group} className={n % 2 ? "in-right" : "in-left"}>
+                {/* No celular cada grupo é um acordeão fechado; do md em diante
+                    o <summary> some e a lista fica sempre aberta (.stack-row). */}
+                <details
+                  // o script do corpo fecha no celular antes da pintura; no site
+                  // publicado não há hidratação, isto só cala o aviso do dev
+                  suppressHydrationWarning
+                  className="stack-row group grid grid-cols-1 gap-3 py-5 md:grid-cols-[11rem_minmax(0,1fr)] md:items-baseline md:gap-6"
+                  open
+                >
+                <summary className="t-title flex cursor-pointer list-none items-baseline gap-3 text-[1.15rem] text-text md:cursor-default [&::-webkit-details-marker]:hidden">
                   <span className="t-mono text-[0.5rem] text-text-3">{String(n + 1).padStart(2, "0")}</span>
                   {g.group}
-                </h3>
+                  <span className="t-mono ml-auto text-[0.55rem] text-text-3 md:hidden">
+                    {g.items.length} <span className="inline-block transition-transform duration-200 group-open:rotate-45">+</span>
+                  </span>
+                </summary>
                 <ul className="flex flex-wrap gap-1.5">
                   {g.items.map((item) => (
                     <li
@@ -55,6 +64,7 @@ function StackBody({ t, lang }: { t: T; lang: Lang }) {
                     </li>
                   ))}
                 </ul>
+                </details>
               </li>
             ))}
           </ul>

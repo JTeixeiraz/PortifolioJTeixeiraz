@@ -117,7 +117,12 @@
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    /* clip, não hidden: as tatuagens que vazam pela borda são cortadas sem
+       criar um contêiner de rolagem (que quebraria position: sticky) */
+    overflow-x: clip;
+  }
+  html {
+    overflow-x: clip;
   }
 
   /* Grão numa camada fixa só de opacidade: composta uma vez, sem blend. */
@@ -242,6 +247,17 @@ html[data-lang="en"] .lang-btn[data-set-lang="en"] {
   from {
     opacity: 0;
     transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+}
+
+
+/* ---------- ferramenta: acordeão só no celular ----------
+   O <details> sai aberto no HTML; no celular o script do corpo fecha todos
+   na primeira pintura (sem JS, tudo fica aberto — nunca some conteúdo). Do
+   md em diante o <summary> não responde a clique: a lista é fixa. */
+@media (min-width: 768px) {
+  .stack-row > summary {
+    pointer-events: none;
   }
 }
 
