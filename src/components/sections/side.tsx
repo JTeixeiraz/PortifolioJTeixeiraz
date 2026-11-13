@@ -26,7 +26,7 @@ function SideBody({ t, lang }: { t: T; lang: Lang }) {
 
   return (
     <section aria-labelledby={`side-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
-      <SectionHeading id={`side-heading-${lang}`} slot="05" className="px-2 sm:px-3">
+      <SectionHeading id={`side-heading-${lang}`} slot="06" className="px-2 sm:px-3">
         {lang === "pt" ? "A ficha técnica de cada um." : "The spec sheet of each one."}
       </SectionHeading>
 

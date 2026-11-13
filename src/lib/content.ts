@@ -18,6 +18,7 @@ export const PROFILE = {
   github: "https://github.com/JTeixeiraz",
   linkedin: "https://www.linkedin.com/in/joaoteixeirareis",
   vyro: "https://vyro-studio.pages.dev",
+  simpleTrip: "https://thesimpletrip.pages.dev",
   email: "joaopedroteixeirareis@gmail.com",
   location: "Belo Horizonte, MG",
   utc: "UTC−3",
@@ -30,16 +31,16 @@ export const ROLE: Dict<{
   since: string;
 }> = {
   pt: {
-    title: "Desenvolvedor Full Stack · Forward Deployed Engineer",
+    title: "Desenvolvedor Full Stack Júnior",
     org: "XP Educação",
     squad: "Squad de Engenharia de Software",
-    since: "Fev 2026 — atual",
+    since: "Nov 2026 — atual",
   },
   en: {
-    title: "Full Stack Developer · Forward Deployed Engineer",
+    title: "Junior Full Stack Developer",
     org: "XP Educação",
     squad: "Software Engineering squad",
-    since: "Feb 2026 — present",
+    since: "Nov 2026 — present",
   },
 };
 
@@ -48,6 +49,7 @@ export const NAV: Dict<{ href: string; label: string }[]> = {
     { href: "#vyro", label: "VYRO" },
     { href: "#oficio", label: "Ofício" },
     { href: "#ia", label: "IA" },
+    { href: "#vmm", label: "Agentes" },
     { href: "#fora", label: "Projetos" },
     { href: "#limite", label: "Limite" },
     { href: "#contato", label: "Contato" },
@@ -56,6 +58,7 @@ export const NAV: Dict<{ href: string; label: string }[]> = {
     { href: "#vyro", label: "VYRO" },
     { href: "#oficio", label: "Craft" },
     { href: "#ia", label: "AI" },
+    { href: "#vmm", label: "Agents" },
     { href: "#fora", label: "Projects" },
     { href: "#limite", label: "Boundary" },
     { href: "#contato", label: "Contact" },
@@ -65,6 +68,7 @@ export const NAV: Dict<{ href: string; label: string }[]> = {
 export const HERO: Dict<{
   kicker: string;
   founder: string;
+  cto: string;
   line1: string;
   line2: string;
   line3: string;
@@ -75,20 +79,22 @@ export const HERO: Dict<{
   pt: {
     kicker: "Belo Horizonte · disponível para remoto",
     founder: "Fundador da VYRO",
+    cto: "CTO da The Simple Trip",
     line1: "Sistemas",
     line2: "que não",
     line3: "podem cair",
-    body: "Sou desenvolvedor full stack na squad de Engenharia de Software da XP Educação. Meu trabalho é pegar processo que hoje depende de alguém lembrar de fazer e transformar em código que roda sozinho — e responder por ele quando não roda.",
+    body: "Sou desenvolvedor full stack júnior na squad de Engenharia de Software da XP Educação. Meu trabalho é pegar processo que hoje depende de alguém lembrar de fazer e transformar em código que roda sozinho — e responder por ele quando não roda.",
     ctaWork: "O que eu faço",
     ctaMail: "Falar comigo",
   },
   en: {
     kicker: "Belo Horizonte, Brazil · available for remote work",
     founder: "Founder of VYRO",
+    cto: "CTO at The Simple Trip",
     line1: "Systems",
     line2: "that cannot",
     line3: "go down",
-    body: "I am a full stack developer in XP Educação's Software Engineering squad. My job is to take a process that currently depends on someone remembering to do it and turn it into code that runs on its own — and to answer for it when it doesn't.",
+    body: "I am a junior full stack developer in XP Educação's Software Engineering squad. My job is to take a process that currently depends on someone remembering to do it and turn it into code that runs on its own — and to answer for it when it doesn't.",
     ctaWork: "What I do",
     ctaMail: "Get in touch",
   },
@@ -97,7 +103,8 @@ export const HERO: Dict<{
 /**
  * A VYRO é a empresa dele, e os três produtos são dela. Cada cartão da seção
  * veste a identidade do próprio produto — a VYRO assina embaixo, não por cima.
- * Todo número aqui vem do vault (estado de 07/10/2026) ou do resto da página.
+ * Todo número aqui vem do vault (estado de 07/10/2026) ou do resto da página;
+ * as instalações da Birdy são as que o João informou em 13/11/2026.
  */
 export type VyroProduct = {
   id: string;
@@ -155,8 +162,7 @@ export const VYRO_PRODUCTS: VyroProduct[] = [
       en: "Flock with ring and photo, genetics by loci with a crossing simulator, incubation dated by species, and sales with a ready-made WhatsApp listing.",
     },
     numbers: [
-      { value: "306", label: { pt: "instalações em 4 meses", en: "installs in 4 months" } },
-      { value: "141", label: { pt: "aparelhos ativos", en: "active devices" } },
+      { value: "600", label: { pt: "instalações na Play e na App Store", en: "installs on Google Play and the App Store" } },
       { value: "7", label: { pt: "espécies na genética", en: "species in genetics" } },
     ],
     cta: { pt: "Abrir o site da Birdy", en: "Open Birdy's site" },
@@ -362,8 +368,8 @@ export const SIDE: Side[] = [
     name: "Birdy",
     tag: { pt: "VYRO · Google Play e App Store", en: "VYRO · Google Play and App Store" },
     summary: {
-      pt: "SaaS de gestão de aviário para criadores de aves exóticas. Construí, publiquei e opero: 306 instalações e 141 aparelhos ativos nos primeiros quatro meses, de forma orgânica, com assinatura validada no servidor nas duas lojas.",
-      en: "Aviary management SaaS for exotic bird breeders. I built it, shipped it and run it: 306 installs and 141 active devices in the first four months, organically, with subscriptions validated server-side on both stores.",
+      pt: "SaaS de gestão de aviário para criadores de aves exóticas. Construí, publiquei e opero: 600 instalações somando Google Play e App Store, com assinatura validada no servidor nas duas lojas.",
+      en: "Aviary management SaaS for exotic bird breeders. I built it, shipped it and run it: 600 installs across Google Play and the App Store, with subscriptions validated server-side on both stores.",
     },
     points: {
       pt: [
@@ -634,8 +640,8 @@ export const EVIDENCE: Dict<{ claim: string; how: string }[]> = {
       how: "git log --author nos meus repositórios, somado à mão. É piso, não estimativa.",
     },
     {
-      claim: "306 instalações e 141 aparelhos ativos",
-      how: "Painel próprio que junta Firebase, Supabase, Google Play e App Store Connect. Número apurado, não lembrado.",
+      claim: "600 instalações da Birdy",
+      how: "Somadas as duas lojas, Google Play e App Store, em novembro de 2026. O número cresce; este é o da data.",
     },
   ],
   en: [
@@ -664,8 +670,8 @@ export const EVIDENCE: Dict<{ claim: string; how: string }[]> = {
       how: "git log --author across my repositories, summed by hand. A floor, not an estimate.",
     },
     {
-      claim: "306 installs and 141 active devices",
-      how: "My own panel joining Firebase, Supabase, Google Play and App Store Connect. Measured, not remembered.",
+      claim: "600 Birdy installs",
+      how: "Both stores added up, Google Play and the App Store, as of November 2026. The number grows; this is the one on that date.",
     },
   ],
 };
@@ -745,66 +751,85 @@ export const STACK: Dict<{ group: string; items: string[] }[]> = {
 };
 
 /**
- * A jornada. Três frentes ao mesmo tempo, e não uma escada: o emprego, o
- * produto próprio e o contrato correm em paralelo desde 2025/2026.
+ * A jornada. Quatro frentes ao mesmo tempo, e não uma escada: o emprego, a
+ * startup, o produto próprio e o contrato correm em paralelo.
  *
- * O vínculo de estágio fica na nota de rodapé — dito uma vez, sem eufemismo
- * e sem manchete. Quem contrata verifica isso na primeira conversa; escondê-lo
- * custaria a credibilidade do resto da página, e anunciá-lo em título faria o
- * trabalho parecer menor do que é.
+ * Na XP Educação ele entrou como estagiário (fev–out 2026) e foi efetivado
+ * como desenvolvedor júnior em novembro de 2026. A nota de rodapé diz isso
+ * uma vez, sem eufemismo: quem contrata verifica na primeira conversa.
+ * "Forward deployed" descreve o jeito de trabalhar, não é o cargo.
  */
 export const JOURNEY: Dict<{
+  heading: string;
   lead: string;
-  rows: { period: string; role: string; org: string; note: string }[];
+  rows: { period: string; role: string; org: string; note: string; href?: string; linkLabel?: string }[];
   footnote: string;
 }> = {
   pt: {
-    lead: "Três frentes ao mesmo tempo. Cada uma ensina o que a outra não ensina: a squad ensina a entregar dentro de sistema alheio, o produto próprio ensina a viver com as decisões, e o contrato ensina a dizer o escopo em voz alta.",
+    heading: "Squad, startup, produto e contrato.",
+    lead: "Quatro frentes ao mesmo tempo. Cada uma ensina o que as outras não ensinam: a squad ensina a entregar dentro de sistema alheio, a startup ensina a decidir a tecnologia com pouca gente, o produto próprio ensina a viver com as decisões, e o contrato ensina a dizer o escopo em voz alta.",
     rows: [
       {
-        period: "Fev 2026 — atual",
-        role: "Desenvolvedor Full Stack · Forward Deployed Engineer",
+        period: "Nov 2026 — atual",
+        role: "Desenvolvedor Full Stack Júnior",
         org: "XP Educação",
-        note: "Squad de Engenharia de Software. Entrego a feature inteira — tela, API, consulta, migração e deploy — e trato integração entre plataformas que ninguém desenhou juntas. Sento com quem pediu, levanto a regra de negócio na fonte e respondo pelo sistema em produção.",
+        note: "Squad de Engenharia de Software. Entrego a feature inteira (tela, API, consulta, migração e deploy) e trato integração entre plataformas que ninguém desenhou juntas. Trabalho perto de quem pediu, no estilo forward deployed: levanto a regra de negócio na fonte e respondo pelo sistema em produção.",
+      },
+      {
+        period: "Nov 2026 — atual",
+        role: "CTO",
+        org: "The Simple Trip",
+        note: "Planejador de viagem: você cola o plano do ChatGPT ou descreve a ideia, e ele vira uma viagem com cidades, dias, hospedagens, rotas e custo estimado, e o dia fica salvo para usar sem internet. Somos três pessoas no Brasil; a tecnologia é comigo.",
+        href: "https://thesimpletrip.pages.dev",
+        linkLabel: "thesimpletrip.pages.dev",
       },
       {
         period: "2026 — atual",
         role: "Fundador",
         org: "Vyro — Birdy, LUMI e Postly",
-        note: "SaaS de gestão de aviário publicado no Google Play e na App Store. Construí, publiquei e opero: arquitetura, cobrança, sincronização local-first e a auditoria ofensiva contra o meu próprio backend.",
+        note: "A Birdy está no Google Play e na App Store, com 600 instalações. Construí, publiquei e opero: arquitetura, cobrança, sincronização local-first e a auditoria ofensiva contra o meu próprio backend. O marketing dos produtos roda no Vyro Marketing Manager, que eu também escrevi.",
       },
       {
         period: "2025 — atual",
         role: "Freelance",
         org: "API e produto sob contrato",
-        note: "Em paralelo às duas. Entrego o que foi contratado, e o que fica fora de escopo fica documentado com o motivo — foi assim na API de predição industrial da InduxAI.",
+        note: "Em paralelo às outras. Entrego o que foi contratado, e o que fica fora de escopo fica documentado com o motivo. Foi assim na API de predição industrial da InduxAI.",
       },
     ],
-    footnote: "O vínculo na XP Educação é de estágio, dentro da squad de engenharia.",
+    footnote: "Na XP Educação, fui estagiário de fevereiro a outubro de 2026, dentro da squad de engenharia, e fui efetivado como desenvolvedor júnior em novembro.",
   },
   en: {
-    lead: "Three fronts at once. Each teaches what the others cannot: the squad teaches shipping inside someone else's system, the product teaches living with your own decisions, and the contract teaches saying the scope out loud.",
+    heading: "Squad, startup, product and contract.",
+    lead: "Four fronts at once. Each teaches what the others cannot: the squad teaches shipping inside someone else's system, the startup teaches making technology calls with a small team, the product teaches living with your own decisions, and the contract teaches saying the scope out loud.",
     rows: [
       {
-        period: "Feb 2026 — present",
-        role: "Full Stack Developer · Forward Deployed Engineer",
+        period: "Nov 2026 — present",
+        role: "Junior Full Stack Developer",
         org: "XP Educação",
-        note: "Software Engineering squad. I deliver the whole feature — screen, API, query, migration and deploy — and handle integration between platforms nobody designed together. I sit with the people who asked, gather the business rule at the source, and answer for the system in production.",
+        note: "Software Engineering squad. I deliver the whole feature (screen, API, query, migration and deploy) and handle integration between platforms nobody designed together. I work close to whoever asked, forward-deployed style: I gather the business rule at the source and answer for the system in production.",
+      },
+      {
+        period: "Nov 2026 — present",
+        role: "CTO",
+        org: "The Simple Trip",
+        note: "A trip planner: paste a ChatGPT plan or describe the idea, and it becomes a trip with cities, days, stays, routes and an estimated cost, with each day saved for use offline. We are three people in Brazil; technology is on me.",
+        href: "https://thesimpletrip.pages.dev",
+        linkLabel: "thesimpletrip.pages.dev",
       },
       {
         period: "2026 — present",
         role: "Founder",
         org: "Vyro — Birdy, LUMI and Postly",
-        note: "Aviary management SaaS shipped on Google Play and the App Store. I built it, shipped it and run it: architecture, billing, local-first sync, and the offensive audit against my own backend.",
+        note: "Birdy is on Google Play and the App Store, with 600 installs. I built it, shipped it and run it: architecture, billing, local-first sync, and the offensive audit against my own backend. The products' marketing runs on Vyro Marketing Manager, which I also wrote.",
       },
       {
         period: "2025 — present",
         role: "Freelance",
         org: "API and product under contract",
-        note: "Alongside both. I deliver what was contracted, and what falls outside scope is documented with the reason — that is how InduxAI's industrial prediction API went.",
+        note: "Alongside the others. I deliver what was contracted, and what falls outside scope is documented with the reason. That is how InduxAI's industrial prediction API went.",
       },
     ],
-    footnote: "The XP Educação role is an internship, inside the engineering squad.",
+    footnote: "At XP Educação I was an intern from February to October 2026, inside the engineering squad, and was hired as a junior developer in November.",
   },
 };
 
@@ -853,6 +878,156 @@ export const CONTACT: Dict<{
     githubLabel: "See the GitHub",
     vyroLabel: "See Vyro",
     note: "Belo Horizonte, Brazil · UTC−3 · available for remote work",
+  },
+};
+
+/**
+ * Vyro Marketing Manager. Não é produto à venda: é o sistema que ele montou
+ * para tocar o marketing dos próprios produtos (The Simple Trip, Birdy e
+ * LUMI), na premissa de uma ferramenta paga de marketing com IA. Todo número
+ * vem das notas do vault de 13/11/2026; as capturas são do painel em produção.
+ */
+export type VmmAgent = {
+  id: string;
+  name: string;
+  model: string;
+  color: string;
+  body: Dict<string>;
+};
+
+export const VMM_AGENTS: VmmAgent[] = [
+  {
+    id: "captacao",
+    name: "Captação",
+    model: "Haiku",
+    color: "#f5b94a",
+    body: {
+      pt: "Abre um navegador com as sessões salvas, lê os reels de referência e as contas parecidas, guarda o áudio de cada um e escreve o levantamento do ciclo.",
+      en: "Opens a browser with the saved sessions, reads the reference reels and similar accounts, keeps each one's audio, and writes the cycle's research brief.",
+    },
+  },
+  {
+    id: "escritor",
+    name: "Escritor",
+    model: "Sonnet",
+    color: "#ff5c8a",
+    body: {
+      pt: "Distribui as peças em horários e escreve cada uma: título, gancho, cenas, legenda, critérios obrigatórios e pedidos de mídia.",
+      en: "Spreads the pieces over time slots and writes each one: title, hook, scenes, caption, required criteria and media requests.",
+    },
+  },
+  {
+    id: "produtor",
+    name: "Produtor",
+    model: "Sonnet / Opus",
+    color: "#8b7bff",
+    body: {
+      pt: "Monta a receita de cada peça (cenas, textos, tempos, mídias), o worker renderiza, e ele revisa o resultado. Reprovada, volta para a receita; no máximo três rodadas.",
+      en: "Builds each piece's recipe (scenes, text, timing, media), the worker renders it, and it reviews the result. If rejected it goes back to the recipe; three rounds at most.",
+    },
+  },
+  {
+    id: "analista",
+    name: "Analista",
+    model: "—",
+    color: "#3fd9c0",
+    body: {
+      pt: "Compara as nossas peças com as referências e deixa notas do que funciona, que entram nas instruções do Escritor e do Produtor no ciclo seguinte.",
+      en: "Compares our pieces with the references and leaves notes on what works, which feed the Writer's and Producer's instructions in the next cycle.",
+    },
+  },
+];
+
+export const VMM: Dict<{
+  heading: string;
+  tag: string;
+  lead: string;
+  why: string;
+  studio: string;
+  agentsTitle: string;
+  cycleTitle: string;
+  cycle: { k: string; title: string; body: string }[];
+  shots: { id: ImageId; title: string; body: string; alt: string }[];
+  archTitle: string;
+  arch: { k: string; v: string }[];
+  numbers: { value: string; label: string }[];
+  honest: string;
+}> = {
+  pt: {
+    heading: "Um time de marketing que roda sozinho.",
+    tag: "Caso · Vyro Marketing Manager · uso interno",
+    lead: "Existe ferramenta paga que faz o marketing de uma marca com IA: calendário, peças com estado, publicação automática. Eu queria isso para os meus produtos, The Simple Trip, Birdy e LUMI, e a pergunta foi simples: por que pagar se dá para replicar? Construí o meu. Não é produto à venda; é o sistema que toca o marketing da casa.",
+    why: "A infraestrutura está toda em plano gratuito. O que custa é a API do Claude, e custa centavos: o último ciclo aprovou 19 de 20 peças por US$ 0,85.",
+    studio: "Estúdio: os quatro agentes numa sala 3D, vivendo o estado real do ciclo. Quem está de plantão trabalha na mesa. Clicar num agente abre uma conversa: pergunta é respondida pelo Haiku; ordem fica registrada e entra nas instruções dele até alguém encerrar.",
+    agentsTitle: "Quatro agentes, um modelo para cada trabalho",
+    cycleTitle: "Um ciclo, do pedido ao agendamento",
+    cycle: [
+      { k: "01", title: "Pedido", body: "Alguém clica em Rodar ciclo, ou o worker dispara sozinho quando a fila está acabando. O volume encolhe para caber no que resta do teto do mês." },
+      { k: "02", title: "Captação", body: "Navega logado, até 45 páginas por ciclo e 2 minutos por página, e escreve o levantamento." },
+      { k: "03", title: "Escritor", body: "Planeja uma peça por horário e escreve o roteiro de cada uma." },
+      { k: "04", title: "Produtor", body: "Receita, render com ffmpeg e Chromium (reel 720×1280, 30 fps) e revisão com um quadro por cena. Nota de corte 85, até 3 rodadas." },
+      { k: "05", title: "Fila pronta", body: "Com tudo aprovado ou falho, o ciclo fecha e o produto fica em espera." },
+      { k: "06", title: "Agendamento", body: "O worker agenda as aprovadas no Meta Business Suite, uma por vez, num Chrome dedicado. Por enquanto, só os stories." },
+    ],
+    shots: [
+      { id: "vmm-agendamentos", title: "Agendamentos", body: "O calendário do mês, com o estado de cada peça: planejada, em produção, aprovada, agendada, publicada ou falhou.", alt: "Calendário de novembro com peças por dia e a contagem por estado" },
+      { id: "vmm-peca", title: "Uma peça", body: "Prévia do reel, legenda e a revisão da rodada que aprovou, com a nota e o que o revisor apontou.", alt: "Detalhe de um reel agendado, com prévia, legenda e revisão com nota 88 de 100" },
+      { id: "vmm-atividade", title: "Atividade", body: "O que cada agente entregou no ciclo e quanto custou, por modelo.", alt: "Página de atividade com o levantamento da captação, o plano do escritor e as peças do produtor" },
+      { id: "vmm-volume", title: "Volume", body: "Stories, posts e reels por dia e a duração do ciclo, com a estimativa de custo antes de rodar.", alt: "Tela de volume com peças por dia e a estimativa de custo do ciclo por agente" },
+      { id: "vmm-prompts", title: "Prompts", body: "A orientação do dono para cada agente, lida no começo de todo ciclo.", alt: "Tela de prompts com o prompt base da captação e do escritor" },
+    ],
+    archTitle: "Como está montado",
+    arch: [
+      { k: "Painel", v: "Next.js na Vercel, região de São Paulo. Nunca roda um ciclo: grava um trabalho na fila e devolve." },
+      { k: "Fila", v: "Tabela de jobs no Postgres. O worker pega, executa e encadeia o próximo (captação, plano, receita, render, revisão, agendamento)." },
+      { k: "Acesso", v: "Supabase com login Google, RLS e permissão por produto: ver, editar configuração, gerenciar logins, disparar ciclo." },
+      { k: "Worker", v: "Node 20 como serviço systemd, com Playwright e Chromium para pesquisa e mídias, e ffmpeg para os reels. Mídias no Cloudflare R2." },
+      { k: "Custo", v: "Chamadas do Produtor em lote pela Message Batches API, pela metade do preço. Teto de gasto por produto por mês: o ciclo pausa sozinho se chegar nele." },
+    ],
+    numbers: [
+      { value: "19/20", label: "peças aprovadas no último ciclo, 13 de primeira" },
+      { value: "US$ 0,85", label: "de Claude nesse ciclo" },
+      { value: "US$ 1,47", label: "o primeiro ciclo, de 20 peças" },
+    ],
+    honest: "O que ainda não é: o worker roda no meu PC, porque a camada gratuita da nuvem que eu queria pedia CNPJ; e sem a chave da API da Meta, o Analista ainda não tem métricas de desempenho para ler.",
+  },
+  en: {
+    heading: "A marketing team that runs on its own.",
+    tag: "Case · Vyro Marketing Manager · internal use",
+    lead: "There are paid tools that run a brand's marketing with AI: a calendar, pieces with state, automatic publishing. I wanted that for my own products, The Simple Trip, Birdy and LUMI, and the question was simple: why pay if I can replicate it? So I built mine. It is not for sale; it is the system that runs our own marketing.",
+    why: "The infrastructure is all on free tiers. What costs money is the Claude API, and it costs cents: the latest cycle approved 19 of 20 pieces for US$ 0.85.",
+    studio: "Studio: the four agents in a 3D room, acting out the cycle's real state. Whoever is on duty works at the desk. Clicking an agent opens a chat: a question is answered by Haiku; an order is recorded and joins that agent's instructions until someone closes it.",
+    agentsTitle: "Four agents, one model per job",
+    cycleTitle: "One cycle, from request to schedule",
+    cycle: [
+      { k: "01", title: "Request", body: "Someone clicks Run cycle, or the worker fires on its own when the queue runs low. Volume shrinks to fit what is left of the monthly ceiling." },
+      { k: "02", title: "Research", body: "Browses logged in, up to 45 pages per cycle and 2 minutes per page, and writes the brief." },
+      { k: "03", title: "Writer", body: "Plans one piece per time slot and writes each script." },
+      { k: "04", title: "Producer", body: "Recipe, render with ffmpeg and Chromium (720×1280 reel, 30 fps) and a review with one frame per scene. Pass mark 85, up to 3 rounds." },
+      { k: "05", title: "Queue ready", body: "Once everything is approved or failed, the cycle closes and the product waits." },
+      { k: "06", title: "Scheduling", body: "The worker schedules approved pieces in Meta Business Suite, one at a time, in a dedicated Chrome. Stories only, for now." },
+    ],
+    shots: [
+      { id: "vmm-agendamentos", title: "Schedule", body: "The month's calendar, with each piece's state: planned, in production, approved, scheduled, published or failed.", alt: "November calendar with pieces per day and the count per state" },
+      { id: "vmm-peca", title: "One piece", body: "Reel preview, caption and the review from the round that approved it, with the score and what the reviewer flagged.", alt: "Detail of a scheduled reel, with preview, caption and a review scoring 88 out of 100" },
+      { id: "vmm-atividade", title: "Activity", body: "What each agent delivered in the cycle and what it cost, per model.", alt: "Activity page with the research brief, the writer's plan and the producer's pieces" },
+      { id: "vmm-volume", title: "Volume", body: "Stories, posts and reels per day and the cycle length, with a cost estimate before running.", alt: "Volume screen with pieces per day and the cycle cost estimate per agent" },
+      { id: "vmm-prompts", title: "Prompts", body: "The owner's guidance for each agent, read at the start of every cycle.", alt: "Prompts screen with the base prompt for research and writer" },
+    ],
+    archTitle: "How it is built",
+    arch: [
+      { k: "Panel", v: "Next.js on Vercel, São Paulo region. It never runs a cycle: it writes a job to the queue and returns." },
+      { k: "Queue", v: "A jobs table in Postgres. The worker picks a job, runs it and chains the next (research, plan, recipe, render, review, scheduling)." },
+      { k: "Access", v: "Supabase with Google sign-in, RLS and per-product permissions: view, edit settings, manage logins, run a cycle." },
+      { k: "Worker", v: "Node 20 as a systemd service, with Playwright and Chromium for research and media, and ffmpeg for reels. Media on Cloudflare R2." },
+      { k: "Cost", v: "Producer calls batched through the Message Batches API, at half price. A monthly spend ceiling per product: the cycle pauses itself if it gets there." },
+    ],
+    numbers: [
+      { value: "19/20", label: "pieces approved in the latest cycle, 13 on the first pass" },
+      { value: "US$ 0.85", label: "of Claude for that cycle" },
+      { value: "US$ 1.47", label: "the first cycle, 20 pieces" },
+    ],
+    honest: "What it is not yet: the worker runs on my PC, because the free cloud tier I wanted required a company registration; and without a Meta API key, the Analyst has no performance metrics to read yet.",
   },
 };
 

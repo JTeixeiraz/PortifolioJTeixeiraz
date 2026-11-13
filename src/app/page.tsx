@@ -3,6 +3,7 @@ import { Hero } from "@/components/sections/hero";
 import { Vyro } from "@/components/sections/vyro";
 import { Craft } from "@/components/sections/craft";
 import { Ai } from "@/components/sections/ai";
+import { Vmm } from "@/components/sections/vmm";
 import { Side } from "@/components/sections/side";
 import { Boundary } from "@/components/sections/boundary";
 import { Evidence } from "@/components/sections/evidence";
@@ -23,6 +24,7 @@ export default function Home() {
         <Vyro />
         <Craft />
         <Ai />
+        <Vmm />
         <Side />
         <Boundary />
         <Evidence />

@@ -2,6 +2,8 @@
 //
 // - "photo": AVIF + WebP em até três larguras, para <picture srcset>; com
 //   `blur`, também um fundo desfocado de 48 px.
+// - "shot": captura de tela; como "photo", com qualidade maior para o texto
+//   da interface não borrar.
 // - "ink": flash de tatuagem em fundo branco vira tinta com alpha real. O
 //   branco do papel some, a cor do traço é recuperada (des-multiplicada do
 //   branco), e a imagem pousa em qualquer card sem mix-blend-mode — blend em
@@ -22,7 +24,7 @@ const RAW = path.join(ROOT, "scripts/raw");
 const OUT = path.join(ROOT, "public/img");
 const MANIFEST = path.join(ROOT, "src/lib/images.ts");
 
-/** @type {{ id: string, file: string, mode: "photo" | "ink", widths: number[], blur?: boolean, crop?: { left: number, top: number, width: number, height: number } }[]} */
+/** @type {{ id: string, file: string, mode: "photo" | "ink" | "shot", widths: number[], blur?: boolean, crop?: { left: number, top: number, width: number, height: number } }[]} */
 const IMAGES = [
   { id: "chrome-cross", file: "chrome-cross.jpg", mode: "photo", widths: [480, 900] },
   { id: "loading-cat", file: "loading-cat.jpg", mode: "photo", widths: [420, 800] },
@@ -34,6 +36,15 @@ const IMAGES = [
   { id: "lumi-consulta", file: "lumi-consulta.webp", mode: "photo", widths: [320, 560] },
   { id: "lumi-rotina", file: "lumi-rotina.webp", mode: "photo", widths: [320, 560] },
   { id: "postly-campanha", file: "postly-campanha.webp", mode: "photo", widths: [640, 1200] },
+
+  // Vyro Marketing Manager: capturas do painel em produção (e-mails, @ de
+  // terceiros e links de referência borrados ou trocados antes da captura)
+  { id: "vmm-estudio", file: "vmm-estudio.png", mode: "shot", widths: [720, 1425] },
+  { id: "vmm-agendamentos", file: "vmm-agendamentos.png", mode: "shot", widths: [720, 1425] },
+  { id: "vmm-peca", file: "vmm-peca.png", mode: "shot", widths: [680, 1345] },
+  { id: "vmm-atividade", file: "vmm-atividade.png", mode: "shot", widths: [720, 1425] },
+  { id: "vmm-volume", file: "vmm-volume.png", mode: "shot", widths: [720, 1425] },
+  { id: "vmm-prompts", file: "vmm-prompts.png", mode: "shot", widths: [720, 1425] },
 
   // estética: fotos e pôsteres (blur: gera também o fundo desfocado minúsculo)
   { id: "nana", file: "nana.jpg", mode: "photo", widths: [420, 736], blur: true },
@@ -128,11 +139,11 @@ async function main() {
       const resized = sharp(buf).resize({ width: w, withoutEnlargement: true });
       await resized
         .clone()
-        .avif({ quality: img.mode === "ink" ? 60 : 52, effort: 6 })
+        .avif({ quality: img.mode === "ink" ? 60 : img.mode === "shot" ? 66 : 52, effort: 6 })
         .toFile(path.join(OUT, `${img.id}-${w}.avif`));
       await resized
         .clone()
-        .webp({ quality: img.mode === "ink" ? 82 : 74, alphaQuality: 90, effort: 6 })
+        .webp({ quality: img.mode === "ink" ? 82 : img.mode === "shot" ? 84 : 74, alphaQuality: 90, effort: 6 })
         .toFile(path.join(OUT, `${img.id}-${w}.webp`));
     }
 

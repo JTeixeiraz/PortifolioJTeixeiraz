@@ -1,7 +1,8 @@
 # João Pedro Teixeira — portfólio
 
-Portfólio pessoal de **João Pedro Teixeira**, desenvolvedor full stack na
-squad de Engenharia de Software da XP Educação e fundador da
+Portfólio pessoal de **João Pedro Teixeira**, desenvolvedor full stack júnior
+na squad de Engenharia de Software da XP Educação, CTO da
+[The Simple Trip](https://thesimpletrip.pages.dev) e fundador da
 [VYRO](https://vyro-studio.pages.dev), a empresa por trás de Birdy, LUMI e
 Postly.
 
@@ -20,12 +21,13 @@ forma de entrar:
 | 02 | VYRO | Os três projetos como capas de Nintendo DS |
 | 03 | Ofício | Seis coisas que ele faz numa squad, com exemplo real |
 | 04 | IA | Como usa agentes de IA, com o contexto como tese |
-| 05 | Projetos | Ficha técnica de cada projeto, com seletor em dock |
-| 06 | Ferramenta | O que já foi para produção, agrupado por área |
-| 07 | Jornada | Squad, produto e freela, mais a formação |
-| 08 | Limite | Onde a automação para |
-| 09 | Evidências | Afirmações com a fonte de cada número |
-| 10 | Contato | E-mail, LinkedIn, GitHub e a VYRO |
+| 05 | Agentes | O caso do Vyro Marketing Manager, com capturas do painel |
+| 06 | Projetos | Ficha técnica de cada projeto, com seletor em dock |
+| 07 | Limite | Onde a automação para |
+| 08 | Evidências | Afirmações com a fonte de cada número |
+| 09 | Ferramenta | O que já foi para produção, agrupado por área |
+| 10 | Jornada | Squad, The Simple Trip, VYRO e freela, mais a formação |
+| 11 | Contato | E-mail, LinkedIn, GitHub e a VYRO |
 
 O conteúdo é bilíngue (português e inglês). O idioma é escolhido pela
 preferência salva ou pelo navegador, e troca sem recarregar a página.
@@ -88,7 +90,10 @@ gera tudo em `public/img/` e reescreve o manifesto `src/lib/images.ts`, que
 npm run images
 ```
 
-Imagens com `blur: true` ganham também a versão desfocada. Imagens com
+Imagens com `blur: true` ganham também a versão desfocada. Capturas de tela
+(`mode: "shot"`) saem com qualidade maior, para o texto da interface não
+borrar; as do Vyro Marketing Manager foram feitas no painel em produção, com
+e-mails, @ de terceiros e links de referência borrados ou trocados antes. Imagens com
 `mode: "ink"` (tatuagens em fundo branco) viram tinta com transparência.
 O ícone da aba (`src/app/icon.png`) é gerado a partir do avatar.
 
@@ -98,7 +103,7 @@ O ícone da aba (`src/app/icon.png`) é gerado a partir do avatar.
 src/
   app/            layout, página, globals.css (todo o sistema visual)
   components/
-    sections/     uma seção por arquivo (hero, vyro, craft, ai, side, …)
+    sections/     uma seção por arquivo (hero, vyro, craft, ai, vmm, side, …)
     pic.tsx       <picture> responsivo a partir do manifesto
     ds-case.tsx   capa de Nintendo DS dos projetos da VYRO
     wave.tsx      onda que costura uma seção na outra

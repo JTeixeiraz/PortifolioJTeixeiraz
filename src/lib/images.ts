@@ -91,6 +91,60 @@ export const IMAGES = {
     ],
     "blur": false
   },
+  "vmm-estudio": {
+    "width": 1425,
+    "height": 1000,
+    "widths": [
+      720,
+      1425
+    ],
+    "blur": false
+  },
+  "vmm-agendamentos": {
+    "width": 1425,
+    "height": 922,
+    "widths": [
+      720,
+      1425
+    ],
+    "blur": false
+  },
+  "vmm-peca": {
+    "width": 1345,
+    "height": 612,
+    "widths": [
+      680,
+      1345
+    ],
+    "blur": false
+  },
+  "vmm-atividade": {
+    "width": 1425,
+    "height": 1200,
+    "widths": [
+      720,
+      1425
+    ],
+    "blur": false
+  },
+  "vmm-volume": {
+    "width": 1425,
+    "height": 944,
+    "widths": [
+      720,
+      1425
+    ],
+    "blur": false
+  },
+  "vmm-prompts": {
+    "width": 1425,
+    "height": 1000,
+    "widths": [
+      720,
+      1425
+    ],
+    "blur": false
+  },
   "nana": {
     "width": 736,
     "height": 920,

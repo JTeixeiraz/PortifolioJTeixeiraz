@@ -38,7 +38,7 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "João Pedro Teixeira — Desenvolvedor Full Stack",
   description:
-    "Desenvolvedor full stack na squad de Engenharia de Software da XP Educação e fundador da VYRO, a empresa por trás de Birdy, LUMI e Postly. Belo Horizonte.",
+    "Desenvolvedor full stack júnior na squad de Engenharia de Software da XP Educação, CTO da The Simple Trip e fundador da VYRO, a empresa por trás de Birdy, LUMI e Postly. Belo Horizonte.",
   authors: [{ name: "João Pedro Teixeira", url: "https://github.com/JTeixeiraz" }],
   openGraph: {
     title: "João Pedro Teixeira — Desenvolvedor Full Stack",

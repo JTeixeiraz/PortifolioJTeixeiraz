@@ -15,7 +15,7 @@ function StackBody({ t, lang }: { t: T; lang: Lang }) {
 
   return (
     <section aria-labelledby={`stack-heading-${lang}`} className="wrap relative mt-16 lg:mt-24">
-      <SectionHeading id={`stack-heading-${lang}`} slot="08" className="px-2 sm:px-3">
+      <SectionHeading id={`stack-heading-${lang}`} slot="09" className="px-2 sm:px-3">
         {lang === "pt" ? "O que já foi para produção." : "What has shipped to production."}
       </SectionHeading>
 

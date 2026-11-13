@@ -67,6 +67,17 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
               </span>
               <span aria-hidden="true" className="text-text-3">↗</span>
             </a>
+            <a
+              href={PROFILE.simpleTrip}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 text-text"
+            >
+              <span className="underline decoration-white/25 underline-offset-[6px] transition-colors duration-200 group-hover:decoration-white">
+                {hero.cto}
+              </span>
+              <span aria-hidden="true" className="text-text-3">↗</span>
+            </a>
             <span className="inline-flex items-center gap-2 text-text-2">
               <span aria-hidden="true" className="blink h-1.5 w-1.5 rounded-full bg-[#7cff8a]" />
               {hero.kicker}
@@ -171,12 +182,12 @@ function HeroBody({ t, lang }: { t: T; lang: Lang }) {
           />
           <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(7_8_14/0.9),rgb(7_8_14/0.25))]" />
           <p className="t-mono text-[0.55rem] text-text-3">
-            {lang === "pt" ? "Birdy · 4 meses" : "Birdy · 4 months"}
+            {lang === "pt" ? "Birdy · Play + App Store" : "Birdy · Play + App Store"}
           </p>
           <p>
-            <span className="t-display chrome-text block text-[3.2rem] leading-none">306</span>
+            <span className="t-display chrome-text block text-[3.2rem] leading-none">600</span>
             <span className="t-mono mt-2 block text-[0.55rem] leading-[1.6] text-text-2">
-              {lang === "pt" ? "instalações orgânicas" : "organic installs"}
+              {lang === "pt" ? "instalações nas duas lojas" : "installs across both stores"}
             </span>
           </p>
         </div>

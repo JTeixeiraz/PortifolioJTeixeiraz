@@ -7,16 +7,17 @@ import { Pic } from "@/components/pic";
 
 /** Foto e pose de cada polaroide: largadas na mesa, não alinhadas. */
 const POLAROID: { photo: ImageId; pose: string; range: string }[] = [
-  { photo: "me-2", pose: "lg:-rotate-[4deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
-  { photo: "cat-poster", pose: "lg:rotate-[3deg] lg:-translate-y-4 lg:-ml-4", range: "[animation-range:entry_10%_entry_65%]" },
-  { photo: "code-balcony", pose: "lg:-rotate-[2deg] lg:translate-y-10 lg:-ml-4", range: "[animation-range:entry_20%_entry_75%]" },
+  { photo: "me-2", pose: "lg:-rotate-[3deg] lg:translate-y-6", range: "[animation-range:entry_0%_entry_55%]" },
+  { photo: "tokyo-street", pose: "lg:rotate-[2.5deg] lg:-translate-y-3", range: "[animation-range:entry_6%_entry_61%]" },
+  { photo: "cat-poster", pose: "lg:-rotate-[1.5deg] lg:translate-y-8", range: "[animation-range:entry_12%_entry_67%]" },
+  { photo: "code-balcony", pose: "lg:rotate-[3deg] lg:-translate-y-1", range: "[animation-range:entry_18%_entry_73%]" },
 ];
 
 /**
- * A jornada como três polaroides largadas na mesa — squad, VYRO e freela
- * correm ao mesmo tempo, e se sobrepõem em vez de formar uma escada. A
- * formação vira uma faixa em pílula, e a nota do vínculo de estágio fica
- * visível por baixo.
+ * A jornada como quatro polaroides largadas na mesa — squad, The Simple
+ * Trip, VYRO e freela correm ao mesmo tempo, e se sobrepõem em vez de formar
+ * uma escada. A formação vira uma faixa em pílula, e a nota de como o
+ * vínculo na XP Educação começou fica visível por baixo.
  */
 function JourneyBody({ t, lang }: { t: T; lang: Lang }) {
   const j = t(JOURNEY);
@@ -24,16 +25,16 @@ function JourneyBody({ t, lang }: { t: T; lang: Lang }) {
 
   return (
     <section aria-labelledby={`journey-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
-      <SectionHeading id={`journey-heading-${lang}`} slot="09" className="px-2 sm:px-3">
-        {lang === "pt" ? "Squad, produto e contrato." : "Squad, product and contract."}
+      <SectionHeading id={`journey-heading-${lang}`} slot="10" className="px-2 sm:px-3">
+        {j.heading}
       </SectionHeading>
       <p className="measure mt-6 px-2 text-[0.98rem] leading-[1.65] text-text-2 sm:px-3">{j.lead}</p>
 
-      <ol className="swipe -mx-[clamp(10px,1.4vw,28px)] mt-12 md:mx-0 md:grid md:grid-cols-3 md:gap-4 lg:mt-16 lg:flex lg:justify-center lg:gap-0">
+      <ol className="swipe -mx-[clamp(10px,1.4vw,28px)] mt-12 md:mx-0 md:grid md:grid-cols-2 md:gap-4 lg:mt-16 lg:flex lg:justify-center lg:gap-[1%]">
         {j.rows.map((row, n) => {
           const p = POLAROID[n];
           return (
-            <li key={row.org} className={`in-deal ${p.range} relative lg:w-[32%]`}>
+            <li key={row.org} className={`in-deal ${p.range} relative lg:w-[24%]`}>
               <article
                 className={`bg-bone p-3 pb-6 shadow-[0_40px_60px_-30px_rgb(0_0_0/0.9)] transition-transform duration-500 ease-[var(--ease-out)] hover:-translate-y-2 hover:rotate-0 ${p.pose} rounded-[10px]`}
               >
@@ -57,6 +58,16 @@ function JourneyBody({ t, lang }: { t: T; lang: Lang }) {
                   <h3 className="t-title mt-2 text-[1.15rem] text-bone-ink">{row.role}</h3>
                   <p className="t-mono mt-1 text-[0.5rem] text-blood">{row.org}</p>
                   <p className="mt-3 text-[0.85rem] leading-[1.6] text-bone-dim">{row.note}</p>
+                  {row.href ? (
+                    <a
+                      href={row.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-1.5 text-[0.82rem] text-bone-ink underline decoration-bone-ink/30 underline-offset-4 hover:decoration-bone-ink"
+                    >
+                      {row.linkLabel} <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : null}
                 </div>
               </article>
             </li>
