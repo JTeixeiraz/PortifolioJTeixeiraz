@@ -31,14 +31,14 @@ function Frame({ url, children }: { url: string; children: ReactNode }) {
 }
 
 /**
- * O caso do Vyro Marketing Manager: o sistema de quatro agentes que toca o
+ * O caso do painel interno de marketing: o sistema de quatro agentes que toca o
  * marketing dos produtos dele. A captura do Estúdio abre o bento ao lado dos
  * agentes; o ciclo vem numa faixa; as outras telas do painel ficam numa
  * grade (carrossel no celular); a arquitetura e os números fecham.
  */
 function VmmBody({ t, lang }: { t: T; lang: Lang }) {
   const v = t(VMM);
-  const host = "vyro-marketing-manager.vercel.app";
+  const host = "painel interno";
 
   return (
     <section aria-labelledby={`vmm-heading-${lang}`} className="wrap relative mt-24 lg:mt-32">
@@ -62,7 +62,7 @@ function VmmBody({ t, lang }: { t: T; lang: Lang }) {
       {/* o Estúdio e os quatro agentes */}
       <div className="mt-10 grid grid-cols-1 gap-3 lg:grid-cols-12">
         <figure className="in-zoom tile tile-void rounded-[var(--r-frame)] p-2 sm:p-3 lg:col-span-8">
-          <Frame url={`${host}/p/the-simple-trip`}>
+          <Frame url={host}>
             <Pic
               id="vmm-estudio"
               alt={

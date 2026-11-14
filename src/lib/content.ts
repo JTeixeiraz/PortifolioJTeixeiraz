@@ -787,7 +787,7 @@ export const JOURNEY: Dict<{
         period: "2026 — atual",
         role: "Fundador",
         org: "Vyro — Birdy, LUMI e Postly",
-        note: "A Birdy está no Google Play e na App Store, com 600 instalações. Construí, publiquei e opero: arquitetura, cobrança, sincronização local-first e a auditoria ofensiva contra o meu próprio backend. O marketing dos produtos roda no Vyro Marketing Manager, que eu também escrevi.",
+        note: "A Birdy está no Google Play e na App Store, com 600 instalações. Construí, publiquei e opero: arquitetura, cobrança, sincronização local-first e a auditoria ofensiva contra o meu próprio backend. O marketing dos produtos roda num painel interno que eu também escrevi.",
       },
       {
         period: "2025 — atual",
@@ -820,7 +820,7 @@ export const JOURNEY: Dict<{
         period: "2026 — present",
         role: "Founder",
         org: "Vyro — Birdy, LUMI and Postly",
-        note: "Birdy is on Google Play and the App Store, with 600 installs. I built it, shipped it and run it: architecture, billing, local-first sync, and the offensive audit against my own backend. The products' marketing runs on Vyro Marketing Manager, which I also wrote.",
+        note: "Birdy is on Google Play and the App Store, with 600 installs. I built it, shipped it and run it: architecture, billing, local-first sync, and the offensive audit against my own backend. The products' marketing runs on an internal panel I also wrote.",
       },
       {
         period: "2025 — present",
@@ -882,7 +882,7 @@ export const CONTACT: Dict<{
 };
 
 /**
- * Vyro Marketing Manager. Não é produto à venda: é o sistema que ele montou
+ * Painel interno de marketing. Não é produto à venda: é o sistema que ele montou
  * para tocar o marketing dos próprios produtos (The Simple Trip, Birdy e
  * LUMI), na premissa de uma ferramenta paga de marketing com IA. Todo número
  * vem das notas do vault de 13/11/2026; as capturas são do painel em produção.
@@ -955,8 +955,8 @@ export const VMM: Dict<{
 }> = {
   pt: {
     heading: "Um time de marketing que roda sozinho.",
-    tag: "Caso · Vyro Marketing Manager · uso interno",
-    lead: "Existe ferramenta paga que faz o marketing de uma marca com IA: calendário, peças com estado, publicação automática. Eu queria isso para os meus produtos, The Simple Trip, Birdy e LUMI, e a pergunta foi simples: por que pagar se dá para replicar? Construí o meu. Não é produto à venda; é o sistema que toca o marketing da casa.",
+    tag: "Caso · painel interno de marketing",
+    lead: "Existe ferramenta paga que faz o marketing de uma marca com IA: calendário, peças com estado, publicação automática. Eu queria isso para os produtos em que trabalho, o The Simple Trip (onde sou CTO ao lado do founder), a Birdy e o LUMI, e a pergunta foi simples: por que pagar se dá para replicar? Construí o meu. Não é produto à venda; é o sistema que toca o marketing da casa.",
     why: "A infraestrutura está toda em plano gratuito. O que custa é a API do Claude, e custa centavos: o último ciclo aprovou 19 de 20 peças por US$ 0,85.",
     studio: "Estúdio: os quatro agentes numa sala 3D, vivendo o estado real do ciclo. Quem está de plantão trabalha na mesa. Clicar num agente abre uma conversa: pergunta é respondida pelo Haiku; ordem fica registrada e entra nas instruções dele até alguém encerrar.",
     agentsTitle: "Quatro agentes, um modelo para cada trabalho",
@@ -993,8 +993,8 @@ export const VMM: Dict<{
   },
   en: {
     heading: "A marketing team that runs on its own.",
-    tag: "Case · Vyro Marketing Manager · internal use",
-    lead: "There are paid tools that run a brand's marketing with AI: a calendar, pieces with state, automatic publishing. I wanted that for my own products, The Simple Trip, Birdy and LUMI, and the question was simple: why pay if I can replicate it? So I built mine. It is not for sale; it is the system that runs our own marketing.",
+    tag: "Case · internal marketing panel",
+    lead: "There are paid tools that run a brand's marketing with AI: a calendar, pieces with state, automatic publishing. I wanted that for the products I work on, The Simple Trip (where I am CTO alongside the founder), Birdy and LUMI, and the question was simple: why pay if I can replicate it? So I built mine. It is not for sale; it is the system that runs our own marketing.",
     why: "The infrastructure is all on free tiers. What costs money is the Claude API, and it costs cents: the latest cycle approved 19 of 20 pieces for US$ 0.85.",
     studio: "Studio: the four agents in a 3D room, acting out the cycle's real state. Whoever is on duty works at the desk. Clicking an agent opens a chat: a question is answered by Haiku; an order is recorded and joins that agent's instructions until someone closes it.",
     agentsTitle: "Four agents, one model per job",

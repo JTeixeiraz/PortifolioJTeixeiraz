@@ -21,7 +21,7 @@ forma de entrar:
 | 02 | VYRO | Os três projetos como capas de Nintendo DS |
 | 03 | Ofício | Seis coisas que ele faz numa squad, com exemplo real |
 | 04 | IA | Como usa agentes de IA, com o contexto como tese |
-| 05 | Agentes | O caso do Vyro Marketing Manager, com capturas do painel |
+| 05 | Agentes | O caso do painel interno de marketing, com capturas |
 | 06 | Projetos | Ficha técnica de cada projeto, com seletor em dock |
 | 07 | Limite | Onde a automação para |
 | 08 | Evidências | Afirmações com a fonte de cada número |
@@ -92,7 +92,7 @@ npm run images
 
 Imagens com `blur: true` ganham também a versão desfocada. Capturas de tela
 (`mode: "shot"`) saem com qualidade maior, para o texto da interface não
-borrar; as do Vyro Marketing Manager foram feitas no painel em produção, com
+borrar; as do painel interno de marketing foram feitas no painel em produção, com
 e-mails, @ de terceiros e links de referência borrados ou trocados antes. Imagens com
 `mode: "ink"` (tatuagens em fundo branco) viram tinta com transparência.
 O ícone da aba (`src/app/icon.png`) é gerado a partir do avatar.

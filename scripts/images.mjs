@@ -37,7 +37,7 @@ const IMAGES = [
   { id: "lumi-rotina", file: "lumi-rotina.webp", mode: "photo", widths: [320, 560] },
   { id: "postly-campanha", file: "postly-campanha.webp", mode: "photo", widths: [640, 1200] },
 
-  // Vyro Marketing Manager: capturas do painel em produção (e-mails, @ de
+  // Painel interno de marketing: capturas do painel em produção (e-mails, @ de
   // terceiros e links de referência borrados ou trocados antes da captura)
   { id: "vmm-estudio", file: "vmm-estudio.png", mode: "shot", widths: [720, 1425] },
   { id: "vmm-agendamentos", file: "vmm-agendamentos.png", mode: "shot", widths: [720, 1425] },
